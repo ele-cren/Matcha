@@ -1,0 +1,30 @@
+{
+  "name": "matcha",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build-server": "rm -rf ./build && babel -d ./build/server ./server -s",
+    "start": "node ./build/server/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ele-cren/Matcha.git"
+  },
+  "author": "tgascoin / ele-cren",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ele-cren/Matcha/issues"
+  },
+  "homepage": "https://github.com/ele-cren/Matcha#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.4.3",
+    "@babel/core": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
+    "dotenv": "^7.0.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4"
+  }
+}
