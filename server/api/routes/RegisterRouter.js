@@ -1,4 +1,5 @@
 import express from 'express'
+import { connection } from '../../app'
 
 const router = express.Router()
 
@@ -43,6 +44,9 @@ router.post('/register', (req, res) => {
   if (!validation.success){
     return res.json(validation)
   }
+  // connection.query("INSERT INTO `users` (`id`, `confirmed`, `login`, `email`, `password`, `first_name`, `last_name`, `hash`) VALUES (NULL, '0', 'tgascoin', 'tgascoin@gmail.com',\
+  //   '123456789', 'Teva', 'Gascoin', 'sdfsdgbdshgbsdhjbgdfdgdfgdsgsdgdsgsd');", (err, results, field) => {
+  // })
   return res.send('Validation passes')
 })
 

@@ -12,12 +12,15 @@ export const connection = mysql.createConnection({
   database: 'matcha'
 });
 
+connection.connect()
+
 server.start()
 
 const api = new Api(server.app)
 api.setRoutes()
 
 process.on('SIGINT', () => {
+  connection.end()
   server.stop()
   process.exit(0)
 })
