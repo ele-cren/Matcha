@@ -4,7 +4,7 @@ const router = express.Router()
 
 const registerValidation = (payload) => {
   let errors = {}
-  const emailRegex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/
+  const emailRegex = /^\w+@[a-zA-Z_0-9]+?\.[a-zA-Z]+$/
   const passRegex = /^\S{8,20}$/
   const userRegex = /^(?=.{5,20}$)(?!.*[_.\-]{2})[a-zA-Z0-9._\-]+$/
   let isValid = true
