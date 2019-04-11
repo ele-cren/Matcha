@@ -1,10 +1,13 @@
 import Server from './server'
 import Api from './api/api'
 import mysql from 'mysql'
+import Mailer from './utilities/mailer'
 require('dotenv').config()
 
 const server = new Server()
+server.start()
 
+export const mailer = new Mailer()
 export const connection = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -12,12 +15,14 @@ export const connection = mysql.createConnection({
   database: 'matcha'
 });
 
-connection.connect()
-
-server.start()
-
-const api = new Api(server.app)
-api.setRoutes()
+connection.connect(err => {
+  if (err) {
+    console.error('error connecting: ' + err.stack);
+    return;
+  }
+  const api = new Api(server.app)
+  api.setRoutes()
+});
 
 process.on('SIGINT', () => {
   connection.end()

@@ -1,9 +1,8 @@
 import express from 'express'
-import { connection } from '../../app'
+import { connection, mailer } from '../../app'
 import bcrypt from 'bcrypt'
 import uniqid from 'uniqid'
 require('@babel/polyfill')
-import nodemailer from 'nodemailer'
 
 const router = express.Router()
 
@@ -70,30 +69,6 @@ const isUserTaken = username => {
   })
 }
 
-const sendMail = (email, myUniqId) => {
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-           user: process.env.EMAIL_USER,
-           pass: process.env.EMAIL_PASS
-       }
-   });
-
-   const mailOptions = {
-    from: 'mysuper.matcha@gmail.com', // sender address
-    to: email, // list of receivers
-    subject: 'Confirm your email address', // Subject line
-    html: `<p>Please confirm your email address :</p><br /><p><a href='http://localhost:3000/api/confirmation/${myUniqId}'>Confirm my email address</a></p>`
-  };
-
-  transporter.sendMail(mailOptions, function (err, info) {
-    if(err)
-      console.log(err)
-    else
-      console.log('Email sent');
- });
-}
-
 router.post('/register', async (req, res) => {
   const validation = registerValidation(req.body)
 
@@ -121,7 +96,7 @@ router.post('/register', async (req, res) => {
         if (err) {
           return res.send('Error ' + err)
         }
-        await sendMail(req.body.email, myUniqId)
+        mailer.sendConfirmation(req.body.email, myUniqId)
         return res.json({
           success: true,
           message: 'Successfuly registered ! Please, confirm your email address'
