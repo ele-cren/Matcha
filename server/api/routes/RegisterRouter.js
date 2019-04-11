@@ -1,16 +1,20 @@
 import express from 'express'
 import { connection } from '../../app'
+import bcrypt from 'bcrypt'
+import uniqid from 'uniqid'
+require('@babel/polyfill')
+import nodemailer from 'nodemailer'
 
 const router = express.Router()
 
 const registerValidation = (payload) => {
   let errors = {}
-  const emailRegex = /^[._\-A-z0-9]+@[\-A-z0-9]+?\.[a-z]+$/
+  const emailRegex = /(^[A-z0-9]+)(([._\-A-z0-9]+))@[\-A-z0-9]+?\.([\-A-z0-9]+\.)?[a-z]+$/
   const passRegex = /^\S{8,20}$/
   const userRegex = /^(?=.{5,20}$)(?!.*[_.\-]{2})[a-zA-Z0-9._\-]+$/
   let isValid = true
 
-  if (!payload.email || !emailRegex.test(payload.email)) {
+  if (!payload.email || !emailRegex.test(payload.email) || payload.email.startsWith('_')) {
     errors.email = 'Please, provide a valid email address'
     isValid = false
   }
@@ -38,16 +42,92 @@ const registerValidation = (payload) => {
   }
 }
 
-router.post('/register', (req, res) => {
+const isEmailTaken = email => {
+  return new Promise((resolve, reject) => {
+    connection.query("SELECT id FROM `users` WHERE email='" + email + "'", (err, results, field) => {
+      if (err) {
+        reject(err)
+      }
+      if (results.length > 0) {
+        resolve(true)
+      }
+      resolve(false)
+    })
+  })
+}
+
+const isUserTaken = username => {
+  return new Promise((resolve, reject) => {
+    connection.query("SELECT id FROM `users` WHERE username='" + username + "'", (err, results, field) => {
+      if (err) {
+        reject(err)
+      }
+      if (results.length > 0) {
+        resolve(true)
+      }
+      resolve(false)
+    })
+  })
+}
+
+const sendMail = (email, myUniqId) => {
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+           user: process.env.EMAIL_USER,
+           pass: process.env.EMAIL_PASS
+       }
+   });
+
+   const mailOptions = {
+    from: 'mysuper.matcha@gmail.com', // sender address
+    to: email, // list of receivers
+    subject: 'Confirm your email address', // Subject line
+    html: `<p>Please confirm your email address :</p><br /><p><a href='http://localhost:3000/api/confirmation/${myUniqId}'>Confirm my email address</a></p>`
+  };
+
+  transporter.sendMail(mailOptions, function (err, info) {
+    if(err)
+      console.log(err)
+    else
+      console.log('Email sent');
+ });
+}
+
+router.post('/register', async (req, res) => {
   const validation = registerValidation(req.body)
 
   if (!validation.success){
     return res.json(validation)
   }
-  // connection.query("INSERT INTO `users` (`id`, `confirmed`, `login`, `email`, `password`, `first_name`, `last_name`, `hash`) VALUES (NULL, '0', 'tgascoin', 'tgascoin@gmail.com',\
-  //   '123456789', 'Teva', 'Gascoin', 'sdfsdgbdshgbsdhjbgdfdgdfgdsgsdgdsgsd');", (err, results, field) => {
-  // })
-  return res.send('Validation passes')
+  const emailExists = await isEmailTaken(req.body.email)
+  const userExists = await isUserTaken(req.body.username)
+
+  if (emailExists || userExists) {
+    return res.json({
+      success: false,
+      message: 'The form contains some errors. Plese fix it',
+      errors: { email: emailExists ? 'This email already exists.' : '', username: userExists ? 'This username already exists' : '' }
+    })
+  }
+  const myUniqId = uniqid()
+  const saltRounds = 8
+  bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
+    if (err) {
+      return res.send('Error ' + err)
+    }
+    connection.query("INSERT INTO `users` (`id`, `confirmed`, `username`, `email`, `password`, `first_name`, `last_name`, `uniqid`) VALUES " + `(NULL, '0', '${req.body.username}', '${req.body.email}',\
+      '${hash}', '${req.body.first_name}', '${req.body.last_name}', '${myUniqId}');`, async (err, results, field) => {
+        if (err) {
+          return res.send('Error ' + err)
+        }
+        await sendMail(req.body.email, myUniqId)
+        return res.json({
+          success: true,
+          message: 'Successfuly registered ! Please, confirm your email address'
+        })
+    })
+  });
 })
 
 export default router
