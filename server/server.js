@@ -1,8 +1,7 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import session from 'express-session'
-const dotenv = require('dotenv').config()
-const FileStore = require('session-file-store')(session)
+require('dotenv').config()
 
 class Server {
   constructor () {
@@ -17,7 +16,6 @@ class Server {
     this.app.use(bodyParser.json());
     this.app.use(session({
       secret: process.env.SESSION_SECRET,
-      store: new FileStore(),
       resave: false,
       saveUninitialized: true
     }))

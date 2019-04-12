@@ -9,7 +9,7 @@ const router = express.Router()
 
 const getUserFromUsername = username => {
   return new Promise((resolve, reject) => {
-    connection.query("SELECT id, password FROM `users` WHERE username=" + `'${username}'`, (err, results, field) => {
+    connection.query("SELECT * FROM `users` WHERE username=" + `'${username}'`, (err, results, field) => {
       if (err) {
         reject(err)
       }
@@ -23,7 +23,7 @@ const getUserFromUsername = username => {
 
 const getUserFromEmail = email => {
   return new Promise((resolve, reject) => {
-    connection.query("SELECT id, password FROM `users` WHERE email=" + `'${email}'`, (err, results, field) => {
+    connection.query("SELECT * FROM `users` WHERE email=" + `'${email}'`, (err, results, field) => {
       if (err) {
         reject(err)
       }
@@ -57,7 +57,7 @@ router.post('/login', async (req, res) => {
       return res.send('Error ' + err)
     }
     if (isPasswordValid) {
-      // EXPRESS SESSION ??
+      req.session.user = user
       return res.json({
         success: true,
         message: 'You successfuly logged in !'
