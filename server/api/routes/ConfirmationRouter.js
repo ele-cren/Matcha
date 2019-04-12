@@ -5,7 +5,7 @@ const router = express.Router()
 
 const checkUser = uniqid => {
   return new Promise((resolve, reject) => {
-    connection.query("SELECT id FROM `users` WHERE uniqid=" + `'${uniqid}'`, (err, results, field) => {
+    connection.query("SELECT id FROM `users` WHERE uuid=" + `'${uniqid}'`, (err, results, field) => {
       if (err) {
         reject(err)
       }

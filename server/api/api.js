@@ -1,5 +1,6 @@
-import RegisterRouter from './routes/RegisterRouter'
-import ConfirmationRouter from './routes/ConfirmationRouter'
+import RegisterRouter from './routes/registerRouter'
+import ConfirmationRouter from './routes/confirmationRouter'
+import LoginRouter from './routes/loginRouter'
 
 class Api {
   constructor (app) {
@@ -8,6 +9,7 @@ class Api {
 
   setRoutes () {
     this.app.use('/api/auth', RegisterRouter)
+    this.app.use('/api/auth', LoginRouter)
     this.app.use('/api/', ConfirmationRouter)
   }
 }

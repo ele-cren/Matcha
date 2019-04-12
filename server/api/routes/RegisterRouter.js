@@ -1,9 +1,9 @@
 import express from 'express'
 import { connection, mailer } from '../../app'
 import bcrypt from 'bcrypt'
-import uniqid from 'uniqid'
 import { registerValidation } from '../../utilities/verifications'
-require('@babel/polyfill')
+import uuidv4 from 'uuid/v4'
+require('@babel/polyfill') //Required to handle async
 
 const router = express.Router()
 
@@ -51,18 +51,18 @@ router.post('/register', async (req, res) => {
       errors: { email: emailExists ? 'This email already exists.' : '', username: userExists ? 'This username already exists' : '' }
     })
   }
-  const myUniqId = uniqid()
+  const uuid = uuidv4()
   const saltRounds = 8
   bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
     if (err) {
       return res.send('Error ' + err)
     }
-    connection.query("INSERT INTO `users` (`id`, `confirmed`, `username`, `email`, `password`, `first_name`, `last_name`, `uniqid`) VALUES " + `(NULL, '0', '${req.body.username}', '${req.body.email}',\
-      '${hash}', '${req.body.first_name}', '${req.body.last_name}', '${myUniqId}');`, async (err, results, field) => {
+    connection.query("INSERT INTO `users` (`id`, `confirmed`, `username`, `email`, `password`, `first_name`, `last_name`, `uuid`) VALUES " + `(NULL, '0', '${req.body.username}', '${req.body.email}',\
+      '${hash}', '${req.body.first_name}', '${req.body.last_name}', '${uuid}');`, async (err, results, field) => {
         if (err) {
           return res.send('Error ' + err)
         }
-        mailer.sendConfirmation(req.body.email, myUniqId)
+        mailer.sendConfirmation(req.body.email, uuid)
         return res.json({
           success: true,
           message: 'Successfuly registered ! Please, confirm your email address'

@@ -32,3 +32,27 @@ export const registerValidation = (payload) => {
     errors: errors
   }
 }
+
+export const loginValidation = payload => {
+  let errors = {}
+  let isValid = true
+  
+  if (!payload.login) {
+    isValid = false
+    errors.login = 'Please provide your email address or your username'
+  }
+  if (!payload.password || !payload.password_confirmation) {
+    isValid = false
+    errors.password = 'Please provide your password and confirm it'
+  }
+  if (payload.password !== payload.password_confirmation) {
+    isValid = false
+    errors.password = 'Password and password confirmation don\'t match'
+  }
+
+  return {
+    success: isValid,
+    errrors: errors,
+    message: isValid ? '' : 'The form contains some errors, please fix it'
+  }
+}
