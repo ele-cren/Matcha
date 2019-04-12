@@ -20,6 +20,7 @@ connection.connect(err => {
     console.error('error connecting: ' + err.stack);
     return;
   }
+  console.log('Connected to database')
   const api = new Api(server.app)
   api.setRoutes()
 });

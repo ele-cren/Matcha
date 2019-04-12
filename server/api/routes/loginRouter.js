@@ -3,7 +3,6 @@ import { loginValidation } from '../../utilities/verifications'
 import { connection } from '../../app'
 import bcrypt from 'bcrypt'
 require('@babel/polyfill') //Required to handle async
-import session from 'express-session'
 
 const router = express.Router()
 
@@ -57,7 +56,6 @@ router.post('/login', async (req, res) => {
       return res.send('Error ' + err)
     }
     if (isPasswordValid) {
-      req.session.user = user
       return res.json({
         success: true,
         message: 'You successfuly logged in !'
