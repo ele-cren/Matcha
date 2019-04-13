@@ -1,5 +1,6 @@
 import express from 'express'
 import bodyParser from 'body-parser'
+import session from 'cookie-session'
 require('dotenv').config()
 
 class Server {
@@ -13,6 +14,14 @@ class Server {
       extended: true
     }));
     this.app.use(bodyParser.json());
+    this.app.use(session({
+      name: 'session',
+      secret: process.env.SESSION_SECRET,
+      cookie: {
+        secure: true,
+        httpOnly: true
+      }
+    }))
   }
 
   start (port = 3000) {
