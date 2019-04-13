@@ -11,9 +11,6 @@ class Api {
     this.app.use('/api/auth', RegisterRouter)
     this.app.use('/api/auth', LoginRouter)
     this.app.use('/api/', ConfirmationRouter)
-    this.app.get('/api/testsession', (req, res) => {
-      return res.json(req.session.userId)
-    })
   }
 }
 
