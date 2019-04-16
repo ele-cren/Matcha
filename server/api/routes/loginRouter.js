@@ -17,14 +17,14 @@ router.post('/login', async (req, res) => {
   if (!user) {
     return res.json({
       success: false,
-      errros: { login: 'This user does not exist' },
+      errors: { login: 'This user does not exist' },
       message: 'Login failed'
     })
   }
   if (!user[0].confirmed) {
     return res.json({
       success: false,
-      errros: { login: 'This user has not been confirmed yet' },
+      errors: { login: 'This user has not been confirmed yet' },
       message: 'Login failed'
     })
   }
@@ -36,7 +36,8 @@ router.post('/login', async (req, res) => {
       req.session.userId = user[0].uuid
       return res.json({
         success: true,
-        message: 'You successfuly logged in !'
+        message: 'You successfuly logged in !',
+        errors: {}
       })
     }
     return res.json({

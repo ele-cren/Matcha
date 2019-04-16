@@ -1,9 +1,13 @@
 import React from 'react'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import LoginPage from './LoginPage'
 
 class App extends React.Component {
   render () {
     return (
-      <h1>Hello World!</h1>
+      <Router>
+        <Route exact path='/' component={ LoginPage } /> 
+      </Router>
     )
   }
 }

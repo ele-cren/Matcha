@@ -22,7 +22,8 @@ router.get('/confirmation/:uniqid', async (req, res) => {
   if (!userId) {
     return res.json({
       success: false,
-      message: 'This user does not exist'
+      message: 'This user does not exist',
+      errors: {}
     })
   }
   connection.query("UPDATE `users` SET `confirmed`='1' WHERE id=" + `'${userId.id}'`, (err, results, field) => {
@@ -31,7 +32,8 @@ router.get('/confirmation/:uniqid', async (req, res) => {
     }
     return res.json({
       success: true,
-      message: 'User successfuly confirmed !'
+      message: 'User successfuly confirmed !',
+      errors: {}
     })
   })
 })
