@@ -17,6 +17,10 @@ export const registerValidation = (payload) => {
     errors.password = 'Please, provide a password between 8 and 20 characters'
     isValid = false
   }
+  if (payload.password !== payload.password_confirmation) {
+    isValid = false
+    errors.password = 'Password and password confirmation don\'t match'
+  }
   if (!payload.first_name) {
     errors.first_name = 'Please, provide your first name'
     isValid = false
@@ -41,13 +45,9 @@ export const loginValidation = payload => {
     isValid = false
     errors.login = 'Please provide your email address or your username'
   }
-  if (!payload.password || !payload.password_confirmation) {
+  if (!payload.password) {
     isValid = false
-    errors.password = 'Please provide your password and confirm it'
-  }
-  if (payload.password !== payload.password_confirmation) {
-    isValid = false
-    errors.password = 'Password and password confirmation don\'t match'
+    errors.password = 'Please provide your password'
   }
 
   return {

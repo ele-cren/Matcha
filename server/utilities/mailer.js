@@ -26,6 +26,16 @@ class Mailer {
     this.sendMail(mailOptions)
   }
 
+  sendPassword(email, password) {
+    const mailOptions = {
+      from: 'mysuper.matcha@gmail.com', // sender address
+      to: email, // list of receivers
+      subject: 'New password', // Subject line
+      html: `<p>Hello, this is your new password :</p><br /><p>${password}</p>`
+    };
+    this.sendMail(mailOptions)
+  }
+
   sendMail (mailOptions) {
     this.transporter.sendMail(mailOptions, function (err, info) {
       if(err)

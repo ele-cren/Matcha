@@ -1,39 +1,9 @@
 import express from 'express'
 import { loginValidation } from '../../utilities/verifications'
-import { connection } from '../../app'
 import bcrypt from 'bcrypt'
 require('@babel/polyfill') //Required to handle async
-
+import { getUserFromEmail, getUserFromUsername } from '../../utilities/checkLogin'
 const router = express.Router()
-
-const getUserFromUsername = username => {
-  return new Promise((resolve, reject) => {
-    connection.query("SELECT uuid, password FROM `users` WHERE username=" + `'${username}'`, (err, results, field) => {
-      if (err) {
-        reject(err)
-      }
-      if (results.length > 0) {
-        resolve(results)
-      }
-      resolve(null)
-    })
-  })
-}
-
-const getUserFromEmail = email => {
-  return new Promise((resolve, reject) => {
-    connection.query("SELECT uuid, password * FROM `users` WHERE email=" + `'${email}'`, (err, results, field) => {
-      if (err) {
-        reject(err)
-      }
-      if (results.length > 0) {
-        resolve(results)
-      }
-      resolve(null)
-    })
-  })
-}
-
 
 router.post('/login', async (req, res) => {
   const validation = loginValidation(req.body)
@@ -48,6 +18,13 @@ router.post('/login', async (req, res) => {
     return res.json({
       success: false,
       errros: { login: 'This user does not exist' },
+      message: 'Login failed'
+    })
+  }
+  if (!user[0].confirmed) {
+    return res.json({
+      success: false,
+      errros: { login: 'This user has not been confirmed yet' },
       message: 'Login failed'
     })
   }
