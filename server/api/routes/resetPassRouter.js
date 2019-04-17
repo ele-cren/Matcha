@@ -35,7 +35,7 @@ router.post('/reset_pass', async (req, res) => {
   mailer.sendPassword(email, newPass)
   return res.json({
     success: true,
-    message: 'The password has been successfuly sent',
+    message: 'The password has been successfully sent',
     errors: {}
   })
 })

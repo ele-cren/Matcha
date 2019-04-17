@@ -32,7 +32,7 @@ router.get('/confirmation/:uniqid', async (req, res) => {
     }
     return res.json({
       success: true,
-      message: 'User successfuly confirmed !',
+      message: 'User successfully confirmed !',
       errors: {}
     })
   })

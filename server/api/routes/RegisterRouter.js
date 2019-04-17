@@ -65,7 +65,7 @@ router.post('/register', async (req, res) => {
         mailer.sendConfirmation(req.body.email, uuid)
         return res.json({
           success: true,
-          message: 'Successfuly registered ! Please, confirm your email address',
+          message: 'Successfully registered ! Please, confirm your email address',
           errors: {}
         })
     })

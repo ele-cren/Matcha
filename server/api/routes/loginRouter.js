@@ -36,7 +36,7 @@ router.post('/login', async (req, res) => {
       req.session.userId = user[0].uuid
       return res.json({
         success: true,
-        message: 'You successfuly logged in !',
+        message: 'You successfully logged in !',
         errors: {}
       })
     }
