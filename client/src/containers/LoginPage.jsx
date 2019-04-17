@@ -11,6 +11,7 @@ import {
   MDBBtn,
   MDBInput
 } from 'mdbreact'
+import { Link } from 'react-router-dom'
 
 class LoginPage extends React.Component {
   constructor (props) {
@@ -102,7 +103,7 @@ class LoginPage extends React.Component {
                 </form>
                 <MDBModalFooter>
                   <div className="font-weight-light">
-                    <p>Not a member ? Sign Up</p>
+                    <p>Not a member ? <Link to='/register'>Sign Up</Link></p>
                     <p>Forgot Password ?</p>
                   </div>
                 </MDBModalFooter>
