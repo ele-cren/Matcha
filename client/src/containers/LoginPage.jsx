@@ -12,6 +12,9 @@ import {
   MDBInput
 } from 'mdbreact'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { tryLogIn } from '../actions/loginUserActions'
+import { clean } from '../actions/cleanUserActions'
 
 class LoginPage extends React.Component {
   constructor (props) {
@@ -19,12 +22,13 @@ class LoginPage extends React.Component {
     this.state = {
       login: '',
       password: '',
-      errors: {},
-      message: '',
-      success: true
     }
     this.submitForm = this.submitForm.bind(this)
     this.handleChange = this.handleChange.bind(this)
+  }
+
+  componentDidMount () {
+    this.props.onClean()
   }
 
   handleChange (event) {
@@ -35,21 +39,11 @@ class LoginPage extends React.Component {
 
   submitForm (event) {
     event.preventDefault()
-    const xhr = new XMLHttpRequest()
-    xhr.open('POST', '/api/auth/login')
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
-    xhr.responseType = 'json'
-    const login = encodeURIComponent(this.state.login)
-    const pass = encodeURIComponent(this.state.password)
-    const params = `login=${ login }&password=${ pass }`
-    xhr.send(params)
-    xhr.onload= () => {
-      this.setState({
-        message: xhr.response.message,
-        errors: xhr.response.errors,
-        success: xhr.response.success
-      })
+    const data = {
+      login: this.state.login,
+      password: this.state.password
     }
+    this.props.onLoginUser(data)
   }
 
   render () {
@@ -66,7 +60,7 @@ class LoginPage extends React.Component {
                 </MDBCardHeader>
                 <form onSubmit={ this.submitForm }>
                   <div className="grey-text">
-                    <p className="red-text mt-3">{ this.state.errors.login }</p>
+                    <p className="red-text mt-3">{ this.props.errors.login }</p>
                     <MDBInput
                       className="p-2"
                       name="login"
@@ -77,7 +71,7 @@ class LoginPage extends React.Component {
                       group
                       type="text"
                     />
-                    <p className="red-text">{ this.state.errors.password }</p>
+                    <p className="red-text">{ this.props.errors.password }</p>
                     <MDBInput
                       className="p-2"
                       name="password"
@@ -98,7 +92,7 @@ class LoginPage extends React.Component {
                   >
                     Login
                   </MDBBtn>
-                  <p className={ this.state.success ? 'green-text' : 'red-text' }>{ this.state.message }</p>
+                  <p className={ this.props.success ? 'green-text' : 'red-text' }>{ this.props.message }</p>
                 </div>
                 </form>
                 <MDBModalFooter>
@@ -116,4 +110,13 @@ class LoginPage extends React.Component {
   }
 }
 
-export default LoginPage
+const mapStateToProps = state => {
+  return state
+}
+
+const mapActionsToProps = {
+  onLoginUser: tryLogIn,
+  onClean: clean
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(LoginPage)

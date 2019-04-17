@@ -37,13 +37,14 @@ router.post('/login', async (req, res) => {
       return res.json({
         success: true,
         message: 'You successfully logged in !',
-        errors: {}
+        errors: {},
+        user: user[0].uuid
       })
     }
     return res.json({
       succes: false,
       errors: { password: 'Wrong password, please try again or reset your password' },
-      message: 'Login failed'
+      message: 'Login failed',
     })
   })
 })

@@ -11,14 +11,14 @@ import {
   MDBBtn
 } from 'mdbreact'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { tryRegister } from '../actions/registerUserActions'
+import { clean } from '../actions/cleanUserActions'
 
 class RegisterPage extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      success: true,
-      errors: {},
-      message: '',
       first_name: '',
       last_name: '',
       username: '',
@@ -30,27 +30,21 @@ class RegisterPage extends React.Component {
     this.handleChange = this.handleChange.bind(this)
   }
 
+  componentDidMount () {
+    this.props.onClean()
+  }
+
   submitForm (event) {
     event.preventDefault()
-    const first_name = encodeURIComponent(this.state.first_name)
-    const last_name = encodeURIComponent(this.state.last_name)
-    const username = encodeURIComponent(this.state.username)
-    const email = encodeURIComponent(this.state.email)
-    const password = encodeURIComponent(this.state.password)
-    const password_confirmation = encodeURIComponent(this.state.password_confirmation)
-    const params = `first_name=${ first_name }&last_name=${ last_name }&username=${ username }&email=${ email }&password=${ password }&password_confirmation=${ password_confirmation }`
-    const xhr = new XMLHttpRequest()
-    xhr.open('POST', '/api/auth/register')
-    xhr.responseType = 'json'
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
-    xhr.send(params)
-    xhr.onload = () => {
-      this.setState({
-        errors: xhr.response.errors,
-        message: xhr.response.message,
-        success: xhr.response.success
-      })
+    const data = {
+      first_name: this.state.first_name,
+      last_name: this.state.last_name,
+      username: this.state.username,
+      email: this.state.email,
+      password: this.state.password,
+      password_confirmation: this.state.password_confirmation
     }
+    this.props.onRegister(data)
   }
 
   handleChange (event) {
@@ -74,7 +68,7 @@ class RegisterPage extends React.Component {
                 <br />
                 <form onSubmit={ this.submitForm }>
                   <div className="grey-text">
-                    <p className="red-text">{ this.state.errors.first_name }</p>
+                    <p className="red-text">{ this.props.errors.first_name }</p>
                     <label
                       htmlFor="first_name"
                       className="grey-text font-weight-light"
@@ -90,7 +84,7 @@ class RegisterPage extends React.Component {
                       className="form-control"
                     />
                     <br />
-                    <p className="red-text">{ this.state.errors.last_name }</p>
+                    <p className="red-text">{ this.props.errors.last_name }</p>
                     <label
                       htmlFor="last_name"
                       className="grey-text font-weight-light"
@@ -106,7 +100,7 @@ class RegisterPage extends React.Component {
                       className="form-control"
                     />
                     <br />
-                    <p className="red-text">{ this.state.errors.username }</p>
+                    <p className="red-text">{ this.props.errors.username }</p>
                     <label
                       htmlFor="username"
                       className="grey-text font-weight-light"
@@ -122,7 +116,7 @@ class RegisterPage extends React.Component {
                       className="form-control"
                     />
                     <br />
-                    <p className="red-text">{ this.state.errors.email }</p>
+                    <p className="red-text">{ this.props.errors.email }</p>
                     <label
                       htmlFor="email"
                       className="grey-text font-weight-light"
@@ -138,7 +132,7 @@ class RegisterPage extends React.Component {
                       className="form-control"
                     />
                     <br />
-                    <p className="red-text">{ this.state.errors.password }</p>
+                    <p className="red-text">{ this.props.errors.password }</p>
                     <label
                       htmlFor="password"
                       className="grey-text font-weight-light"
@@ -174,7 +168,7 @@ class RegisterPage extends React.Component {
                     <MDBBtn color="deep-orange" className="mb-3" type="submit">
                     Register
                     </MDBBtn>
-                    <p className={ this.state.success ? 'green-text' : 'red-text' }>{ this.state.message }</p>
+                    <p className={ this.props.success ? 'green-text' : 'red-text' }>{ this.props.message }</p>
                   </div>
                 </form>
                 <MDBModalFooter>
@@ -191,4 +185,13 @@ class RegisterPage extends React.Component {
   }
 }
 
-export default RegisterPage
+const mapStateToProps = state => {
+  return state
+}
+
+const mapActionsToProps = {
+  onRegister: tryRegister,
+  onClean: clean
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(RegisterPage)
