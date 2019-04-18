@@ -12,11 +12,25 @@ export const tryLogIn = (data) => {
     const params = `login=${ login }&password=${ pass }`
     xhr.send(params)
     xhr.onload= () => {
-      if (xhr.success) {
+      if (xhr.response.success) {
         dispatch(logIn(xhr.response.user, xhr.response.message))
-      }
-      else {
+      } else {
         dispatch(logInFail(xhr.response.errors, xhr.response.message))
+      }
+    }
+  }
+}
+
+export const checkLogged = () => {
+  dispatch => {
+    const xhr = new XMLHttpRequest()
+    xhr.open('GET', '/api/auth/logged')
+    xhr.send()
+    xhr.onload = () => {
+      if (xhr.status === 200) {
+        dispatch(logIn(xhr.responseText, ''))
+      } else {
+        dispatch(logInFail({}, ''))
       }
     }
   }
@@ -28,6 +42,7 @@ const logIn = (userId, message) => {
     payload: {
       success: true,
       message: message,
+      errors: {},
       userId: userId
     }
   }
@@ -39,7 +54,8 @@ const logInFail = (errors, message) => {
     payload: {
       success: false,
       errors: errors,
-      message: message
+      message: message,
+      userId: ''
     }
   }
 }

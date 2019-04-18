@@ -49,4 +49,11 @@ router.post('/login', async (req, res) => {
   })
 })
 
+router.get('/logged', (req, res) => {
+  if (req.session.userId) {
+    return res.status(200).send(req.session.userId)
+  }
+  return res.status(401).send('Not logged')
+})
+
 export default router

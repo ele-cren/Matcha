@@ -1,7 +1,7 @@
-import { LOGIN } from '../actions/loginUserActions'
-import { LOGOUT } from '../actions/logoutUserActions'
-import { REGISTER } from '../actions/registerUserActions'
-import { CLEAN } from '../actions/cleanUserActions'
+import { LOGIN } from '../actions/userActions/loginUserActions'
+import { LOGOUT } from '../actions/userActions/logoutUserActions'
+import { REGISTER } from '../actions/userActions/registerUserActions'
+import { CLEAN } from '../actions/userActions/cleanUserActions'
 
 const defaultState = {
   success: true,
@@ -11,18 +11,13 @@ const defaultState = {
 }
 
 const userReducer = (state = defaultState, action) => {
-  switch (action.type) {
-    case LOGOUT:
-      return ''
-    case LOGIN:
-      return action.payload
-    case REGISTER:
-      return action.payload
-    case CLEAN:
-      return action.payload
-    default:
-      return state
+  if (action.type === LOGIN || action.type === REGISTER || action.type === CLEAN) {
+    console.log(action.payload.userId)
+    return action.payload
+  } else if (action.type === LOGOUT) {
+    return defaultState
   }
+  return state
 }
 
 export default userReducer
