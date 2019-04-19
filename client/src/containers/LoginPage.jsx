@@ -109,7 +109,7 @@ class LoginPage extends React.Component {
                 <MDBModalFooter>
                   <div className="font-weight-light">
                     <p>Not a member ? <Link to='/register'>Sign Up</Link></p>
-                    <p>Forgot Password ?</p>
+                    <p><Link to='/reset_pass'>Forgot my password</Link></p>
                   </div>
                 </MDBModalFooter>
               </MDBCardBody>

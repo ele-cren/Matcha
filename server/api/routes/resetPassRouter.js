@@ -15,7 +15,7 @@ const updatePassword = (uuid, password) => {
 }
 
 router.post('/reset_pass', async (req, res) => {
-  const user = await getUserFromEmail(req.body.login)
+  let user = await getUserFromEmail(req.body.login)
   if (!user) {
     user = await getUserFromUsername(req.body.login)
   }
