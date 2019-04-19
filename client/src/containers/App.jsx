@@ -10,57 +10,64 @@ class App extends React.Component {
   constructor (props) {
     super(props)
   }
-
+  
   componentDidMount () {
     this.props.isLogged()
   }
 
   render () {
-    return (
-      <Router>
-        <PrivateRoute exact path='/' component={ SearchPage } />
-        <Route path='/login' component={ LoginPage } /> 
-        <Route path='/register' component={ RegisterPage } />
-      </Router>
-    )
+    if (!this.props.user.first_fetch) {
+      return (
+        <h1>Waiting</h1> // loading
+      )
+    } else {
+      return (
+        <Router>
+          <PrivateRoute exact path='/' component={ SearchPage } logged={ this.props.user.userId } />
+          <AlreadyLoggedRoute path='/login' component={ LoginPage } logged={ this.props.user.userId } /> 
+          <AlreadyLoggedRoute path='/register' component={ RegisterPage } logged={ this.props.user.userId } />
+        </Router>
+      )
+    }
   }
 }
 
-// function AlreadyLoggedRoute({ component: Component, ...rest }) {
-//   return (
-//     <Route
-//       {...rest}
-//       render={props =>
-//         true ? (
-//           <Component {...props} />
-//         ) : (
-//           <Redirect
-//             to={{
-//               pathname: "/",
-//               state: { from: props.location }
-//             }}
-//           />
-//         )
-//       }
-//     />
-//   )
-// }
-
-function PrivateRoute({ component: Component, ...rest }) {
+function AlreadyLoggedRoute({ component: Component, ...rest }) {
   return (
     <Route
       {...rest}
       render={props =>
-        // false ? (
-        //   <Component {...props} />
-        // ) : (
+        !rest.logged ? (
+          <Component {...props} />
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/",
+              state: { from: props.location }
+            }}
+          />
+        )
+      }
+    />
+  )
+}
+
+function PrivateRoute({ component: Component, ...rest }) {
+  console.log(rest.logged)
+  return (
+    <Route
+      {...rest}
+      render={props =>
+        rest.logged ? (
+          <Component {...props} />
+        ) : (
           <Redirect
             to={{
               pathname: "/login",
               state: { from: props.location }
             }}
           />
-        // )
+        )
       }
     />
   )
@@ -72,10 +79,8 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = () => {
-  return {
-    isLogged: checkLogged
-  }
+const mapDispatchToProps = {
+  isLogged: checkLogged
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

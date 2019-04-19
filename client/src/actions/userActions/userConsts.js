@@ -1,0 +1,5 @@
+export const LOGIN = 'user:login'
+export const LOGOUT = 'user:logout'
+export const FETCHING = 'user:fetching'
+export const FETCHED = 'user:fetched'
+export const FIRST_FETCH = 'user:first_fetch'

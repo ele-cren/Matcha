@@ -1,4 +1,4 @@
-export const LOGOUT = 'user:logout'
+import { LOGOUT } from "./userConsts";
 
 // Implement log out request function
 export const logOut = () => {

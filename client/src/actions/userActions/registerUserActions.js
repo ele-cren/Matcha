@@ -1,7 +1,9 @@
-export const REGISTER = 'user:register'
+import { showErrors, noErrors } from '../errorsActions/errorsActions'
+import { FETCHING, FETCHED } from '../userActions/userConsts'
 
 export const tryRegister = (data) => {
   return dispatch => {
+    dispatch({ type: FETCHING })
     const first_name = encodeURIComponent(data.first_name)
     const last_name = encodeURIComponent(data.last_name)
     const username = encodeURIComponent(data.username)
@@ -16,32 +18,11 @@ export const tryRegister = (data) => {
     xhr.send(params)
     xhr.onload = () => {
       if (xhr.response.success) {
-        dispatch(register(xhr.response.message))
+        dispatch(noErrors(xhr.response.message))
       } else {
-        dispatch(registerFail(xhr.response.errors, xhr.response.message))
+        dispatch(showErrors(xhr.response.errors, xhr.response.message))
       }
-    }
-  }
-}
-
-const registerFail = (errors, message) => {
-  return {
-    type: REGISTER,
-    payload: {
-      success: false,
-      errors: errors,
-      message: message
-    }
-  }
-}
-
-const register = (message) => {
-  return {
-    type: REGISTER,
-    payload: {
-      success: true,
-      errors: {},
-      message: message
+      dispatch({ type: FETCHED })
     }
   }
 }

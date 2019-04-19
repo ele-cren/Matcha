@@ -1,8 +1,9 @@
-export const LOGIN = 'user:login'
-export const LOGOUT = 'user:logout'
+import { showErrors, noErrors } from '../errorsActions/errorsActions'
+import { LOGIN, FETCHING, FETCHED, FIRST_FETCH } from './userConsts'
 
 export const tryLogIn = (data) => {
   return dispatch => {
+    dispatch({ type: FETCHING })
     const xhr = new XMLHttpRequest()
     xhr.open('POST', '/api/auth/login')
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
@@ -13,50 +14,35 @@ export const tryLogIn = (data) => {
     xhr.send(params)
     xhr.onload= () => {
       if (xhr.response.success) {
-        dispatch(logIn(xhr.response.user, xhr.response.message))
+        dispatch(logIn(xhr.response.user))
+        dispatch(noErrors(xhr.response.message))
       } else {
-        dispatch(logInFail(xhr.response.errors, xhr.response.message))
+        dispatch(showErrors(xhr.response.errors, xhr.response.message))
       }
+      dispatch({ type: FETCHED })
     }
   }
 }
 
 export const checkLogged = () => {
-  dispatch => {
+  return dispatch => {
     const xhr = new XMLHttpRequest()
     xhr.open('GET', '/api/auth/logged')
     xhr.send()
     xhr.onload = () => {
       if (xhr.status === 200) {
         dispatch(logIn(xhr.responseText, ''))
-      } else {
-        dispatch(logInFail({}, ''))
       }
+      dispatch({ type: FIRST_FETCH })
     }
   }
 }
 
-const logIn = (userId, message) => {
+const logIn = (userId) => {
   return {
     type: LOGIN,
     payload: {
-      success: true,
-      message: message,
-      errors: {},
       userId: userId
     }
   }
 }
-
-const logInFail = (errors, message) => {
-  return {
-    type: LOGIN,
-    payload: {
-      success: false,
-      errors: errors,
-      message: message,
-      userId: ''
-    }
-  }
-}
-

@@ -13,7 +13,8 @@ import {
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { tryRegister } from '../actions/userActions/registerUserActions'
-import { clean } from '../actions/userActions/cleanUserActions'
+import { cleanErrors } from '../actions/errorsActions/errorsActions'
+import { isObjectEmpty } from '../utilities/utilities'
 
 class RegisterPage extends React.Component {
   constructor (props) {
@@ -31,8 +32,7 @@ class RegisterPage extends React.Component {
   }
 
   componentDidMount () {
-    console.log(this.props.user.userId)
-    this.props.onClean(this.props.user.userId)
+    this.props.onClean()
   }
 
   submitForm (event) {
@@ -69,7 +69,7 @@ class RegisterPage extends React.Component {
                 <br />
                 <form onSubmit={ this.submitForm }>
                   <div className="grey-text">
-                    <p className="red-text">{ this.props.user.errors.first_name }</p>
+                    <p className="red-text">{ this.props.errors.errors.first_name }</p>
                     <label
                       htmlFor="first_name"
                       className="grey-text font-weight-light"
@@ -85,7 +85,7 @@ class RegisterPage extends React.Component {
                       className="form-control"
                     />
                     <br />
-                    <p className="red-text">{ this.props.user.errors.last_name }</p>
+                    <p className="red-text">{ this.props.errors.errors.last_name }</p>
                     <label
                       htmlFor="last_name"
                       className="grey-text font-weight-light"
@@ -101,7 +101,7 @@ class RegisterPage extends React.Component {
                       className="form-control"
                     />
                     <br />
-                    <p className="red-text">{ this.props.user.errors.username }</p>
+                    <p className="red-text">{ this.props.errors.errors.username }</p>
                     <label
                       htmlFor="username"
                       className="grey-text font-weight-light"
@@ -117,7 +117,7 @@ class RegisterPage extends React.Component {
                       className="form-control"
                     />
                     <br />
-                    <p className="red-text">{ this.props.user.errors.email }</p>
+                    <p className="red-text">{ this.props.errors.errors.email }</p>
                     <label
                       htmlFor="email"
                       className="grey-text font-weight-light"
@@ -133,7 +133,7 @@ class RegisterPage extends React.Component {
                       className="form-control"
                     />
                     <br />
-                    <p className="red-text">{ this.props.user.errors.password }</p>
+                    <p className="red-text">{ this.props.errors.errors.password }</p>
                     <label
                       htmlFor="password"
                       className="grey-text font-weight-light"
@@ -169,7 +169,9 @@ class RegisterPage extends React.Component {
                     <MDBBtn color="deep-orange" className="mb-3" type="submit">
                     Register
                     </MDBBtn>
-                    <p className={ this.props.user.success ? 'green-text' : 'red-text' }>{ this.props.user.message }</p>
+                    <p className={ isObjectEmpty(this.props.errors.errors) ? 'green-text' : 'red-text' }>
+                      { this.props.errors.message }
+                    </p>
                   </div>
                 </form>
                 <MDBModalFooter>
@@ -188,13 +190,14 @@ class RegisterPage extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    user: state.user
+    user: state.user,
+    errors: state.errors
   }
 }
 
-const mapActionsToProps = {
+const mapDispatchToProps = {
   onRegister: tryRegister,
-  onClean: clean
+  onClean: cleanErrors
 }
 
-export default connect(mapStateToProps, mapActionsToProps)(RegisterPage)
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterPage)

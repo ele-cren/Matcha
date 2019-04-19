@@ -1,23 +1,24 @@
-import { LOGIN } from '../actions/userActions/loginUserActions'
-import { LOGOUT } from '../actions/userActions/logoutUserActions'
-import { REGISTER } from '../actions/userActions/registerUserActions'
-import { CLEAN } from '../actions/userActions/cleanUserActions'
+import { LOGIN, LOGOUT, FETCHING, FETCHED, FIRST_FETCH } from '../actions/userActions/userConsts'
 
 const defaultState = {
-  success: true,
-  errors: {},
-  message: '',
   userId: ''
 }
 
 const userReducer = (state = defaultState, action) => {
-  if (action.type === LOGIN || action.type === REGISTER || action.type === CLEAN) {
-    console.log(action.payload.userId)
-    return action.payload
-  } else if (action.type === LOGOUT) {
-    return defaultState
+  switch (action.type) {
+    case LOGIN:
+      return { ...state, userId: action.payload.userId }
+    case FETCHING:
+      return { ...state, fetched: false }
+    case FETCHED:
+      return { ...state, fetched: true }
+      case FIRST_FETCH:
+        return { ...state, first_fetch: true }
+    case LOGOUT:
+      return { ...state, userId: '' }
+    default:
+      return state
   }
-  return state
 }
 
 export default userReducer
