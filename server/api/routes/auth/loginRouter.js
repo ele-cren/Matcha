@@ -1,8 +1,8 @@
 import express from 'express'
-import { loginValidation } from '../../utilities/verifications'
+import { loginValidation } from '../../../utilities/verifications'
 import bcrypt from 'bcrypt'
 require('@babel/polyfill') //Required to handle async
-import { getUserFromEmail, getUserFromUsername } from '../../utilities/checkLogin'
+import { getUserFromEmail, getUserFromUsername } from '../../../utilities/checkLogin'
 const router = express.Router()
 
 router.post('/login', async (req, res) => {

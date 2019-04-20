@@ -1,10 +1,10 @@
-import RegisterRouter from './routes/registerRouter'
-import ConfirmationRouter from './routes/confirmationRouter'
-import LoginRouter from './routes/loginRouter'
-import ResetPassRouter from './routes/resetPassRouter'
-import UpdateProfileRouter from './routes/updateProfileRouter'
-import LogoutRouter from './routes/logoutRouter'
-import ProfileRouter from './routes/profileRouter'
+import RegisterRouter from './routes/auth/registerRouter'
+import ConfirmationRouter from './routes/auth/confirmationRouter'
+import LoginRouter from './routes/auth/loginRouter'
+import ResetPassRouter from './routes/auth/resetPassRouter'
+import UpdateProfileRouter from './routes/profile/updateProfileRouter'
+import LogoutRouter from './routes/auth/logoutRouter'
+import ProfileRouter from './routes/profile/profileRouter'
 
 class Api {
   constructor (app) {

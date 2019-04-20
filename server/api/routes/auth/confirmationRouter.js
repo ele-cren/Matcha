@@ -1,5 +1,5 @@
 import express from 'express'
-import { connection } from '../../app'
+import { connection } from '../../../app'
 
 const router = express.Router()
 

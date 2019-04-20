@@ -26,12 +26,12 @@ class Mailer {
     this.sendMail(mailOptions)
   }
 
-  sendPassword(email, password) {
+  sendPassword(email, username, password) {
     const mailOptions = {
       from: 'Matcha Support no-reply@matcha.com', // sender address
       to: email, // list of receivers
       subject: 'New password', // Subject line
-      html: `<p>Hello, this is your new password :</p><br /><p>${password}</p>`
+      html: `<p>Hello ${ username }, this is your new password :</p><br /><p>${password}</p>`
     };
     this.sendMail(mailOptions)
   }

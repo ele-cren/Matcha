@@ -1,7 +1,7 @@
 import express from 'express'
-import { connection, mailer } from '../../app'
+import { connection, mailer } from '../../../app'
 import bcrypt from 'bcrypt'
-import { registerValidation } from '../../utilities/verifications'
+import { registerValidation } from '../../../utilities/verifications'
 import uuidv4 from 'uuid/v4'
 require('@babel/polyfill') //Required to handle async
 
