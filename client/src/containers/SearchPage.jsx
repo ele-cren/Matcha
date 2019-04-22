@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { cleanErrors } from '../actions/errorsActions/errorsActions'
 import { getInformations } from '../actions/profileActions/profileActions'
+import { Redirect } from 'react-router-dom'
 
 class SearchPage extends React.Component {
   constructor (props) {
@@ -21,9 +22,16 @@ class SearchPage extends React.Component {
         <h1>Waiting</h1>
       )
     } else {
-      return (
-        <h1>Hello Search</h1>
-      )
+      if (!this.props.informations || !this.props.profile.informations.bio || !this.props.profile.informations.genre
+          || this.props.profile.pictures.length === 0) {
+        return (
+          <Redirect to='/profile/update' />
+        )
+      } else {
+        return (
+          <h1>Hello Search</h1>
+        )
+      }
     }
   }
 }
