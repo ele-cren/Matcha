@@ -7,7 +7,9 @@ import SearchPage from './SearchPage'
 import ProfilePage from './ProfilePage'
 import UpdateProfile from './UpdateProfile'
 import { checkLogged } from '../actions/userActions/loginUserActions'
+import { getInformations } from '../actions/profileActions/profileActions'
 import { connect } from 'react-redux'
+import { isObjectEmpty } from '../utilities/utilities'
 
 class App extends React.Component {
   constructor (props) {
@@ -18,8 +20,14 @@ class App extends React.Component {
     this.props.isLogged()
   }
 
+  componentDidUpdate () {
+    if (this.props.user.userId && isObjectEmpty(this.props.profile.mainInformations) && !this.props.profile.fetching) {
+      this.props.updateProfile(this.props.profile.first_fetch)
+    }
+  }
+
   render () {
-    if (!this.props.user.first_fetch) {
+    if (this.props.user.fetching || this.props.profile.fetching) {
       return (
         <h1>Waiting</h1> // loading
       )
@@ -59,7 +67,6 @@ function AlreadyLoggedRoute({ component: Component, ...rest }) {
 }
 
 function PrivateRoute({ component: Component, ...rest }) {
-  console.log(rest.logged)
   return (
     <Route
       {...rest}
@@ -81,12 +88,14 @@ function PrivateRoute({ component: Component, ...rest }) {
 
 const mapStateToProps = state => {
   return {
-    user: state.user
+    user: state.user,
+    profile: state.profile
   }
 }
 
 const mapDispatchToProps = {
-  isLogged: checkLogged
+  isLogged: checkLogged,
+  updateProfile: getInformations
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

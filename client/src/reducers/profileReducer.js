@@ -1,4 +1,4 @@
-import { FETCHED, FETCHING, FIRST_FETCH, UPDATE } from '../actions/profileActions/profileConsts'
+import { FETCHED, FETCHING, UPDATE } from '../actions/profileActions/profileConsts'
 
 const defaultState = {
   mainInformations: {},
@@ -9,11 +9,9 @@ const defaultState = {
 const profileReducer = (state = defaultState, action) => {
   switch (action.type) {
     case FETCHING:
-      return { ...state, fetched: false }
+      return { ...state, fetching: true }
     case FETCHED:
-      return { ...state, fetched: true }
-    case FIRST_FETCH:
-      return { ...state, first_fetch: true }
+      return { ...state, fetching: false }
     case UPDATE:
       return {
         ...state,

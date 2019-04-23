@@ -1,7 +1,8 @@
-import { LOGIN, LOGOUT, FETCHING, FETCHED, FIRST_FETCH } from '../actions/userActions/userConsts'
+import { LOGIN, LOGOUT, FETCHING, FETCHED } from '../actions/userActions/userConsts'
 
 const defaultState = {
-  userId: ''
+  userId: '',
+  fetching: true
 }
 
 const userReducer = (state = defaultState, action) => {
@@ -9,11 +10,9 @@ const userReducer = (state = defaultState, action) => {
     case LOGIN:
       return { ...state, userId: action.payload.userId }
     case FETCHING:
-      return { ...state, fetched: false }
+      return { ...state, fetching: true }
     case FETCHED:
-      return { ...state, fetched: true }
-      case FIRST_FETCH:
-        return { ...state, first_fetch: true }
+      return { ...state, fetching: false }
     case LOGOUT:
       return { ...state, userId: '' }
     default:

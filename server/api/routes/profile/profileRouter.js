@@ -27,7 +27,7 @@ const getMainInformations = (userId) => {
 
 const getPictures = (userId) => {
   return new Promise((resolve, reject) => {
-    connection.query("SELECT url FROM pictures WHERE user_id=?", [userId], (err, results) => {
+    connection.query("SELECT url, main FROM pictures WHERE user_id=?", [userId], (err, results) => {
       if (err) {
         reject(err)
       }

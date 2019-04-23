@@ -26,6 +26,7 @@ export const tryLogIn = (data) => {
 
 export const checkLogged = () => {
   return dispatch => {
+    dispatch({ type: FETCHING })
     const xhr = new XMLHttpRequest()
     xhr.open('GET', '/api/auth/logged')
     xhr.send()
@@ -33,7 +34,7 @@ export const checkLogged = () => {
       if (xhr.status === 200) {
         dispatch(logIn(xhr.responseText, ''))
       }
-      dispatch({ type: FIRST_FETCH })
+      dispatch({ type: FETCHED })
     }
   }
 }

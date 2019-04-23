@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { cleanErrors } from '../actions/errorsActions/errorsActions'
-import { getInformations } from '../actions/profileActions/profileActions'
 import { Redirect, Link } from 'react-router-dom'
 
 class SearchPage extends React.Component {
@@ -11,30 +10,21 @@ class SearchPage extends React.Component {
 
   componentDidMount () {
     this.props.cleanErrors()
-    if (!this.props.profile.first_fetch) {
-      this.props.updateProfile(false)
-    }
   }
 
   render () {
-    if (!this.props.profile.fetched) {
+    if (!this.props.profile.informations || !this.props.profile.informations.bio || !this.props.profile.informations.genre
+        || this.props.profile.pictures.length === 0) {
       return (
-        <h1>Waiting</h1>
+        <Redirect to='/profile/update' />
       )
     } else {
-      if (!this.props.profile.informations || !this.props.profile.informations.bio || !this.props.profile.informations.genre
-          || this.props.profile.pictures.length === 0) {
-        return (
-          <Redirect to='/profile/update' />
-        )
-      } else {
-        return (
-          <div>
-            <h1>Hello Search</h1>
-            <Link to='/profile'>My Profile</Link>
-          </div>
-        )
-      }
+      return (
+        <div>
+          <h1>Hello Search</h1>
+          <Link to='/profile'>My Profile</Link>
+        </div>
+      )
     }
   }
 }
@@ -48,8 +38,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
-  cleanErrors: cleanErrors,
-  updateProfile: getInformations
+  cleanErrors: cleanErrors
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchPage)

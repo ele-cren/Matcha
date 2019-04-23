@@ -1,4 +1,4 @@
-import { FETCHING, FETCHED, FIRST_FETCH, UPDATE } from './profileConsts'
+import { FETCHING, FETCHED, UPDATE } from './profileConsts'
 
 export const getInformations = (isFirstDone) => {
   return dispatch => {
@@ -12,9 +12,6 @@ export const getInformations = (isFirstDone) => {
         dispatch(updateInformations(xhr.response))
       }
       dispatch({ type: FETCHED })
-      if (!isFirstDone) {
-        dispatch({ type: FIRST_FETCH })
-      }
     }
   }
 }
