@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt'
 require('@babel/polyfill') //Required to handle async
 import { getUserFromEmail, getUserFromUsername } from '../../../utilities/checkLogin'
 const router = express.Router()
+import { connection } from '../../../app'
 
 router.post('/login', async (req, res) => {
   const validation = loginValidation(req.body)
@@ -50,10 +51,15 @@ router.post('/login', async (req, res) => {
 })
 
 router.get('/logged', (req, res) => {
-  if (req.session.userId) {
-    return res.status(200).send(req.session.userId)
-  }
-  return res.status(401).send('Not logged')
+    connection.query("SELECT id FROM users WHERE uuid=?", [req.session.userId], (err, results) => {
+      if (err) {
+        return res.status(400).send('Error ' + err)
+      }
+      if (!results || results.length === 0) {
+        return res.status(401).send('Not authorized')
+      }
+      return res.status(200).send(req.session.userId)
+    })
 })
 
 export default router
