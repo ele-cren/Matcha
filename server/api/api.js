@@ -1,4 +1,4 @@
-import registerRouter from './routes/auth/registerRouter'
+import RegisterRouter from './routes/auth/registerRouter'
 import ConfirmationRouter from './routes/auth/confirmationRouter'
 import LoginRouter from './routes/auth/loginRouter'
 import ResetPassRouter from './routes/auth/resetPassRouter'
