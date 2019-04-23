@@ -4,6 +4,7 @@ import LoginPage from './LoginPage'
 import RegisterPage from './RegisterPage'
 import ResetPassword from './ResetPassword'
 import SearchPage from './SearchPage'
+import ProfilePage from './ProfilePage'
 import UpdateProfile from './UpdateProfile'
 import { checkLogged } from '../actions/userActions/loginUserActions'
 import { connect } from 'react-redux'
@@ -29,7 +30,8 @@ class App extends React.Component {
           <AlreadyLoggedRoute path='/login' component={ LoginPage } logged={ this.props.user.userId } /> 
           <AlreadyLoggedRoute path='/register' component={ RegisterPage } logged={ this.props.user.userId } />
           <AlreadyLoggedRoute path='/reset_pass' component={ ResetPassword } logged={ this.props.user.userId } />
-          <PrivateRoute path='/profile/update' component={ UpdateProfile } logged={ this.props.user.userId } />
+          <PrivateRoute path='/profile' exact component={ ProfilePage } logged={ this.props.user.userId } />
+          <PrivateRoute path='/profile/update' exact component={ UpdateProfile } logged={ this.props.user.userId } />
         </Router>
       )
     }
