@@ -27,7 +27,7 @@ class App extends React.Component {
   }
 
   render () {
-    if (this.props.user.fetching || this.props.profile.fetching) {
+    if (!this.props.user.checked || this.props.profile.fetching) {
       return (
         <h1>Waiting</h1> // loading
       )
