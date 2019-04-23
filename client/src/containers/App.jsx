@@ -22,7 +22,7 @@ class App extends React.Component {
 
   componentDidUpdate () {
     if (this.props.user.userId && isObjectEmpty(this.props.profile.mainInformations) && !this.props.profile.fetching) {
-      this.props.updateProfile(this.props.profile.first_fetch)
+      this.props.updateProfile()
     }
   }
 

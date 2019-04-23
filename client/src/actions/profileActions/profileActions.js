@@ -1,6 +1,6 @@
 import { FETCHING, FETCHED, UPDATE } from './profileConsts'
 
-export const getInformations = (isFirstDone) => {
+export const getInformations = () => {
   return dispatch => {
     dispatch({ type: FETCHING })
     const xhr = new XMLHttpRequest()
