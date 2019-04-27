@@ -13,18 +13,24 @@ class SearchPage extends React.Component {
   }
 
   render () {
-    if (!this.props.profile.informations || !this.props.profile.informations.bio || !this.props.profile.informations.genre
-        || this.props.profile.pictures.length === 0) {
+    if (this.props.profile.fetching) {
       return (
-        <Redirect to='/profile/update' />
+        <h1>Waiting for profile informations</h1>
       )
     } else {
-      return (
-        <div>
-          <h1>Hello Search</h1>
-          <Link to='/profile'>My Profile</Link>
-        </div>
-      )
+      if (!this.props.profile.informations || !this.props.profile.informations.bio || !this.props.profile.informations.genre
+          || this.props.profile.pictures.length === 0) {
+        return (
+          <Redirect to='/profile/update' />
+        )
+      } else {
+        return (
+          <div>
+            <h1>Hello Search</h1>
+            <Link to='/profile'>My Profile</Link>
+          </div>
+        )
+      }
     }
   }
 }
