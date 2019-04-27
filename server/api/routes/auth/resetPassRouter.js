@@ -3,6 +3,7 @@ import { getUserFromEmail, getUserFromUsername } from '../../../utilities/checkL
 import { mailer, connection } from '../../../app'
 import generator from 'generate-password'
 import bcrypt from 'bcrypt'
+import { updatePassChanged } from '../../../utilities/passChanged';
 require('@babel/polyfill')
 
 const router = express.Router()
@@ -33,6 +34,7 @@ router.post('/reset_pass', async (req, res) => {
   })
   updatePassword(user[0].uuid, newPass)
   mailer.sendPassword(email, user[0].username, newPass)
+  updatePassChanged(user[0].uuid, '1')
   return res.json({
     success: true,
     message: 'The password has been successfully sent',
