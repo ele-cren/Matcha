@@ -1,5 +1,5 @@
 import { showErrors, noErrors } from '../errorsActions/errorsActions'
-import { LOGIN, FETCHING, FETCHED, FIRST_FETCH } from './userConsts'
+import { LOGIN, FETCHING, FETCHED, CHECKED } from './userConsts'
 
 export const tryLogIn = (data) => {
   return dispatch => {
@@ -35,6 +35,7 @@ export const checkLogged = () => {
         dispatch(logIn(xhr.responseText, ''))
       }
       dispatch({ type: FETCHED })
+      dispatch({ type: CHECKED })
     }
   }
 }

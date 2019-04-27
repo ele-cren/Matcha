@@ -17,7 +17,7 @@ class ProfilePage extends React.Component {
         secondaryPictures = [...secondaryPictures, x.url]
       }
     })
-    return (
+    const profileJsx = (
       <div>
         <h1>Profile</h1>
         <p>Main picture : { mainPicture }</p>
@@ -27,6 +27,7 @@ class ProfilePage extends React.Component {
         </ul>
       </div>
     )
+    return (this.props.profile.fetching) ? <h1>Waiting</h1> : profileJsx
   }
 }
 
