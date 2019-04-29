@@ -21,7 +21,7 @@ class Mailer {
       from: 'Matcha Support no-reply@matcha.com', // sender address
       to: email, // list of receivers
       subject: 'Confirm your email address', // Subject line
-      html: `<p>Please confirm your email address :</p><br /><p><a href='http://localhost:3000/api/confirmation/${uuid}'>Confirm my email address</a></p>`
+      html: `<p>Please confirm your email address :</p><br /><p><a href='http://localhost:8080/confirm_user/${uuid}'>Confirm my email address</a></p>`
     };
     this.sendMail(mailOptions)
   }

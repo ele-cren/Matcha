@@ -102,7 +102,7 @@ class LoginPage extends React.Component {
                     className="mb-3"
                     type="submit"
                   >
-                    Login
+                    Log In
                   </MDBBtn>
                 </div>
                 </form>

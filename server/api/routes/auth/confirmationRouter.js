@@ -5,7 +5,7 @@ const router = express.Router()
 
 const checkUser = uniqid => {
   return new Promise((resolve, reject) => {
-    connection.query("SELECT id FROM `users` WHERE uuid=" + `'${uniqid}'`, (err, results, field) => {
+    connection.query("SELECT id, confirmed FROM `users` WHERE uuid=" + `'${uniqid}'`, (err, results) => {
       if (err) {
         reject(err)
       }
@@ -20,17 +20,24 @@ const checkUser = uniqid => {
 router.get('/confirmation/:uniqid', async (req, res) => {
   const userId = await checkUser(req.params.uniqid)
   if (!userId) {
-    return res.json({
+    return res.status(400).json({
       success: false,
-      message: 'This user does not exist',
-      errors: {}
+      message: 'User not confirmed',
+      errors: { user: 'This user does not exist' }
     })
   }
-  connection.query("UPDATE `users` SET `confirmed`='1' WHERE id=" + `'${userId.id}'`, (err, results, field) => {
+  if (userId.confirmed) {
+    return res.status(400).json({
+      success: false,
+      message: 'User not confirmed',
+      errors: { user: 'This user has already been confirmed' }
+    })
+  }
+  connection.query("UPDATE `users` SET `confirmed`='1' WHERE id=" + `'${userId.id}'`, (err) => {
     if (err) {
-      return res.send('Error ' + err)
+      return res.status(400).send('Error ' + err)
     }
-    return res.json({
+    return res.status(200).json({
       success: true,
       message: 'User successfully confirmed !',
       errors: {}
