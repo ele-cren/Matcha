@@ -18,13 +18,6 @@ class ConfirmUser extends React.Component {
 
   render () {
     const color = isObjectEmpty(this.props.errors.errors) ? 'success-color-dark' : 'danger-color-dark'
-    const button = (
-      <Link to='/login' style={ { color: 'black' } }>
-        <MDBBtn color={ null } size="md">
-          Log In
-        </MDBBtn>
-      </Link>
-    )
     const panel = (
       <MDBContainer>
         <MDBCol md="12">
@@ -32,7 +25,11 @@ class ConfirmUser extends React.Component {
             <MDBCardHeader color={ color }>{ this.props.errors.message }</MDBCardHeader>
             <MDBCardBody>
               <MDBCardTitle>{ this.props.errors.errors.user ? this.props.errors.errors.user : 'You can now Log In' }</MDBCardTitle>
-              { isObjectEmpty(this.props.errors.errors) ? button : ''}
+              <Link to='/login' style={ { color: 'black' } }>
+                <MDBBtn color={ null } size="md">
+                  Log In
+                </MDBBtn>
+              </Link>
             </MDBCardBody>
           </MDBCard>
         </MDBCol>
