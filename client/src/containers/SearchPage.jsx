@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { cleanErrors } from '../actions/errorsActions/errorsActions'
 import { Redirect, Link } from 'react-router-dom'
+import Loader from '../components/Loader'
 
 class SearchPage extends React.Component {
   constructor (props) {
@@ -14,9 +15,7 @@ class SearchPage extends React.Component {
 
   render () {
     if (this.props.profile.fetching) {
-      return (
-        <h1>Waiting for profile informations</h1>
-      )
+      return <Loader />
     } else {
       if (!this.props.profile.informations || !this.props.profile.informations.bio || !this.props.profile.informations.genre
           || this.props.profile.pictures.length === 0) {
