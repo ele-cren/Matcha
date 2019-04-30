@@ -7,14 +7,28 @@ import Loader from '../components/Loader'
 class SearchPage extends React.Component {
   constructor (props) {
     super(props)
+    this.state = {
+      loaded: false
+    }
   }
 
   componentDidMount () {
     this.props.cleanErrors()
+    if (this.props.profile.fetching) {
+      setTimeout(() => {
+        this.setState({
+          loaded: true
+        })
+      }, 700);
+    } else {
+      this.setState({
+        loaded: true
+      })
+    }
   }
 
   render () {
-    if (this.props.profile.fetching) {
+    if (this.props.profile.fetching || !this.state.loaded) {
       return <Loader />
     } else {
       if (!this.props.profile.informations || !this.props.profile.informations.bio || !this.props.profile.informations.genre
