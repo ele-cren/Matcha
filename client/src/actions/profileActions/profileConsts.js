@@ -1,3 +1,5 @@
 export const FETCHING = 'profile:fetching'
 export const FETCHED = 'profile:fetched'
+export const FETCHING_LOAD = 'profile:fetching_load'
+export const FETCHED_LOAD = 'profile:fetched_load'
 export const UPDATE = 'profile:update'

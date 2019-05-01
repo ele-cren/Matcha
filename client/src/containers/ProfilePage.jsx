@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { cleanErrors } from '../actions/errorsActions/errorsActions'
-import Loader from '../components/Loader'
 
 class ProfilePage extends React.Component {
   constructor (props) {
@@ -28,7 +27,7 @@ class ProfilePage extends React.Component {
         </ul>
       </div>
     )
-    return (this.props.profile.fetching) ? <Loader /> : profileJsx
+    return profileJsx
   }
 }
 
