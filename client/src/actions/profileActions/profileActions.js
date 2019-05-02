@@ -1,8 +1,8 @@
-import { FETCHING, FETCHED, UPDATE, FETCHED_LOAD, FETCHING_LOAD } from './profileConsts'
+import { FETCHING, FETCHED, UPDATE } from './profileConsts'
 
-export const getInformations = (isPageLoading) => {
+export const getInformations = () => {
   return dispatch => {
-    dispatch({ type: isPageLoading ? FETCHING_LOAD : FETCHING })
+    dispatch({ type: FETCHING })
     const xhr = new XMLHttpRequest()
     xhr.responseType = 'json'
     xhr.open('GET', '/api/profile')
@@ -11,7 +11,7 @@ export const getInformations = (isPageLoading) => {
       if (xhr.status === 200) {
         dispatch(updateInformations(xhr.response))
       }
-      dispatch({ type: isPageLoading ? FETCHED_LOAD : FETCHED })
+      dispatch({ type: FETCHED })
     }
   }
 }

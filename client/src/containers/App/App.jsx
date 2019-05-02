@@ -18,30 +18,27 @@ class App extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      loaded: true
+      loaded: false
     }
   }
   
   componentDidMount () {
     this.props.isLogged()
+    setTimeout(() => {
+      this.setState({
+        loaded: true
+      })
+    }, 700)
   }
 
   componentDidUpdate () {
-    if (this.props.user.userId && isObjectEmpty(this.props.profile.mainInformations) && !this.props.profile.fetching_load) {
-      this.setState({
-        loaded: false
-      })
-      this.props.updateProfile(true)
-      setTimeout(() => {
-        this.setState({
-          loaded: true
-        })
-      }, 700);
+    if (this.props.user.userId && isObjectEmpty(this.props.profile.mainInformations) && !this.props.profile.fetching) {
+      this.props.updateProfile()
     }
   }
 
   render () {
-    if (!this.props.user.checked || this.props.profile.fetching_load || !this.state.loaded) {
+    if (!this.props.user.checked || !this.state.loaded) {
       return <Loader />
     } else {
       return (
