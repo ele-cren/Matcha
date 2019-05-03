@@ -1,1 +1,52 @@
-/* Write css here */
+.heart:before , .heart:after {
+  position: absolute;
+  content: "";
+  left: 25px;
+  top: 0;
+  width: 25px;
+  height: 40px;
+  border-radius: 50px 50px 0 0;
+  transform: rotate(-45deg);
+  transform-origin: 0 100%;
+}
+
+.heart:after{
+  left: 0;
+  transform: rotate(45deg);
+  transform-origin: 100% 100%;
+}
+
+.spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+.spinner .heart {
+  width: 50px;
+  height: 45px;
+  display: inline-block;
+  opacity:0.8;
+
+  animation: bouncedelay 1.4s infinite ease-in-out;
+  animation-fill-mode: both;
+}
+
+.heart:before , .heart:after {
+  background: #3177c4;
+}
+.spinner .heart1 {
+  animation-delay: -0.32s;
+}
+
+.spinner .heart2 {
+  animation-delay: -0.16s;
+}
+
+@keyframes bouncedelay {
+  0%, 80%, 100% { 
+    transform: scale(0.0);
+  } 40% { 
+    transform: scale(1.0);
+  }
+}

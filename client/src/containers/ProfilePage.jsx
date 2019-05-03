@@ -27,7 +27,7 @@ class ProfilePage extends React.Component {
         </ul>
       </div>
     )
-    return (this.props.profile.fetching) ? <h1>Waiting</h1> : profileJsx
+    return profileJsx
   }
 }
 

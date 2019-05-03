@@ -5,6 +5,7 @@ import { confirmUser } from '../actions/userActions/confirmationAction'
 import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardHeader, MDBBtn, MDBContainer, MDBCol } from 'mdbreact'
 import { isObjectEmpty } from '../utilities/utilities'
 import { Link } from 'react-router-dom'
+import Loader from '../components/Loader'
 
 class ConfirmUser extends React.Component {
   constructor (props) {
@@ -35,7 +36,7 @@ class ConfirmUser extends React.Component {
         </MDBCol>
       </MDBContainer>
     )
-    return this.props.user.fetching ? <h1>Waiting</h1> : panel
+    return this.props.user.fetching ? <Loader /> : panel
   }
 }
 

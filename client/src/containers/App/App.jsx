@@ -7,6 +7,7 @@ import SearchPage from '../SearchPage'
 import ProfilePage from '../ProfilePage'
 import UpdateProfile from '../UpdateProfile'
 import ConfirmUser from '../ConfirmUser'
+import Loader from '../../components/Loader'
 import { checkLogged } from '../../actions/userActions/loginUserActions'
 import { getInformations } from '../../actions/profileActions/profileActions'
 import { connect } from 'react-redux'
@@ -16,10 +17,18 @@ import './App.css'
 class App extends React.Component {
   constructor (props) {
     super(props)
+    this.state = {
+      loaded: false
+    }
   }
   
   componentDidMount () {
     this.props.isLogged()
+    setTimeout(() => {
+      this.setState({
+        loaded: true
+      })
+    }, 700)
   }
 
   componentDidUpdate () {
@@ -29,10 +38,8 @@ class App extends React.Component {
   }
 
   render () {
-    if (!this.props.user.checked) {
-      return (
-        <h1>Waiting</h1> // loading
-      )
+    if (!this.props.user.checked || !this.state.loaded) {
+      return <Loader />
     } else {
       return (
         <Router>

@@ -11,7 +11,7 @@ import {
   MDBBtn,
   MDBInput
 } from 'mdbreact'
-import { Link, Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { tryLogIn } from '../actions/userActions/loginUserActions'
 import { cleanErrors } from '../actions/errorsActions/errorsActions'
