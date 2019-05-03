@@ -2,27 +2,28 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { cleanErrors } from '../actions/errorsActions/errorsActions'
 import { Redirect, Link } from 'react-router-dom'
-import { Loader } from '../components/Loader'
+import Loader from '../components/Loader'
 
 class SearchPage extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      waitingData: false
+      isPageLoading: true
     }
   }
 
   componentDidMount () {
     this.props.cleanErrors()
-    if (this.props.user.fetching) {
+    if (!this.props.profile.fetching) {
       this.setState({
-        waitingData: true
+        isPageLoading: false
       })
+    } else {
       setTimeout(() => {
         this.setState({
-          waitingData: false
+          isPageLoading: false
         })
-      }, 700)
+      }, 700);
     }
   }
 
@@ -41,7 +42,7 @@ class SearchPage extends React.Component {
         </div>
       )
     }
-    return (this.state.waitingData) ? <Loader /> : searchPage
+    return (this.state.isPageLoading) ? <Loader /> : searchPage
   }
 }
 
