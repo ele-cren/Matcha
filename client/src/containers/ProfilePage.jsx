@@ -1,33 +1,91 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { cleanErrors } from '../actions/errorsActions/errorsActions'
+import { MDBCarousel, MDBIcon, MDBCarouselInner, MDBCarouselItem, MDBView, MDBContainer } from
+"mdbreact";
+import Loader from '../components/Loader'
+
+const pictureStyle = {
+  width: '200px'
+}
+
+const containerStyle = {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+}
+
+const carouselStyle = {
+  width: '200px',
+  height: '200px'
+}
+
+const iconStyle = {
+}
 
 class ProfilePage extends React.Component {
   constructor (props) {
     super(props)
+    this.state = {
+      isPageLoading: true,
+      isLoadingNeeded: false
+    }
   }
 
+  componentDidMount () {
+    if (!this.props.profile.fetching) {
+      this.setState({
+        isPageLoading: false
+      })
+    } else {
+      this.setState({
+        isLoadingNeeded: true
+      })
+      setTimeout(() => {
+        this.setState({
+          isPageLoading: false
+        })
+      }, 700)
+    }
+  }
+  
+
   render () {
-    let mainPicture = ''
-    let secondaryPictures = []
-    this.props.profile.pictures.map(x => {
-      if (x.main) {
-        mainPicture = x.url
-      } else {
-        secondaryPictures = [...secondaryPictures, x.url]
-      }
-    })
-    const profileJsx = (
-      <div>
-        <h1>Profile</h1>
-        <p>Main picture : { mainPicture }</p>
-        <p>Secondary : </p>
-        <ul>
-          { secondaryPictures.map((x, i) => <li key={ i }>{ x }</li>)}
-        </ul>
-      </div>
+    return (
+      <MDBContainer style={ containerStyle } className="mt-3" >
+        <MDBCarousel
+        activeItem={1}
+        length={2}
+        showIndicators={true}
+        className="z-depth-1"
+        style={ carouselStyle }
+        >
+          <MDBCarouselInner>
+            <MDBCarouselItem itemId="1">
+              <MDBView>
+                <MDBIcon icon="star" style={ iconStyle } />
+                <img
+                className="d-block"
+                src={ this.props.profile.pictures[0].url }
+                alt="First slide"
+                style={ pictureStyle }
+                />
+              </MDBView>
+            </MDBCarouselItem>
+            <MDBCarouselItem itemId="2">
+              <MDBView>
+              <img
+              className="d-block"
+              src={ this.props.profile.pictures[1].url }
+              alt="Second slide"
+              style={ pictureStyle }
+              />
+              </MDBView>
+            </MDBCarouselItem>
+          </MDBCarouselInner>
+        </MDBCarousel>
+      </MDBContainer>
     )
-    return profileJsx
   }
 }
 
