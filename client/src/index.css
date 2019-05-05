@@ -50,3 +50,11 @@
     transform: scale(1.0);
   }
 }
+
+.carousel-control-next-icon{
+  background-image: url('../assets/rightArrow.png') !important;
+}
+
+.carousel-control-prev-icon{
+  background-image: url('../assets/leftArrow.png') !important;
+}

@@ -1,27 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { cleanErrors } from '../actions/errorsActions/errorsActions'
-import { MDBCarousel, MDBIcon, MDBCarouselInner, MDBCarouselItem, MDBView, MDBContainer } from
-"mdbreact";
-import Loader from '../components/Loader'
-
-const pictureStyle = {
-  width: '200px'
-}
-
-const containerStyle = {
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-}
-
-const carouselStyle = {
-  width: '200px',
-  height: '200px'
-}
-
-const iconStyle = {
-}
+import { cleanErrors } from '../../actions/errorsActions/errorsActions'
+import { MDBCarousel, MDBIcon, MDBCarouselInner, MDBCarouselItem, MDBView, MDBContainer, MDBCarouselCaption } from
+"mdbreact"
+import Loader from '../../components/Loader'
+import * as style from './ProfilePage_style'
 
 class ProfilePage extends React.Component {
   constructor (props) {
@@ -52,25 +35,28 @@ class ProfilePage extends React.Component {
 
   render () {
     return (
-      <MDBContainer style={ containerStyle } className="mt-3" >
+      <MDBContainer style={ style.container } className="mt-3" >
         <MDBCarousel
         activeItem={1}
         length={2}
         showIndicators={true}
+        showControls={ true }
         className="z-depth-1"
-        style={ carouselStyle }
+        style={ style.carousel }
         >
           <MDBCarouselInner>
             <MDBCarouselItem itemId="1">
               <MDBView>
-                <MDBIcon icon="star" style={ iconStyle } />
                 <img
                 className="d-block"
                 src={ this.props.profile.pictures[0].url }
                 alt="First slide"
-                style={ pictureStyle }
+                style={ style.picture }
                 />
               </MDBView>
+              <MDBCarouselCaption style={ style.caption }>
+                <MDBIcon icon="star" />
+              </MDBCarouselCaption>
             </MDBCarouselItem>
             <MDBCarouselItem itemId="2">
               <MDBView>
@@ -78,7 +64,7 @@ class ProfilePage extends React.Component {
               className="d-block"
               src={ this.props.profile.pictures[1].url }
               alt="Second slide"
-              style={ pictureStyle }
+              style={ style.picture }
               />
               </MDBView>
             </MDBCarouselItem>
