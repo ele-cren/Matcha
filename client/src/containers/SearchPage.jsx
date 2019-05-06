@@ -8,7 +8,8 @@ class SearchPage extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      isPageLoading: true
+      isPageLoading: true,
+      isLoadingNeeded: false
     }
   }
 
@@ -19,11 +20,14 @@ class SearchPage extends React.Component {
         isPageLoading: false
       })
     } else {
+      this.setState({
+        isLoadingNeeded: true
+      })
       setTimeout(() => {
         this.setState({
           isPageLoading: false
         })
-      }, 700);
+      }, 700)
     }
   }
 
@@ -42,7 +46,7 @@ class SearchPage extends React.Component {
         </div>
       )
     }
-    return (this.state.isPageLoading) ? <Loader /> : searchPage
+    return (this.state.isPageLoading || (this.props.profile.fetching && this.state.isLoadingNeeded)) ? <Loader /> : searchPage
   }
 }
 

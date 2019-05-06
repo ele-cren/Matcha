@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "webpack-dev-server": "webpack-dev-server --mode=development --config webpack-dev.config",
-    "dev": "concurrently --raw \"nodemon server/app.js --exec babel-node\" \"npm run webpack-dev-server\"",
+    "dev": "concurrently --raw \"babel-node server/app.js\" \"npm run webpack-dev-server\"",
     "start": "node ./build/server/app.js",
     "build-server": "rm -rf ./build && babel -d ./build/server ./server -s",
     "build-start": "npm run build-server && npm run start"
