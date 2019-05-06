@@ -37,42 +37,39 @@ class ProfilePage extends React.Component {
     return (
       <MDBContainer style={ style.container } className="mt-3" >
         <MDBCarousel
-        activeItem={1}
-        length={2}
-        showIndicators={true}
-        showControls={ true }
-        className="z-depth-1"
-        style={ style.carousel }
+          activeItem={1}
+          length={ this.props.profile.pictures.length }
+          showIndicators={true}
+          showControls={ true }
+          className="z-depth-1"
+          style={ style.carousel }
         >
           <MDBCarouselInner>
-            <MDBCarouselItem itemId="1">
-              <MDBView>
-                <img
-                className="d-block"
-                src={ this.props.profile.pictures[0].url }
-                alt="First slide"
-                style={ style.picture }
-                />
-              </MDBView>
-              <MDBCarouselCaption style={ style.caption }>
-                <MDBIcon icon="star" />
-              </MDBCarouselCaption>
-            </MDBCarouselItem>
-            <MDBCarouselItem itemId="2">
-              <MDBView>
-              <img
-              className="d-block"
-              src={ this.props.profile.pictures[1].url }
-              alt="Second slide"
-              style={ style.picture }
-              />
-              </MDBView>
-            </MDBCarouselItem>
+            { this.props.profile.pictures.map((x, i) => <MyCarouselItem key={ i } url={ x.url } id={ i + 1 } isMain={ x.main } />) }
           </MDBCarouselInner>
         </MDBCarousel>
       </MDBContainer>
     )
   }
+}
+
+const MyCarouselItem = (props) => {
+  return (
+    <MDBCarouselItem itemId={ props.id }>
+      <MDBView>
+        <img
+        className="d-block"
+        src={ props.url }
+        alt="First slide"
+        style={ style.picture }
+        />
+      </MDBView>
+      { props.isMain ? 
+        <MDBCarouselCaption style={ style.caption }>
+          <MDBIcon icon="star" />
+        </MDBCarouselCaption> : '' }
+    </MDBCarouselItem>
+  )
 }
 
 const mapStateToProps = state => {
