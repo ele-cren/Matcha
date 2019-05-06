@@ -88,24 +88,6 @@ class ProfilePage extends React.Component {
           </MDBCard>
         </MDBCol>
       </MDBContainer>
-
-
-
-      // <MDBContainer style={ style.container } className="mt-3" >
-      //   <MDBCarousel
-      //     activeItem={1}
-      //     length={ this.props.profile.pictures.length }
-      //     showIndicators={true}
-      //     showControls={ true }
-      //     className="z-depth-1"
-      //     style={ style.carousel }
-      //   >
-      //     <MDBCarouselInner>
-      //       { this.props.profile.pictures.map((x, i) => <MyCarouselItem key={ i } url={ x.url } id={ i + 1 } isMain={ x.main } />) }
-      //     </MDBCarouselInner>
-      //   </MDBCarousel>
-      //   <h2>{ this.props.profile.mainInformations.first_name + ' ' + this.props.profile.mainInformations.last_name }</h2>
-      // </MDBContainer>
     )
   }
 }
