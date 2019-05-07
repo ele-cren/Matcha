@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom'
 import LoginPage from './LoginPage'
 import RegisterPage from './RegisterPage'
 import ResetPassword from './ResetPassword'
@@ -42,13 +42,15 @@ class App extends React.Component {
     } else {
       return (
         <Router>
-          <PrivateRoute exact path='/' component={ SearchPage } logged={ this.props.user.userId } />
-          <AlreadyLoggedRoute path='/login' component={ LoginPage } logged={ this.props.user.userId } /> 
-          <AlreadyLoggedRoute path='/register' component={ RegisterPage } logged={ this.props.user.userId } />
-          <AlreadyLoggedRoute path='/reset_pass' component={ ResetPassword } logged={ this.props.user.userId } />
-          <Route path='/confirm_user/:userId' component={ ConfirmUser } />
-          <PrivateRoute path='/profile' exact component={ ProfilePage } logged={ this.props.user.userId } />
-          <PrivateRoute path='/profile/update' exact component={ UpdateProfile } logged={ this.props.user.userId } />
+          <Switch>
+            <PrivateRoute exact path='/' component={ SearchPage } logged={ this.props.user.userId } />
+            <AlreadyLoggedRoute path='/login' component={ LoginPage } logged={ this.props.user.userId } /> 
+            <AlreadyLoggedRoute path='/register' component={ RegisterPage } logged={ this.props.user.userId } />
+            <AlreadyLoggedRoute path='/reset_pass' component={ ResetPassword } logged={ this.props.user.userId } />
+            <Route path='/confirm_user/:userId' component={ ConfirmUser } />
+            <PrivateRoute path='/profile' exact component={ ProfilePage } logged={ this.props.user.userId } />
+            <PrivateRoute path='/profile/update' exact component={ UpdateProfile } logged={ this.props.user.userId } />
+          </Switch>
         </Router>
       )
     }

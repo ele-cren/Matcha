@@ -53,6 +53,7 @@
     "nodemailer": "^6.1.0",
     "prop-types": "^15.7.2",
     "public-ip": "^3.1.0",
+    "radium": "^0.25.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^7.0.2",

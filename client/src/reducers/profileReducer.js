@@ -3,7 +3,8 @@ import { FETCHED, FETCHING, UPDATE } from '../actions/profileActions/profileCons
 const defaultState = {
   mainInformations: {},
   informations: {},
-  pictures: []
+  pictures: [],
+  tags: []
 }
 
 const profileReducer = (state = defaultState, action) => {
@@ -17,7 +18,8 @@ const profileReducer = (state = defaultState, action) => {
         ...state,
         mainInformations: action.payload.main,
         informations: action.payload.informations,
-        pictures: action.payload.pictures
+        pictures: action.payload.pictures,
+        tags: action.payload.tags
       }
     default:
       return state
