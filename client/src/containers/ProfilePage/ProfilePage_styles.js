@@ -14,26 +14,28 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
-    backgroundColor: '#fcfdff'
+    backgroundColor: '#eae3e7'
   },
   genre: {
     border: '1px solid black',
     width: '100px',
     padding: '5px 0 5px 0',
     margin: '0 2px 0 2px',
-    userSelect: 'none'
+    userSelect: 'none',
+    color: 'white'
   },
   orientation: {
     border: '1px solid black',
     width: '100px',
     padding: '5px 0 5px 0',
     margin: '0 2px 0 2px',
-    userSelect: 'none'
+    userSelect: 'none',
+    color: 'white'
   },
   tagsContainer: {
     display: 'flex',
     flexDirection: 'row',
-    backgroundColor: '#ededed',
+    backgroundColor: '#eceff1',
     flexWrap: 'wrap',
     marginTop: 15,
     borderRadius: '3px',
@@ -42,7 +44,7 @@ const styles = {
   tag: {
     minWidth: 75,
     margin: '5px 3px 5px 3px',
-    backgroundColor: '#c9c9c9',
+    backgroundColor: '#cfd8dc',
     fontStyle: 'italic',
     lineHeight: '30px',
     border: '1px solid #afaeae',
@@ -60,7 +62,7 @@ const styles = {
     padding: 20,
     borderRadius: '3px',
     fontSize: '1.2em',
-    backgroundColor: '#fcf9f9'
+    backgroundColor: '#fafafa'
   },
   carousel: {
     width: '200px',

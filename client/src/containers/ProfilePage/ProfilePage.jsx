@@ -37,24 +37,24 @@ class ProfilePage extends React.Component {
   getGenre (genreNum) {
     switch (genreNum) {
       case 1:
-        return ['Male', '#a1c9ed']
+        return ['Male', '#7986cb']
       case 2:
-        return ['Female', '#cea1ea']
+        return ['Female', '#ad1457']
       default:
-        return ['Male', '#a1c9ed']
+        return ['Male', '#7986cb']
     }
   }
 
   getOrientation (orientationNum) {
     switch (orientationNum) {
       case 1:
-        return ['Straight', '#e0d0b8']
+        return ['Straight', '#8c7e7a']
       case 2:
-        return ['Bisexual', '#a19ee9']
+        return ['Bisexual', '#583166']
       case 3:
-        return ['Lesbian', '#cea1ea']
+        return ['Lesbian', '#ad1457']
       case 4:
-        return ['Gay', '#a1c9ed']
+        return ['Gay', '#7986cb']
       default:
         return ['Bisexual', '#a19ee9']
     }
@@ -104,7 +104,7 @@ class ProfilePage extends React.Component {
                   { this.props.profile.tags.map((x, i) =>
                       <p key={ i } className="shadow-box-example hoverable" style={ styles.tag }>{ x.tag }</p>) }
                 </div>
-                <MDBBtn color="elegant" className="mt-4"><Link to='profile/update'>Edit</Link></MDBBtn>
+                <MDBBtn color="elegant" className="mt-4">Edit</MDBBtn>
               </MDBCardBody>
             </MDBCard>
           </MDBCol>

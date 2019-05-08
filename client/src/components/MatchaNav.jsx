@@ -6,8 +6,9 @@ import { Link } from 'react-router-dom'
 
 const styles = {
   dropItem: {
+    padding: '5px 0 5px 0',
     ':hover': {
-      backgroundColor: 'red'
+      backgroundColor: '#f7f7f7'
     }
   }
 }
@@ -15,7 +16,7 @@ const styles = {
 class MatchaNav extends Component {
   render() {
     return (
-      <MDBNavbar color="indigo lighten-4" dark expand="md">
+      <MDBNavbar color="pink darken-4" dark expand="md">
         <MDBNavbarBrand>
           <strong className="white-text">Matcha</strong>
         </MDBNavbarBrand>
@@ -26,9 +27,9 @@ class MatchaNav extends Component {
                 <MDBIcon icon="user" />
               </MDBDropdownToggle>
               <MDBDropdownMenu className="dropdown-default" right>
-                <div style={ styles.dropItem }><Link to='/profile'>Profile</Link></div>
-                <div><Link to='/profile/update'>Edit Profile</Link></div>
-                <div><Link to='/'>Logout</Link></div>
+                <div key={ 1 } style={ styles.dropItem }><Link to='/profile'>Profile</Link></div>
+                <div key={ 2 } style={ styles.dropItem }><Link to='/profile/update'>Edit Profile</Link></div>
+                <div key={ 3 } style={ styles.dropItem }><Link to='/'>Logout</Link></div>
               </MDBDropdownMenu>
             </MDBDropdown>
           </MDBNavItem>
