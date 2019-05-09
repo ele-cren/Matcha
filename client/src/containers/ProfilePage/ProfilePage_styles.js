@@ -23,6 +23,7 @@ const getStyles = (genre = 1) => {
       padding: '5px 0 5px 0',
       margin: '0 2px 0 2px',
       userSelect: 'none',
+      'MozUserSelect': 'none',
       color: 'white'
     },
     orientation: {
@@ -31,6 +32,7 @@ const getStyles = (genre = 1) => {
       padding: '5px 0 5px 0',
       margin: '0 2px 0 2px',
       userSelect: 'none',
+      'MozUserSelect': 'none',
       color: 'white'
     },
     tagsContainer: {
@@ -50,6 +52,7 @@ const getStyles = (genre = 1) => {
       lineHeight: '30px',
       border: '1px solid #afaeae',
       userSelect: 'none',
+      'MozUserSelect': 'none',
       padding: '0 3px 0 3px'
     },
     personalInfos: {
