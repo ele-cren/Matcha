@@ -12,6 +12,7 @@ import { checkLogged } from '../actions/userActions/loginUserActions'
 import { getInformations } from '../actions/profileActions/profileActions'
 import { connect } from 'react-redux'
 import { isObjectEmpty } from '../utilities/utilities'
+import Logout from './Logout'
 
 class App extends React.Component {
   constructor (props) {
@@ -47,6 +48,7 @@ class App extends React.Component {
             <AlreadyLoggedRoute path='/login' component={ LoginPage } logged={ this.props.user.userId } /> 
             <AlreadyLoggedRoute path='/register' component={ RegisterPage } logged={ this.props.user.userId } />
             <AlreadyLoggedRoute path='/reset_pass' component={ ResetPassword } logged={ this.props.user.userId } />
+            <Route path='/logout' component={ Logout } />
             <Route path='/confirm_user/:userId' component={ ConfirmUser } />
             <PrivateRoute path='/profile' exact component={ ProfilePage } logged={ this.props.user.userId } />
             <PrivateRoute path='/profile/update' exact component={ UpdateProfile } logged={ this.props.user.userId } />

@@ -1,8 +1,7 @@
 import { LOGIN, LOGOUT, FETCHING, FETCHED, CHECKED } from '../actions/userActions/userConsts'
 
 const defaultState = {
-  userId: '',
-  fetching: true
+  userId: ''
 }
 
 const userReducer = (state = defaultState, action) => {

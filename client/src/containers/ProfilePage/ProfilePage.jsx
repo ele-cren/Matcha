@@ -2,10 +2,11 @@ import React from 'react'
 import Radium from 'radium'
 import { connect } from 'react-redux'
 import { cleanErrors } from '../../actions/errorsActions/errorsActions'
+import { Link, Redirect } from 'react-router-dom'
 import { MDBCarousel, MDBCardText, MDBBtn, MDBIcon, MDBCarouselInner, MDBCarouselItem, MDBCardTitle, MDBView, MDBCardBody, MDBContainer, MDBCarouselCaption, MDBCard, MDBCol } from
 "mdbreact"
 import Loader from '../../components/Loader'
-import styles from './ProfilePage_styles'
+import getStyles from './ProfilePage_styles'
 import MatchaNav from '../../components/MatchaNav'
 
 class ProfilePage extends React.Component {
@@ -63,7 +64,8 @@ class ProfilePage extends React.Component {
   render () {
     const genre = this.getGenre(this.props.profile.informations.genre)
     const orientation = this.getOrientation(this.props.profile.informations.orientation)
-    return (
+    const styles = getStyles(this.props.profile.informations.genre)
+    let profilePage = (
       <React.Fragment>
         <MatchaNav />
         <MDBContainer style={ styles.container }>
@@ -77,8 +79,8 @@ class ProfilePage extends React.Component {
                 className="z-depth-1"
                 style={ styles.carousel }>
                 <MDBCarouselInner>
-                  { this.props.profile.pictures.map((x, i) =>
-                    <MyCarouselItem key={ i } url={ x.url } id={ i + 1 } isMain={ x.main } />) }
+                { this.props.profile.pictures.map((x, i) =>
+                <MyCarouselItem key={ i } url={ x.url } id={ i + 1 } isMain={ x.main } styles={ styles } />) }
                 </MDBCarouselInner>
               </MDBCarousel>
               <h2 className='mt-3'>
@@ -102,7 +104,7 @@ class ProfilePage extends React.Component {
                 </div>
                 <div style={ styles.tagsContainer }>
                   { this.props.profile.tags.map((x, i) =>
-                      <p key={ i } className="shadow-box-example hoverable" style={ styles.tag }>{ x.tag }</p>) }
+                    <p key={ i } className="shadow-box-example hoverable" style={ styles.tag }>{ x.tag }</p>) }
                 </div>
                 <MDBBtn color="elegant" className="mt-4">Edit</MDBBtn>
               </MDBCardBody>
@@ -111,6 +113,11 @@ class ProfilePage extends React.Component {
         </MDBContainer>
       </React.Fragment>
     )
+    profilePage = (!this.props.profile.informations ||
+                    !this.props.profile.informations.bio || 
+                    !this.props.profile.informations.genre || !this.props.profile.informations.orientation ||
+                    this.props.profile.pictures.length === 0) ? <Redirect to='/profile/update' /> : profilePage
+    return (this.state.isPageLoading || (this.props.profile.fetching && this.state.isLoadingNeeded)) ? <Loader /> : profilePage
   }
 }
 
@@ -122,11 +129,11 @@ const MyCarouselItem = (props) => {
         className="d-block"
         src={ props.url }
         alt="First slide"
-        style={ styles.picture }
+        style={ props.styles.picture }
         />
       </MDBView>
       { props.isMain ? 
-        <MDBCarouselCaption style={ styles.caption }>
+        <MDBCarouselCaption style={ props.styles.caption }>
           <MDBIcon icon="star" />
         </MDBCarouselCaption> : '' }
     </MDBCarouselItem>

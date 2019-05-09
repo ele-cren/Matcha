@@ -1,4 +1,5 @@
 import { FETCHED, FETCHING, UPDATE } from '../actions/profileActions/profileConsts'
+import { LOGOUT } from '../actions/userActions/userConsts'
 
 const defaultState = {
   mainInformations: {},
@@ -21,6 +22,8 @@ const profileReducer = (state = defaultState, action) => {
         pictures: action.payload.pictures,
         tags: action.payload.tags
       }
+    case LOGOUT:
+      return defaultState
     default:
       return state
   }
