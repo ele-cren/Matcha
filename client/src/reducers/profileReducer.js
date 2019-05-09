@@ -17,8 +17,8 @@ const profileReducer = (state = defaultState, action) => {
     case UPDATE:
       return {
         ...state,
-        mainInformations: action.payload.main,
-        informations: action.payload.informations,
+        mainInformations: action.payload.main ? action.payload.main : {},
+        informations: action.payload.informations ? action.payload.informations : {},
         pictures: action.payload.pictures,
         tags: action.payload.tags
       }

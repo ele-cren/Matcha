@@ -8,6 +8,7 @@ import { MDBCarousel, MDBCardText, MDBBtn, MDBIcon, MDBCarouselInner, MDBCarouse
 import Loader from '../../components/Loader'
 import getStyles from './ProfilePage_styles'
 import MatchaNav from '../../components/MatchaNav'
+import { isObjectEmpty } from '../../utilities/utilities'
 
 class ProfilePage extends React.Component {
   constructor (props) {
@@ -113,7 +114,7 @@ class ProfilePage extends React.Component {
         </MDBContainer>
       </React.Fragment>
     )
-    profilePage = (!this.props.profile.informations ||
+    profilePage = (isObjectEmpty(this.props.profile.informations) ||
                     !this.props.profile.informations.bio || 
                     !this.props.profile.informations.genre || !this.props.profile.informations.orientation ||
                     this.props.profile.pictures.length === 0) ? <Redirect to='/profile/update' /> : profilePage
