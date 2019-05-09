@@ -11,6 +11,8 @@ const styles = {
     ':hover': {
       backgroundColor: '#f7f7f7'
     }
+  },
+  userIcon: {
   }
 }
 
@@ -29,7 +31,7 @@ class MatchaNav extends Component {
         <MDBNavbarNav right>
           <MDBNavItem>
             <MDBDropdown>
-              <MDBDropdownToggle nav caret>
+              <MDBDropdownToggle nav caret style={ styles.userIcon }>
                 <MDBIcon icon="user" />
               </MDBDropdownToggle>
               <MDBDropdownMenu className="dropdown-default" right>

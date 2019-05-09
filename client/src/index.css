@@ -64,3 +64,9 @@ body, html {
 .carousel-control-prev-icon{
   background-image: url('../assets/leftArrow.png') !important;
 }
+
+::-moz-focus-inner, :active, :focus {
+  outline:none;
+  border:0;
+  -moz-outline-style: none;
+}
