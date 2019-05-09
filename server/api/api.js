@@ -15,7 +15,7 @@ class Api {
     this.app.use('/api/auth', RegisterRouter)
     this.app.use('/api/auth', LoginRouter)
     this.app.use('/api/auth', ResetPassRouter)
-    this.app.use('/api/auth/logout', LogoutRouter)
+    this.app.use('/api/auth', LogoutRouter)
     this.app.use('/api/', ConfirmationRouter)
     this.app.use('/api/profile', ProfileRouter)
     this.app.use('/api/profile', UpdateProfileRouter)

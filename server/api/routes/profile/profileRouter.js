@@ -36,6 +36,17 @@ const getPictures = (userId) => {
   })
 }
 
+const getTags = (userId) => {
+  return new Promise((resolve, reject) => {
+    connection.query("SELECT tag FROM tags WHERE user_id=?", [userId], (err, results) => {
+      if (err) {
+        reject(err)
+      }
+      resolve(results)
+    })
+  })
+}
+
 router.get('/', async (req, res) => {
   if (!req.session.userId) {
     return res.status(401).send('Not Authorized')
@@ -43,10 +54,12 @@ router.get('/', async (req, res) => {
   const mainInfos = await getMainInformations(req.session.userId)
   const informations = await getUserInformations(req.session.userId)
   const pictures = await getPictures(req.session.userId)
+  const tags = await getTags(req.session.userId)
   return res.status(200).json({
     main: mainInfos[0], //Object
     informations: informations[0], //Object
-    pictures: pictures //Array
+    pictures: pictures, //Array
+    tags: tags
   })
 })
 

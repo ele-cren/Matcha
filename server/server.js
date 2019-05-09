@@ -13,14 +13,11 @@ class Server {
     this.app.use(bodyParser.urlencoded({
       extended: true
     }));
-    this.app.use(bodyParser.json());
+    this.app.use(bodyParser.json())
     this.app.use(session({
       name: 'session',
       secret: process.env.SESSION_SECRET,
-      cookie: {
-        secure: true,
-        httpOnly: true
-      }
+      maxAge: 60 * 60 * 1000 * 24 * 365
     }))
   }
 

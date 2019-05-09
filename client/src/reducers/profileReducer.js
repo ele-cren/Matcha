@@ -1,9 +1,11 @@
 import { FETCHED, FETCHING, UPDATE } from '../actions/profileActions/profileConsts'
+import { LOGOUT } from '../actions/userActions/userConsts'
 
 const defaultState = {
   mainInformations: {},
   informations: {},
-  pictures: []
+  pictures: [],
+  tags: []
 }
 
 const profileReducer = (state = defaultState, action) => {
@@ -17,8 +19,11 @@ const profileReducer = (state = defaultState, action) => {
         ...state,
         mainInformations: action.payload.main,
         informations: action.payload.informations,
-        pictures: action.payload.pictures
+        pictures: action.payload.pictures,
+        tags: action.payload.tags
       }
+    case LOGOUT:
+      return defaultState
     default:
       return state
   }
