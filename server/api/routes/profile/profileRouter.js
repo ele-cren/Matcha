@@ -5,7 +5,7 @@ const router = express.Router()
 
 const getUserInformations = (userId) => {
   return new Promise((resolve, reject) => {
-    connection.query("SELECT genre, bio, orientation FROM informations WHERE user_id=?", [userId], (err, results) => {
+    connection.query("SELECT gender, bio, orientation FROM informations WHERE user_id=?", [userId], (err, results) => {
       if (err) {
         reject(err)
       }

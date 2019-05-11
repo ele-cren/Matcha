@@ -1,5 +1,4 @@
 import express from 'express'
-import ip from 'ip'
 import publicIp from 'public-ip'
 import bcrypt from 'bcrypt'
 require('@babel/polyfill') //Required to handle async
@@ -7,7 +6,7 @@ import { loginValidation } from '../../../utilities/verifications'
 import { getUserFromEmail, getUserFromUsername } from '../../../utilities/checkLogin'
 import { connection } from '../../../app'
 import { updatePassChanged } from '../../../utilities/passChanged'
-import { createSession, deleteSessions } from '../../../utilities/sessionsManager'
+import { updateIp } from '../../../utilities/updates'
 
 const router = express.Router()
 
@@ -42,8 +41,7 @@ router.post('/login', async (req, res) => {
       req.session.userId = user[0].uuid
       updatePassChanged(user[0].uuid, '0')
       const remoteIp = await publicIp.v4()
-      const localIp = ip.address()
-      createSession(user[0].uuid, remoteIp, localIp)
+      updateIp(user[0].uuid, remoteIp)
       return res.json({
         success: true,
         message: 'You successfully logged in !',
@@ -60,17 +58,16 @@ router.post('/login', async (req, res) => {
 })
 
 router.get('/logged', (req, res) => {
-    connection.query("SELECT id, pass_changed FROM users WHERE uuid=?", [req.session.userId], (err, results) => {
+    return connection.query("SELECT id, pass_changed FROM users WHERE uuid=?", [req.session.userId], async (err, results) => {
       if (err) {
         return res.status(400).send('Error ' + err)
       }
       if (!results || results.length === 0 || results[0].pass_changed) {
-        if (results.length > 0) {
-          deleteSessions(req.session.userId)
-        }
         req.session.userId = ''
         return res.status(401).send('Not authorized')
       }
+      const remoteIp = await publicIp.v4()
+      updateIp(req.session.userId, remoteIp)
       return res.status(200).send(req.session.userId)
     })
 })

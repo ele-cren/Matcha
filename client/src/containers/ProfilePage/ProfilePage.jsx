@@ -36,8 +36,8 @@ class ProfilePage extends React.Component {
     }
   }
   
-  getGenre (genreNum) {
-    switch (genreNum) {
+  getGender (genderNum) {
+    switch (genderNum) {
       case 1:
         return ['Male', '#7986cb']
       case 2:
@@ -63,9 +63,11 @@ class ProfilePage extends React.Component {
   }
 
   render () {
-    const genre = this.getGenre(this.props.profile.informations.genre)
+    const gender = this.getGender(this.props.profile.informations.gender)
     const orientation = this.getOrientation(this.props.profile.informations.orientation)
-    const styles = getStyles(this.props.profile.informations.genre)
+    const styles = getStyles(this.props.profile.informations.gender)
+    let pictures = []
+    this.props.profile.pictures.map(x => pictures = x.main ? [x, ...pictures] : [...pictures, x])
     let profilePage = (
       <React.Fragment>
         <MatchaNav />
@@ -74,13 +76,13 @@ class ProfilePage extends React.Component {
             <MDBCard style={ styles.card }>
               <MDBCarousel
                 activeItem={1}
-                length={ this.props.profile.pictures.length }
-                showIndicators={true}
-                showControls={ true }
+                length={ pictures.length }
+                showIndicators={ pictures.length > 1 }
+                showControls={ pictures.length > 1 }
                 className="z-depth-1"
                 style={ styles.carousel }>
                 <MDBCarouselInner>
-                { this.props.profile.pictures.map((x, i) =>
+                { pictures.map((x, i) =>
                 <MyCarouselItem key={ i } url={ x.url } id={ i + 1 } isMain={ x.main } styles={ styles } />) }
                 </MDBCarouselInner>
               </MDBCarousel>
@@ -94,8 +96,8 @@ class ProfilePage extends React.Component {
                 <div style={ styles.personalInfos }>
                   <p
                     className="shadow-box-example hoverable"
-                    style={ [styles.genre, { backgroundColor: genre[1] }] }>
-                    { genre[0] }
+                    style={ [styles.gender, { backgroundColor: gender[1] }] }>
+                    { gender[0] }
                   </p>
                   <p
                     className="shadow-box-example hoverable"
@@ -116,7 +118,7 @@ class ProfilePage extends React.Component {
     )
     profilePage = (isObjectEmpty(this.props.profile.informations) ||
                     !this.props.profile.informations.bio || 
-                    !this.props.profile.informations.genre || !this.props.profile.informations.orientation ||
+                    !this.props.profile.informations.gender || !this.props.profile.informations.orientation ||
                     this.props.profile.pictures.length === 0) ? <Redirect to='/profile/update' /> : profilePage
     return (this.state.isPageLoading || (this.props.profile.fetching && this.state.isLoadingNeeded)) ? <Loader /> : profilePage
   }
