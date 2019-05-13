@@ -3,7 +3,6 @@ import Radium from 'radium'
 import { MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBDropdown,
 MDBDropdownToggle, MDBDropdownMenu, MDBIcon } from "mdbreact"
 import { Link } from 'react-router-dom'
-import { connect } from 'react-redux'
 
 const styles = {
   dropItem: {
@@ -22,11 +21,11 @@ class MatchaNav extends Component {
   }
 
   render() {
-    const color = this.props.gender === 1 ? 'indigo darken-4' : 'pink darken-4'
+    const color = this.props.color
     return (
       <MDBNavbar color={ color } dark expand="md">
         <MDBNavbarBrand>
-          <strong className="white-text">Matcha</strong>
+          <Link to='/'><strong className="white-text">Matcha</strong></Link>
         </MDBNavbarBrand>
         <MDBNavbarNav right>
           <MDBNavItem>

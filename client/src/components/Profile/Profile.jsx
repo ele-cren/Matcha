@@ -53,6 +53,9 @@ class Profile extends React.Component {
     const gender = this.getGender(profile.informations.gender)
     const orientation = this.getOrientation(profile.informations.orientation)
     const styles = getStyles(profile.informations.gender)
+    const button = this.props.isMyProfile ? (
+      <MDBBtn color="elegant">Edit</MDBBtn>
+    ) : <MDBBtn color="light-green">Like</MDBBtn>
     let pictures = []
     profile.pictures.map(x => pictures = x.main ? [x, ...pictures] : [...pictures, x])
     return (
@@ -94,7 +97,7 @@ class Profile extends React.Component {
                 { profile.tags.map((x, i) =>
                 <p key={ i } className="shadow-box-example hoverable" style={ styles.tag }>{ x.tag }</p>) }
               </div>
-              <MDBBtn color="elegant" className="mt-4">Edit</MDBBtn>
+              { button }
             </MDBCardBody>
           </MDBCard>
         </MDBCol>

@@ -1,64 +1,64 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { cleanErrors } from '../actions/errorsActions/errorsActions'
-import { Redirect } from 'react-router-dom'
+import { getProfile } from '../requests/profile'
 import Loader from '../components/Loader'
+import Profile from '../components/Profile/Profile'
 import MatchaNav from '../components/MatchaNav'
 import { isObjectEmpty } from '../utilities/utilities'
-import { updateLastActive } from '../actions/userActions/userUpdates'
-import Profile from '../components/Profile/Profile'
 
 class ProfilePage extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
       isPageLoading: true,
-      isLoadingNeeded: false
+      isFetching: true,
+      profile: {}
     }
+    this.getDataProfile = this.getDataProfile.bind(this)
   }
 
   componentDidMount () {
-    updateLastActive()
-    if (!this.props.profile.fetching) {
+    setTimeout(() => {
       this.setState({
         isPageLoading: false
       })
-    } else {
+    }, 700)
+    this.getDataProfile(this.props.match.params.userId)
+  }
+
+  getDataProfile (userId) {
+    const request = getProfile(userId)
+    request.onload = () => {
+      console.log(request)
+      const profile = {
+        mainInformations: request.response.main,
+        informations: request.response.informations,
+        pictures: request.response.pictures,
+        tags: request.response.tags
+      }
       this.setState({
-        isLoadingNeeded: true
+        profile: profile,
+        isFetching: false
       })
-      setTimeout(() => {
-        this.setState({
-          isPageLoading: false
-        })
-      }, 700)
     }
   }
 
   render () {
-    let profilePage = (
-      <React.Fragment>
-        <MatchaNav gender= { this.props.profile.informations.gender }/>
-        <Profile profile={ this.props.profile } />
-      </React.Fragment>
-    )
-    profilePage = (isObjectEmpty(this.props.profile.informations) ||
-                    !this.props.profile.informations.bio || 
-                    !this.props.profile.informations.gender || !this.props.profile.informations.orientation ||
-                    this.props.profile.pictures.length === 0) ? <Redirect to='/profile/update' /> : profilePage
-    return (this.state.isPageLoading || (this.props.profile.fetching && this.state.isLoadingNeeded)) ? <Loader /> : profilePage
+    let profilePage = ''
+    if (!isObjectEmpty(this.state.profile)) {
+      profilePage = this.state.profile.informations !== undefined ? (
+        <React.Fragment>
+          <MatchaNav color={ this.state.profile.informations.gender === 1 ? "indigo darken-4" : "pink darken-4" } />
+          <Profile profile={ this.state.profile } isMyProfile={ false }/>
+        </React.Fragment>
+      ) : (
+        <React.Fragment>
+          <MatchaNav color="brown lighten-3" />
+          <h2 className="text-center mt-4">This profile does not exist</h2>
+        </React.Fragment>
+      )
+    }
+    return this.state.isPageLoading || this.state.isFetching ? <Loader /> : profilePage
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    profile: state.profile,
-    errors: state.errors
-  }
-}
-
-const mapDispatchToProps = {
-  cleanErrors: cleanErrors
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage)
+export default ProfilePage

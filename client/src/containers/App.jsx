@@ -4,6 +4,7 @@ import LoginPage from './LoginPage'
 import RegisterPage from './RegisterPage'
 import ResetPassword from './ResetPassword'
 import SearchPage from './SearchPage'
+import MyProfilePage from './MyProfilePage'
 import ProfilePage from './ProfilePage'
 import UpdateProfile from './UpdateProfile'
 import ConfirmUser from './ConfirmUser'
@@ -35,9 +36,6 @@ class App extends React.Component {
     if (this.props.user.userId && isObjectEmpty(this.props.profile.mainInformations) && !this.props.profile.fetching) {
       this.props.updateProfile(this.props.user.userId)
     }
-    if (this.props.user.userId) {
-      console.log('I am online !')
-    }
   }
 
   render () {
@@ -53,7 +51,8 @@ class App extends React.Component {
             <AlreadyLoggedRoute path='/reset_pass' component={ ResetPassword } logged={ this.props.user.userId } />
             <Route path='/logout' component={ Logout } />
             <Route path='/confirm_user/:userId' component={ ConfirmUser } />
-            <PrivateRoute path='/profile' exact component={ ProfilePage } logged={ this.props.user.userId } />
+            <PrivateRoute path='/profile' exact component={ MyProfilePage } logged={ this.props.user.userId } />
+            <PrivateRoute path='/profile/:userId' exact component={ ProfilePage } logged={ this.props.user.userId } />
             <PrivateRoute path='/profile/update' exact component={ UpdateProfile } logged={ this.props.user.userId } />
           </Switch>
         </Router>

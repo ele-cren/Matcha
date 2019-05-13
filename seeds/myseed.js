@@ -52,7 +52,7 @@ const createInformations = (knex, user) => {
   }
   return knex('informations').insert({
     user_id: user.login.uuid,
-    age: user.dob.age,
+    age: getRandomArbitrary(18, 31),
     gender: gender,
     orientation: orientation,
     bio: 'Hello my name is ' + capitalize(user.name.first) +
