@@ -5,6 +5,7 @@ import ResetPassRouter from './routes/auth/resetPassRouter'
 import UpdateProfileRouter from './routes/profile/updateProfileRouter'
 import LogoutRouter from './routes/auth/logoutRouter'
 import ProfileRouter from './routes/profile/profileRouter'
+import UpdateActiveRouter from './routes/user/updateActive'
 
 class Api {
   constructor (app) {
@@ -16,6 +17,7 @@ class Api {
     this.app.use('/api/auth', LoginRouter)
     this.app.use('/api/auth', ResetPassRouter)
     this.app.use('/api/auth', LogoutRouter)
+    this.app.use('/api/user', UpdateActiveRouter)
     this.app.use('/api/', ConfirmationRouter)
     this.app.use('/api/profile', ProfileRouter)
     this.app.use('/api/profile', UpdateProfileRouter)

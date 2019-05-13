@@ -22,7 +22,7 @@ class MatchaNav extends Component {
   }
 
   render() {
-    const color = this.props.profile.informations.gender === 1 ? 'indigo darken-4' : 'pink darken-4'
+    const color = this.props.gender === 1 ? 'indigo darken-4' : 'pink darken-4'
     return (
       <MDBNavbar color={ color } dark expand="md">
         <MDBNavbarBrand>
@@ -49,13 +49,4 @@ class MatchaNav extends Component {
 
 MatchaNav = Radium(MatchaNav)
 
-const mapStateToProps = state => {
-  return {
-    profile: state.profile
-  }
-}
-
-const mapDispatchToProps = {
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(MatchaNav)
+export default MatchaNav

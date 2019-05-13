@@ -4,7 +4,7 @@ import LoginPage from './LoginPage'
 import RegisterPage from './RegisterPage'
 import ResetPassword from './ResetPassword'
 import SearchPage from './SearchPage'
-import ProfilePage from './ProfilePage/ProfilePage'
+import ProfilePage from './ProfilePage'
 import UpdateProfile from './UpdateProfile'
 import ConfirmUser from './ConfirmUser'
 import Loader from '../components/Loader'
@@ -33,7 +33,10 @@ class App extends React.Component {
 
   componentDidUpdate () {
     if (this.props.user.userId && isObjectEmpty(this.props.profile.mainInformations) && !this.props.profile.fetching) {
-      this.props.updateProfile()
+      this.props.updateProfile(this.props.user.userId)
+    }
+    if (this.props.user.userId) {
+      console.log('I am online !')
     }
   }
 

@@ -5,7 +5,7 @@ const router = express.Router()
 
 const getUserInformations = (userId) => {
   return new Promise((resolve, reject) => {
-    connection.query("SELECT gender, bio, orientation FROM informations WHERE user_id=?", [userId], (err, results) => {
+    connection.query("SELECT * FROM informations WHERE user_id=?", [userId], (err, results) => {
       if (err) {
         reject(err)
       }
@@ -47,14 +47,15 @@ const getTags = (userId) => {
   })
 }
 
-router.get('/', async (req, res) => {
+router.get('/:userId', async (req, res) => {
   if (!req.session.userId) {
     return res.status(401).send('Not Authorized')
   }
-  const mainInfos = await getMainInformations(req.session.userId)
-  const informations = await getUserInformations(req.session.userId)
-  const pictures = await getPictures(req.session.userId)
-  const tags = await getTags(req.session.userId)
+  const userId = req.params.userId
+  const mainInfos = await getMainInformations(userId)
+  const informations = await getUserInformations(userId)
+  const pictures = await getPictures(userId)
+  const tags = await getTags(userId)
   return res.status(200).json({
     main: mainInfos[0], //Object
     informations: informations[0], //Object
