@@ -6,7 +6,6 @@ exports.up = function(knex, Promise) {
     table.string('user_target')
     table.boolean('view')
     table.boolean('like')
-    table.boolean('match')
   })
 }
 

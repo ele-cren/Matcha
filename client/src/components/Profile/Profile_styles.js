@@ -74,7 +74,6 @@ const getStyles = (gender = 1) => {
       height: '200px',
       marginTop: 10
     },
-    
     caption: {
       color: 'white',
       position: 'relative',
@@ -83,6 +82,10 @@ const getStyles = (gender = 1) => {
       display: 'flex',
       justifyContent: 'flex-start',
       padding: '3px'
+    },
+    button: {
+      width: 115,
+      height: 50
     }
   }
 } 

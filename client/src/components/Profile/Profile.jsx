@@ -15,11 +15,13 @@ import {
   MDBCard,
   MDBCol
 } from 'mdbreact'
+import Spinner from '../Spinner'
 
 
 class Profile extends React.Component {
   constructor (props) {
     super(props)
+    this.getButton = this.getButton.bind(this)
   }
 
   getGender (genderNum) {
@@ -48,14 +50,29 @@ class Profile extends React.Component {
     }
   }
 
+  getButton (styles) {
+    // SET TAILLE FIXE !!!
+    let button = <MDBBtn style={ styles.button } color="elegant">Edit</MDBBtn>
+    if (!this.props.isMyProfile) {
+      if (this.props.loveInfos.isFetching) {
+        button = <MDBBtn style={ styles.button } color="light-green"><Spinner /></MDBBtn>
+      } else {
+        if (this.props.loveInfos.iLoveUser) {
+          button = <MDBBtn style={ styles.button } color="dark-green" onClick={ () => this.props.unlikeUser() }>Unlike</MDBBtn>
+        } else {
+          button = <MDBBtn style={ styles.button } color="light-green" onClick={ () => this.props.likeUser() }>Like</MDBBtn>
+        }
+      }
+    }
+    return button
+  }
+
   render ()  {
     const profile = this.props.profile
     const gender = this.getGender(profile.informations.gender)
     const orientation = this.getOrientation(profile.informations.orientation)
     const styles = getStyles(profile.informations.gender)
-    const button = this.props.isMyProfile ? (
-      <MDBBtn color="elegant">Edit</MDBBtn>
-    ) : <MDBBtn color="light-green">Like</MDBBtn>
+    const button = this.getButton(styles)
     let pictures = []
     profile.pictures.map(x => pictures = x.main ? [x, ...pictures] : [...pictures, x])
     return (

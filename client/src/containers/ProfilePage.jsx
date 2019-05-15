@@ -4,6 +4,8 @@ import Loader from '../components/Loader'
 import Profile from '../components/Profile/Profile'
 import MatchaNav from '../components/MatchaNav'
 import { isObjectEmpty } from '../utilities/utilities'
+import { likeUser, getLoveInfos, unlikeUser } from '../requests/love'
+import { connect } from 'react-redux'
 
 class ProfilePage extends React.Component {
   constructor (props) {
@@ -11,9 +13,14 @@ class ProfilePage extends React.Component {
     this.state = {
       isPageLoading: true,
       isFetching: true,
-      profile: {}
+      profile: {},
+      isFetchingLove: false,
+      loveInfos: {}
     }
     this.getDataProfile = this.getDataProfile.bind(this)
+    this.likeUserProfile = this.likeUserProfile.bind(this)
+    this.getLoveInformations = this.getLoveInformations.bind(this)
+    this.unlikeUserProfile = this.unlikeUserProfile.bind(this)
   }
 
   componentDidMount () {
@@ -23,12 +30,25 @@ class ProfilePage extends React.Component {
       })
     }, 700)
     this.getDataProfile(this.props.match.params.userId)
+    this.getLoveInformations(this.props.match.params.userId)
+  }
+
+  getLoveInformations (userId) {
+    this.setState({
+      isFetchingLove: true
+    })
+    const request = getLoveInfos(userId)
+    request.onload = () => {
+      this.setState({
+        loveInfos: request.response,
+        isFetchingLove: false
+      })
+    }
   }
 
   getDataProfile (userId) {
     const request = getProfile(userId)
     request.onload = () => {
-      console.log(request)
       const profile = {
         mainInformations: request.response.main,
         informations: request.response.informations,
@@ -42,13 +62,47 @@ class ProfilePage extends React.Component {
     }
   }
 
+  unlikeUserProfile () {
+    this.setState({
+      isFetchingLove: true
+    })
+    const request = unlikeUser(this.props.user.userId, this.props.match.params.userId)
+    request.onload = () => {
+      this.setState({
+        loveInfos: request.response,
+        isFetchingLove: false
+      })
+    }
+  }
+
+  likeUserProfile () {
+    this.setState({
+      isFetchingLove: true
+    })
+    const request = likeUser(this.props.user.userId, this.props.match.params.userId)
+    request.onload = () => {
+      this.setState({
+        loveInfos: request.response,
+        isFetchingLove: false
+      })
+      if (request.response.match) {
+        // modal match
+      }
+    }
+  }
+
   render () {
     let profilePage = ''
     if (!isObjectEmpty(this.state.profile)) {
       profilePage = this.state.profile.informations !== undefined ? (
         <React.Fragment>
           <MatchaNav color={ this.state.profile.informations.gender === 1 ? "indigo darken-4" : "pink darken-4" } />
-          <Profile profile={ this.state.profile } isMyProfile={ false }/>
+          <Profile
+            profile={ this.state.profile }
+            isMyProfile={ false }
+            likeUser={ this.likeUserProfile }
+            unlikeUser={ this.unlikeUserProfile }
+            loveInfos={ { ...this.state.loveInfos, isFetching: this.state.isFetchingLove } }/>
         </React.Fragment>
       ) : (
         <React.Fragment>
@@ -61,4 +115,13 @@ class ProfilePage extends React.Component {
   }
 }
 
-export default ProfilePage
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  }
+}
+
+const mapDispatchToProps = {
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage)

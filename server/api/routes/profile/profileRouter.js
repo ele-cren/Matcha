@@ -1,5 +1,6 @@
 import express from 'express'
 import { connection } from '../../../app'
+import { viewUser } from '../../../utilities/loveManager'
 
 const router = express.Router()
 
@@ -52,6 +53,9 @@ router.get('/:userId', async (req, res) => {
     return res.status(401).send('Not Authorized')
   }
   const userId = req.params.userId
+  if (userId !== req.session.userId) {
+    viewUser(req.session.userId, userId)
+  }
   const mainInfos = await getMainInformations(userId)
   const informations = await getUserInformations(userId)
   const pictures = await getPictures(userId)
