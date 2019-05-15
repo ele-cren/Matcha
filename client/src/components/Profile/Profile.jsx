@@ -1,6 +1,7 @@
 import React from 'react'
 import getStyles from './Profile_styles'
 import Radium from 'radium'
+import ReactTooltip from 'react-tooltip'
 import { 
   MDBCarousel,
   MDBCardText,
@@ -51,7 +52,6 @@ class Profile extends React.Component {
   }
 
   getButton (styles) {
-    // SET TAILLE FIXE !!!
     let button = <MDBBtn style={ styles.button } color="elegant">Edit</MDBBtn>
     if (!this.props.isMyProfile) {
       if (this.props.loveInfos.isFetching) {
@@ -73,12 +73,36 @@ class Profile extends React.Component {
     const orientation = this.getOrientation(profile.informations.orientation)
     const styles = getStyles(profile.informations.gender)
     const button = this.getButton(styles)
+    const eyeIcon = (
+      <React.Fragment>
+        <MDBIcon data-tip data-for='eye' className="mt-2 ml-2" far icon="eye" />
+        <ReactTooltip id='eye' effect='solid' place="bottom">
+          <span>This user viewed your profile</span>
+        </ReactTooltip>
+      </React.Fragment>
+    )
+    const heartIcon = (
+      <React.Fragment>
+        <MDBIcon data-tip data-for='heart' className="mt-2 ml-2" far icon="heart" />
+        <ReactTooltip id='heart' effect='solid' place="bottom">
+          <span>This user liked your profile</span>
+        </ReactTooltip>
+      </React.Fragment>
+    )
+    const userIcons = this.props.loveInfos ? (
+      <div style={ styles.loveIcons }>
+        { this.props.loveInfos.userSawMe ? eyeIcon : ''}
+        { this.props.loveInfos.userLovesMe ? heartIcon : '' }
+      </div>
+    ) : ''
     let pictures = []
     profile.pictures.map(x => pictures = x.main ? [x, ...pictures] : [...pictures, x])
+
     return (
       <MDBContainer style={ styles.container }>
         <MDBCol md="8">
           <MDBCard style={ styles.card }>
+            { this.props.isMyProfile ? '' : userIcons }
             <MDBCarousel
               activeItem={1}
               length={ pictures.length }

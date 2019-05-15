@@ -86,6 +86,13 @@ const getStyles = (gender = 1) => {
     button: {
       width: 115,
       height: 50
+    },
+    loveIcons: {
+      fontSize: '30px',
+      position: 'absolute',
+      left: 0,
+      top: 0,
+      color: gender === 1 ? '#1a237e' : '#880e4f'
     }
   }
 } 

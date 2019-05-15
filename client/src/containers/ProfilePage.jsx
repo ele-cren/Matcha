@@ -87,6 +87,7 @@ class ProfilePage extends React.Component {
       })
       if (request.response.match) {
         // modal match
+        console.log('MATCH!!!')
       }
     }
   }
