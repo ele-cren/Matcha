@@ -1,5 +1,4 @@
 import React from 'react'
-import getStyles from './Profile_styles'
 import Radium from 'radium'
 import ReactTooltip from 'react-tooltip'
 import { 
@@ -8,15 +7,15 @@ import {
   MDBBtn,
   MDBIcon,
   MDBCarouselInner,
-  MDBCarouselItem,
-  MDBView,
   MDBCardBody,
   MDBContainer,
-  MDBCarouselCaption,
   MDBCard,
   MDBCol
 } from 'mdbreact'
 import Spinner from '../Spinner'
+import MyCarouselItem from '../MyCarouselItem'
+import getStyles from './Profile_styles'
+import { getGender, getOrientation } from '../../utilities/utilities'
 
 
 class Profile extends React.Component {
@@ -25,42 +24,24 @@ class Profile extends React.Component {
     this.getButton = this.getButton.bind(this)
   }
 
-  getGender (genderNum) {
-    switch (genderNum) {
-      case 1:
-        return ['Male', '#7986cb']
-      case 2:
-        return ['Female', '#ad1457']
-      default:
-        return ['Male', '#7986cb']
-    }
-  }
-
-  getOrientation (orientationNum) {
-    switch (orientationNum) {
-      case 1:
-        return ['Straight', '#8c7e7a']
-      case 2:
-        return ['Bisexual', '#583166']
-      case 3:
-        return ['Lesbian', '#ad1457']
-      case 4:
-        return ['Gay', '#7986cb']
-      default:
-        return ['Bisexual', '#a19ee9']
-    }
-  }
-
   getButton (styles) {
-    let button = <MDBBtn style={ styles.button } color="elegant">Edit</MDBBtn>
+    let button = <MDBBtn className="mt-3" style={ styles.button } color="elegant">Edit</MDBBtn>
     if (!this.props.isMyProfile) {
       if (this.props.loveInfos.isFetching) {
-        button = <MDBBtn style={ styles.button } color="light-green"><Spinner /></MDBBtn>
+        button = <MDBBtn className="mt-3" style={ styles.button } color="mdb-color"><Spinner /></MDBBtn>
       } else {
         if (this.props.loveInfos.iLoveUser) {
-          button = <MDBBtn style={ styles.button } color="dark-green" onClick={ () => this.props.unlikeUser() }>Unlike</MDBBtn>
+          button = <MDBBtn
+            className="mt-3"
+            style={ styles.button }
+            color="blue-grey"
+            onClick={ () => this.props.dislikeUser() }>Dislike</MDBBtn>
         } else {
-          button = <MDBBtn style={ styles.button } color="light-green" onClick={ () => this.props.likeUser() }>Like</MDBBtn>
+          button = <MDBBtn
+            className="mt-3"
+            style={ styles.button }
+            color="mdb-color"
+            onClick={ () => this.props.likeUser() }>Like</MDBBtn>
         }
       }
     }
@@ -69,8 +50,8 @@ class Profile extends React.Component {
 
   render ()  {
     const profile = this.props.profile
-    const gender = this.getGender(profile.informations.gender)
-    const orientation = this.getOrientation(profile.informations.orientation)
+    const gender = getGender(profile.informations.gender)
+    const orientation = getOrientation(profile.informations.orientation)
     const styles = getStyles(profile.informations.gender)
     const button = this.getButton(styles)
     const eyeIcon = (
@@ -89,10 +70,18 @@ class Profile extends React.Component {
         </ReactTooltip>
       </React.Fragment>
     )
+    const fullHeartIcon = (
+      <React.Fragment>
+      <MDBIcon data-tip data-for='fullHeart' className="mt-2 ml-2" icon="heart" />
+      <ReactTooltip id='fullHeart' effect='solid' place="bottom">
+        <span>It's a match !</span>
+      </ReactTooltip>
+    </React.Fragment>
+    )
     const userIcons = this.props.loveInfos ? (
       <div style={ styles.loveIcons }>
         { this.props.loveInfos.userSawMe ? eyeIcon : ''}
-        { this.props.loveInfos.userLovesMe ? heartIcon : '' }
+        { this.props.loveInfos.userLovesMe ? this.props.loveInfos.iLoveUser ? fullHeartIcon : heartIcon : '' }
       </div>
     ) : ''
     let pictures = []
@@ -145,25 +134,6 @@ class Profile extends React.Component {
       </MDBContainer>
     )
   }
-}
-
-const MyCarouselItem = (props) => {
-  return (
-    <MDBCarouselItem itemId={ props.id }>
-      <MDBView>
-        <img
-        className="d-block"
-        src={ props.url }
-        alt="First slide"
-        style={ props.styles.picture }
-        />
-      </MDBView>
-      { props.isMain ? 
-        <MDBCarouselCaption style={ props.styles.caption }>
-          <MDBIcon icon="star" />
-        </MDBCarouselCaption> : '' }
-    </MDBCarouselItem>
-  )
 }
 
 export default Radium(Profile)

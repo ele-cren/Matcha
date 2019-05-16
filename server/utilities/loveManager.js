@@ -59,7 +59,7 @@ export const viewUser = async (userId, userTarget) => {
   }
 }
 
-export const unlikeUser = async (userId, userTarget) => {
+export const dislikeUser = async (userId, userTarget) => {
   const userInfos = await userAboutMe(userId, userTarget)
   connection.query("UPDATE `love` SET `like`='0' WHERE `love`.`user_id`=? AND `love`.`user_target`=?", [userId, userTarget])
   return {

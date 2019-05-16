@@ -4,8 +4,9 @@ import Loader from '../components/Loader'
 import Profile from '../components/Profile/Profile'
 import MatchaNav from '../components/MatchaNav'
 import { isObjectEmpty } from '../utilities/utilities'
-import { likeUser, getLoveInfos, unlikeUser } from '../requests/love'
+import { likeUser, getLoveInfos, dislikeUser } from '../requests/love'
 import { connect } from 'react-redux'
+import MatchModal from '../components/MatchModal'
 
 class ProfilePage extends React.Component {
   constructor (props) {
@@ -15,12 +16,14 @@ class ProfilePage extends React.Component {
       isFetching: true,
       profile: {},
       isFetchingLove: false,
-      loveInfos: {}
+      loveInfos: {},
+      modal: false
     }
     this.getDataProfile = this.getDataProfile.bind(this)
     this.likeUserProfile = this.likeUserProfile.bind(this)
     this.getLoveInformations = this.getLoveInformations.bind(this)
-    this.unlikeUserProfile = this.unlikeUserProfile.bind(this)
+    this.dislikeUserProfile = this.dislikeUserProfile.bind(this)
+    this.toggleModal = this.toggleModal.bind(this)
   }
 
   componentDidMount () {
@@ -31,6 +34,12 @@ class ProfilePage extends React.Component {
     }, 700)
     this.getDataProfile(this.props.match.params.userId)
     this.getLoveInformations(this.props.match.params.userId)
+  }
+
+  toggleModal () {
+    this.setState({
+      modal: !this.state.modal
+    })
   }
 
   getLoveInformations (userId) {
@@ -62,11 +71,11 @@ class ProfilePage extends React.Component {
     }
   }
 
-  unlikeUserProfile () {
+  dislikeUserProfile () {
     this.setState({
       isFetchingLove: true
     })
-    const request = unlikeUser(this.props.user.userId, this.props.match.params.userId)
+    const request = dislikeUser(this.props.user.userId, this.props.match.params.userId)
     request.onload = () => {
       this.setState({
         loveInfos: request.response,
@@ -86,8 +95,9 @@ class ProfilePage extends React.Component {
         isFetchingLove: false
       })
       if (request.response.match) {
-        // modal match
-        console.log('MATCH!!!')
+        this.setState({
+          modal: true
+        })
       }
     }
   }
@@ -97,12 +107,17 @@ class ProfilePage extends React.Component {
     if (!isObjectEmpty(this.state.profile)) {
       profilePage = this.state.profile.informations !== undefined ? (
         <React.Fragment>
+          <MatchModal
+            picture={ this.state.profile.pictures[0].url }
+            name={ this.state.profile.mainInformations.first_name + ' ' + this.state.profile.mainInformations.last_name }
+            modal={ this.state.modal } toggle={ this.toggleModal }
+            gender={ this.state.profile.informations.gender } />
           <MatchaNav color={ this.state.profile.informations.gender === 1 ? "indigo darken-4" : "pink darken-4" } />
           <Profile
             profile={ this.state.profile }
             isMyProfile={ false }
             likeUser={ this.likeUserProfile }
-            unlikeUser={ this.unlikeUserProfile }
+            dislikeUser={ this.dislikeUserProfile }
             loveInfos={ { ...this.state.loveInfos, isFetching: this.state.isFetchingLove } }/>
         </React.Fragment>
       ) : (

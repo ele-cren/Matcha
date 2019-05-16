@@ -10,12 +10,12 @@ export const likeUser = (userId, userTarget) => {
   return xhr
 }
 
-export const unlikeUser = (userId, userTarget) => {
+export const dislikeUser = (userId, userTarget) => {
   userId = encodeURIComponent(userId)
   userTarget = encodeURIComponent(userTarget)
   const data = `userId=${ userId }&userTarget=${ userTarget }`
   const xhr = new XMLHttpRequest()
-  xhr.open('PUT', '/api/love/unlike_user')
+  xhr.open('PUT', '/api/love/dislike_user')
   xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
   xhr.responseType = 'json'
   xhr.send(data)
