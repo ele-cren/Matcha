@@ -92,7 +92,11 @@ const getStyles = (gender = 1) => {
       position: 'absolute',
       left: 0,
       top: 0,
-      color: gender === 1 ? '#1a237e' : '#880e4f'
+      color: gender === 1 ? '#1a237e' : '#880e4f',
+      display: 'flex',
+      '@media (max-width: 435px)': {
+        flexDirection: 'column'
+      }
     }
   }
 } 
