@@ -37,6 +37,18 @@ const getPictures = (userId) => {
   })
 }
 
+const getLovers = (userId) => {
+  return new Promise((resolve, reject) => {
+    connection.query("SELECT user_id FROM love WHERE user_target=?", [userId], (err, results) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(results)
+      }
+    })
+  })
+}
+
 const getTags = (userId) => {
   return new Promise((resolve, reject) => {
     connection.query("SELECT tag FROM tags WHERE user_id=?", [userId], (err, results) => {
@@ -65,6 +77,33 @@ router.get('/:userId', async (req, res) => {
     informations: informations[0], //Object
     pictures: pictures, //Array
     tags: tags
+  })
+})
+
+router.get('/:userId/lovers', async (req, res) => {
+  const lovers = await getLovers(req.params.userId)
+  let loversInfos = []
+  for (const lover of lovers) {
+    const mainInfos = await getMainInformations(lover.user_id)
+    const informations = await getUserInformations(lover.user_id)
+    const pictures = await getPictures(lover.user_id)
+    let mainPicture = ''
+    pictures.map(x => {
+      if (x.main) {
+        mainPicture = x.url
+      }
+    })
+    loversInfos = [
+      ...loversInfos,
+      {
+        mainInformations: mainInfos[0],
+        informations: informations[0],
+        mainPicture: mainPicture
+      }
+    ]
+  }
+  return res.status(200).json({
+    lovers: loversInfos
   })
 })
 

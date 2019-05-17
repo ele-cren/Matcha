@@ -5,3 +5,11 @@ export const getProfile = (userId) => {
   xhr.send()
   return xhr
 }
+
+export const getLovers = (userId) => {
+  const xhr = new XMLHttpRequest()
+  xhr.open('GET', '/api/profile/' + userId + '/lovers')
+  xhr.responseType = 'json'
+  xhr.send()
+  return xhr
+}
