@@ -52,8 +52,8 @@ class App extends React.Component {
             <Route path='/logout' component={ Logout } />
             <Route path='/confirm_user/:userId' component={ ConfirmUser } />
             <PrivateRoute path='/profile' exact component={ MyProfilePage } logged={ this.props.user.userId } />
-            <PrivateRoute path='/profile/:userId' exact component={ ProfilePage } logged={ this.props.user.userId } />
             <PrivateRoute path='/profile/update' exact component={ UpdateProfile } logged={ this.props.user.userId } />
+            <PrivateRoute path='/profile/:userId' exact component={ ProfilePage } logged={ this.props.user.userId } />
           </Switch>
         </Router>
       )

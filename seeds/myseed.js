@@ -1,5 +1,6 @@
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest
 var tags = require('../tags/tags')
+var HTMLParser = require('node-html-parser')
 
 function getRandomArbitrary(min, max) {
   return Math.floor(Math.random() * (max - min) + min)
@@ -79,19 +80,47 @@ const createTag = (knex, user, tag) => {
   })
 } 
 
+const getHtml = () => {
+  return new Promise((resolve) => {
+    const xhr = new XMLHttpRequest()
+    xhr.open('GET', 'https://www.fakenamegenerator.com/advanced.php?t=country&n%5B%5D=fr&c%5B%5D=fr&gen=50&age-min=19&age-max=31')
+    xhr.send()
+    xhr.onload = () => {
+      resolve(xhr.responseText)
+    }
+  })
+}
+
+const getInfos = (html) => {
+  const root = HTMLParser.parse(html)
+  console.log(root.querySelector('#geo').rawText)
+  const pos = root.querySelector('#geo').rawText.split(', ')
+  const latitude = pos[0]
+  const longitude = pos[1]
+  console.log('latit: ' + latitude)
+  console.log('long: ' + longitude)
+  const dl = root.querySelectorAll('.dl-horizontal')
+  for (const child of dl) {
+    console.log(child.childNodes.tagName)
+  }
+}
+
 exports.seed = async (knex, Promise) => {
       let records = [];
       const pass = '$2a$08$7X3xOmqJND5AIsm/HvskVuPp5B4g8bSkEfQm0emMu9KbXVp1mTJeG'
-      const userProfile = await getUserProfile()
-      userProfile.forEach((user) => {
-        records.push(createUser(knex, user, pass))
-        records.push(createInformations(knex, user))
-        records.push(createPicture(knex, user))
-        for (let i = 0; i < 5; i++) {
-          const tag = getRandomTag()
-          records.push(createTag(knex, user, tag))
-        }
-      }) 
+      const html = await getHtml()
+      const infos = getInfos(html)
 
-      return Promise.all(records);
+      // const userProfile = await getUserProfile()
+      // userProfile.forEach((user) => {
+      //   records.push(createUser(knex, user, pass))
+      //   records.push(createInformations(knex, user))
+      //   records.push(createPicture(knex, user))
+      //   for (let i = 0; i < 5; i++) {
+      //     const tag = getRandomTag()
+      //     records.push(createTag(knex, user, tag))
+      //   }
+      // }) 
+
+      // return Promise.all(records);
 };
