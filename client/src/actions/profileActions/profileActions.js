@@ -16,7 +16,7 @@ export const getInformations = (userId) => {
   }
 }
 
-const updateInformations = (results) => {
+export const updateInformations = (results) => {
   return {
     type: UPDATE,
     payload: results

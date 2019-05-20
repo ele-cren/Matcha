@@ -6,7 +6,6 @@ import UpdateProfileRouter from './routes/profile/updateProfileRouter'
 import LogoutRouter from './routes/auth/logoutRouter'
 import ProfileRouter from './routes/profile/profileRouter'
 import UpdateActiveRouter from './routes/user/updateActive'
-import LikeUserRouter from './routes/love/likeUser'
 import LoveInfosRouter from './routes/love/loveInformations'
 
 class Api {
@@ -23,7 +22,6 @@ class Api {
     this.app.use('/api/', ConfirmationRouter)
     this.app.use('/api/profile', ProfileRouter)
     this.app.use('/api/profile', UpdateProfileRouter)
-    this.app.use('/api/love', LikeUserRouter)
     this.app.use('/api/love', LoveInfosRouter)
   }
 }

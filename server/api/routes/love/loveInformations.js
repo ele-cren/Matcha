@@ -1,16 +1,14 @@
 import express from 'express'
-import { meAboutUser, userAboutMe } from '../../../utilities/loveManager'
+import { getUsersAboutMeInfos, getMeAboutUsersInfos } from '../../../utilities/loveManager'
 
 const router = express.Router()
 
-router.get('/:userId', async (req, res) => {
-  const myInfos = await meAboutUser(req.session.userId, req.params.userId)
-  const userInfos = await userAboutMe(req.session.userId, req.params.userId)
-  res.status(200).json({
-    userSawMe: userInfos.length > 0 && userInfos[0].view,
-    iLoveUser: myInfos.length > 0 && myInfos[0].like,
-    userLovesMe: userInfos.length > 0 && userInfos[0].like,
-    match: (myInfos.length > 0 && userInfos.length > 0 && myInfos[0].like && userInfos[0].like)
+router.get('/infos/:userId', async (req, res) => {
+  const usersAboutMe = await getUsersAboutMeInfos(req.params.userId)
+  const meAboutUsers = await getMeAboutUsersInfos(req.params.userId)
+  return res.status(200).json({
+    meAboutUsers: meAboutUsers,
+    usersAboutMe: usersAboutMe
   })
 })
 

@@ -10,6 +10,7 @@ import UpdateProfile from './UpdateProfile'
 import ConfirmUser from './ConfirmUser'
 import Loader from '../components/Loader'
 import { checkLogged } from '../actions/userActions/loginUserActions'
+import { getLoveInformations } from '../actions/loveActions/loveActions'
 import { getInformations } from '../actions/profileActions/profileActions'
 import { connect } from 'react-redux'
 import { isObjectEmpty } from '../utilities/utilities'
@@ -35,6 +36,7 @@ class App extends React.Component {
   componentDidUpdate () {
     if (this.props.user.userId && isObjectEmpty(this.props.profile.mainInformations) && !this.props.profile.fetching) {
       this.props.updateProfile(this.props.user.userId)
+      this.props.updateLove(this.props.user.userId)
     }
   }
 
@@ -110,7 +112,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   isLogged: checkLogged,
-  updateProfile: getInformations
+  updateProfile: getInformations,
+  updateLove: getLoveInformations
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

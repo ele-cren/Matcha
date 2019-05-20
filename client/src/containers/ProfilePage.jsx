@@ -15,15 +15,8 @@ class ProfilePage extends React.Component {
       isPageLoading: true,
       isFetching: true,
       profile: {},
-      isFetchingLove: false,
-      loveInfos: {},
-      modal: false
     }
     this.getDataProfile = this.getDataProfile.bind(this)
-    this.likeUserProfile = this.likeUserProfile.bind(this)
-    this.getLoveInformations = this.getLoveInformations.bind(this)
-    this.dislikeUserProfile = this.dislikeUserProfile.bind(this)
-    this.toggleModal = this.toggleModal.bind(this)
   }
 
   componentDidMount () {
@@ -33,33 +26,13 @@ class ProfilePage extends React.Component {
       })
     }, 700)
     this.getDataProfile(this.props.match.params.userId)
-    this.getLoveInformations(this.props.match.params.userId)
-  }
-
-  toggleModal () {
-    this.setState({
-      modal: !this.state.modal
-    })
-  }
-
-  getLoveInformations (userId) {
-    this.setState({
-      isFetchingLove: true
-    })
-    const request = getLoveInfos(userId)
-    request.onload = () => {
-      this.setState({
-        loveInfos: request.response,
-        isFetchingLove: false
-      })
-    }
   }
 
   getDataProfile (userId) {
     const request = getProfile(userId)
     request.onload = () => {
       const profile = {
-        mainInformations: request.response.main,
+        mainInformations: request.response.mainInformations,
         informations: request.response.informations,
         pictures: request.response.pictures,
         tags: request.response.tags
@@ -70,55 +43,21 @@ class ProfilePage extends React.Component {
       })
     }
   }
-
-  dislikeUserProfile () {
-    this.setState({
-      isFetchingLove: true
-    })
-    const request = dislikeUser(this.props.user.userId, this.props.match.params.userId)
-    request.onload = () => {
-      this.setState({
-        loveInfos: request.response,
-        isFetchingLove: false
-      })
-    }
-  }
-
-  likeUserProfile () {
-    this.setState({
-      isFetchingLove: true
-    })
-    const request = likeUser(this.props.user.userId, this.props.match.params.userId)
-    request.onload = () => {
-      this.setState({
-        loveInfos: request.response,
-        isFetchingLove: false
-      })
-      if (request.response.match) {
-        this.setState({
-          modal: true
-        })
-      }
-    }
-  }
-
+  
   render () {
     let profilePage = ''
     if (!isObjectEmpty(this.state.profile)) {
       profilePage = this.state.profile.informations !== undefined ? (
         <React.Fragment>
-          <MatchModal
+          { /* <MatchModal
             picture={ this.state.profile.pictures[0].url }
             name={ this.state.profile.mainInformations.first_name + ' ' + this.state.profile.mainInformations.last_name }
             modal={ this.state.modal } toggle={ this.toggleModal }
-            gender={ this.state.profile.informations.gender } />
+          gender={ this.state.profile.informations.gender } /> */ }
           <MatchaNav color={ this.state.profile.informations.gender === 1 ? "indigo darken-4" : "pink darken-4" } />
           <Profile
             profile={ this.state.profile }
-            isMyProfile={ false }
-            likeUser={ this.likeUserProfile }
-            dislikeUser={ this.dislikeUserProfile }
-            loveInfos={ { ...this.state.loveInfos, isFetching: this.state.isFetchingLove } }/>
+            isMyProfile={ false } />
         </React.Fragment>
       ) : (
         <React.Fragment>

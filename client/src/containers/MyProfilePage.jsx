@@ -5,7 +5,6 @@ import { Redirect } from 'react-router-dom'
 import Loader from '../components/Loader'
 import MatchaNav from '../components/MatchaNav'
 import { isObjectEmpty } from '../utilities/utilities'
-import { updateLastActive } from '../requests/userUpdates'
 import Profile from '../components/Profile/Profile'
 import { getLovers } from '../requests/profile'
 
@@ -14,16 +13,11 @@ class ProfilePage extends React.Component {
     super(props)
     this.state = {
       isPageLoading: true,
-      isLoadingNeeded: false,
-      isFetchingLovers: false,
-      loversInfos: {}
+      isLoadingNeeded: false
     }
-    this.getLovers = this.getLovers.bind(this)
   }
 
   componentDidMount () {
-    updateLastActive()
-    this.getLovers()
     if (!this.props.profile.fetching) {
       this.setState({
         isPageLoading: false
@@ -37,20 +31,6 @@ class ProfilePage extends React.Component {
           isPageLoading: false
         })
       }, 700)
-    }
-  }
-
-  getLovers () {
-    this.setState({
-      isFetchingLovers: true
-    })
-    const request = getLovers(this.props.user.userId)
-    request.onload = () => {
-      console.log(request.response.lovers)
-      this.setState({
-        loversInfos: request.response.lovers,
-        isFetchingLovers: false
-      })
     }
   }
 
