@@ -15,8 +15,11 @@ class ProfilePage extends React.Component {
       isPageLoading: true,
       isFetching: true,
       profile: {},
+      userAboutMe: {},
+      meAboutUser: {}
     }
     this.getDataProfile = this.getDataProfile.bind(this)
+    this.getLoveInfos = this.getLoveInfos.bind(this)
   }
 
   componentDidMount () {
@@ -26,6 +29,24 @@ class ProfilePage extends React.Component {
       })
     }, 700)
     this.getDataProfile(this.props.match.params.userId)
+    this.getLoveInfos()
+  }
+
+  getLoveInfos () {
+    this.props.love.usersAboutMe.map(x => {
+      if (x.user_id === this.props.match.params.userId) {
+        this.setState({
+          userAboutMe: Object.assign({}, x)
+        })
+      }
+    })
+    this.props.love.meAboutUsers.map(x => {
+      if (x.user_id === this.props.match.params.userId) {
+        this.setState({
+          meAboutUser: Object.assign({}, x)
+        })
+      }
+    })
   }
 
   getDataProfile (userId) {
@@ -57,6 +78,7 @@ class ProfilePage extends React.Component {
           <MatchaNav color={ this.state.profile.informations.gender === 1 ? "indigo darken-4" : "pink darken-4" } />
           <Profile
             profile={ this.state.profile }
+            loveInfos={ { userAboutMe: this.state.userAboutMe, meAboutUser: this.state.meAboutUser } }
             isMyProfile={ false } />
         </React.Fragment>
       ) : (
@@ -72,7 +94,8 @@ class ProfilePage extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    user: state.user
+    user: state.user,
+    love: state.love
   }
 }
 

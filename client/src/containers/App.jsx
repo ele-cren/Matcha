@@ -9,12 +9,14 @@ import ProfilePage from './ProfilePage'
 import UpdateProfile from './UpdateProfile'
 import ConfirmUser from './ConfirmUser'
 import Loader from '../components/Loader'
+import Notifications from '../components/Notifications/Notifications'
 import { checkLogged } from '../actions/userActions/loginUserActions'
 import { getLoveInformations } from '../actions/loveActions/loveActions'
 import { getInformations } from '../actions/profileActions/profileActions'
 import { connect } from 'react-redux'
 import { isObjectEmpty } from '../utilities/utilities'
 import Logout from './Logout'
+import io from 'socket.io-client'
 
 class App extends React.Component {
   constructor (props) {
@@ -37,6 +39,7 @@ class App extends React.Component {
     if (this.props.user.userId && isObjectEmpty(this.props.profile.mainInformations) && !this.props.profile.fetching) {
       this.props.updateProfile(this.props.user.userId)
       this.props.updateLove(this.props.user.userId)
+      const socket = io('http://localhost:3000')
     }
   }
 
@@ -45,19 +48,22 @@ class App extends React.Component {
       return <Loader />
     } else {
       return (
-        <Router>
-          <Switch>
-            <PrivateRoute exact path='/' component={ SearchPage } logged={ this.props.user.userId } />
-            <AlreadyLoggedRoute path='/login' component={ LoginPage } logged={ this.props.user.userId } /> 
-            <AlreadyLoggedRoute path='/register' component={ RegisterPage } logged={ this.props.user.userId } />
-            <AlreadyLoggedRoute path='/reset_pass' component={ ResetPassword } logged={ this.props.user.userId } />
-            <Route path='/logout' component={ Logout } />
-            <Route path='/confirm_user/:userId' component={ ConfirmUser } />
-            <PrivateRoute path='/profile' exact component={ MyProfilePage } logged={ this.props.user.userId } />
-            <PrivateRoute path='/profile/update' exact component={ UpdateProfile } logged={ this.props.user.userId } />
-            <PrivateRoute path='/profile/:userId' exact component={ ProfilePage } logged={ this.props.user.userId } />
-          </Switch>
-        </Router>
+        <React.Fragment>
+          <Notifications />
+          <Router>
+            <Switch>
+              <PrivateRoute exact path='/' component={ SearchPage } logged={ this.props.user.userId } />
+              <AlreadyLoggedRoute path='/login' component={ LoginPage } logged={ this.props.user.userId } /> 
+              <AlreadyLoggedRoute path='/register' component={ RegisterPage } logged={ this.props.user.userId } />
+              <AlreadyLoggedRoute path='/reset_pass' component={ ResetPassword } logged={ this.props.user.userId } />
+              <Route path='/logout' component={ Logout } />
+              <Route path='/confirm_user/:userId' component={ ConfirmUser } />
+              <PrivateRoute path='/profile' exact component={ MyProfilePage } logged={ this.props.user.userId } />
+              <PrivateRoute path='/profile/update' exact component={ UpdateProfile } logged={ this.props.user.userId } />
+              <PrivateRoute path='/profile/:userId' exact component={ ProfilePage } logged={ this.props.user.userId } />
+            </Switch>
+          </Router>
+        </React.Fragment>
       )
     }
   }

@@ -1,7 +1,9 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import session from 'cookie-session'
+import http from 'http'
 require('dotenv').config()
+import configureSocket from './socket/socket'
 
 class Server {
   constructor () {
@@ -10,6 +12,8 @@ class Server {
 
   configure () {
     this.app = express()
+    this.server = http.createServer(this.app)
+    configureSocket(this.server)
     this.app.use(bodyParser.urlencoded({
       extended: true
     }));
@@ -22,7 +26,7 @@ class Server {
   }
 
   start (port = 3000) {
-    this.server = this.app.listen(port)
+    this.server.listen(port)
   }
 
   stop () {

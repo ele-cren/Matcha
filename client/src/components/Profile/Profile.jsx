@@ -41,36 +41,36 @@ class Profile extends React.Component {
     const orientation = getOrientation(profile.informations.orientation)
     const styles = getStyles(profile.informations.gender)
     const button = this.getButton(styles)
-    // const eyeIcon = (
-    //   <React.Fragment>
-    //     <MDBIcon data-tip data-for='eye' className="mt-2 ml-2" far icon="eye" />
-    //     <ReactTooltip id='eye' effect='solid' place="bottom">
-    //       <span>This user viewed your profile</span>
-    //     </ReactTooltip>
-    //   </React.Fragment>
-    // )
-    // const heartIcon = (
-    //   <React.Fragment>
-    //     <MDBIcon data-tip data-for='heart' className="mt-2 ml-2" far icon="heart" />
-    //     <ReactTooltip id='heart' effect='solid' place="bottom">
-    //       <span>This user liked your profile</span>
-    //     </ReactTooltip>
-    //   </React.Fragment>
-    // )
-    // const fullHeartIcon = (
-    //   <React.Fragment>
-    //   <MDBIcon data-tip data-for='fullHeart' className="mt-2 ml-2" icon="heart" />
-    //   <ReactTooltip id='fullHeart' effect='solid' place="bottom">
-    //     <span>It's a match !</span>
-    //   </ReactTooltip>
-    // </React.Fragment>
-    // )
-    // const userIcons = this.props.loveInfos ? (
-    //   <div style={ styles.loveIcons }>
-    //     { this.props.loveInfos.userSawMe ? eyeIcon : ''}
-    //     { this.props.loveInfos.userLovesMe ? this.props.loveInfos.iLoveUser ? fullHeartIcon : heartIcon : '' }
-    //   </div>
-    // ) : ''
+    const eyeIcon = (
+      <React.Fragment>
+        <MDBIcon data-tip data-for='eye' className="mt-2 ml-2" far icon="eye" />
+        <ReactTooltip id='eye' effect='solid' place="bottom">
+          <span>This user viewed your profile</span>
+        </ReactTooltip>
+      </React.Fragment>
+    )
+    const heartIcon = (
+      <React.Fragment>
+        <MDBIcon data-tip data-for='heart' className="mt-2 ml-2" far icon="heart" />
+        <ReactTooltip id='heart' effect='solid' place="bottom">
+          <span>This user liked your profile</span>
+        </ReactTooltip>
+      </React.Fragment>
+    )
+    const fullHeartIcon = (
+      <React.Fragment>
+      <MDBIcon data-tip data-for='fullHeart' className="mt-2 ml-2" icon="heart" />
+      <ReactTooltip id='fullHeart' effect='solid' place="bottom">
+        <span>It's a match !</span>
+      </ReactTooltip>
+    </React.Fragment>
+    )
+    const userIcons = this.props.loveInfos ? (
+      <div style={ styles.loveIcons }>
+        { this.props.loveInfos.userAboutMe.view ? eyeIcon : ''}
+        { this.props.loveInfos.userAboutMe.like ? this.props.loveInfos.meAboutUser.like ? fullHeartIcon : heartIcon : '' }
+      </div>
+    ) : ''
     let pictures = []
     profile.pictures.map(x => pictures = x.main ? [x, ...pictures] : [...pictures, x])
 
@@ -78,7 +78,7 @@ class Profile extends React.Component {
       <MDBContainer style={ styles.container }>
         <MDBCol md="8">
           <MDBCard style={ styles.card }>
-            { /* this.props.isMyProfile ? '' : userIcons */ }
+            { this.props.isMyProfile ? '' : userIcons  }
             <MDBCarousel
               activeItem={1}
               length={ pictures.length }
