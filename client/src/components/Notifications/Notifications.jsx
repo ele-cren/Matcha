@@ -4,6 +4,8 @@ import Radium from 'radium'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { MDBIcon } from 'mdbreact'
 import './Notifications.css'
+import { connect } from 'react-redux'
+import { socket } from '../../containers/App'
 
 class Notifications extends React.Component {
   constructor (props) {
@@ -14,6 +16,19 @@ class Notifications extends React.Component {
     }
     this.notify = this.notify.bind(this)
     this.addNotif = this.addNotif.bind(this)
+    this.checkView = this.checkView.bind(this)
+  }
+
+  componentDidMount () {
+    socket.on('view user', this.checkView)
+  }
+
+  checkView (userId, userTarget) {
+    console.log(userTarget)
+    if (userTarget === this.props.user.userId) {
+      console.log('MAIS OUI MONSIEUR')
+      this.notify('notificationView')
+    }
   }
 
   getTextFromStyle (style) {
@@ -64,14 +79,22 @@ class Notifications extends React.Component {
     })
 
     return (
-      <React.Fragment>
-        <button onClick={ () => this.notify('notificationUnmatch') }>Test notif</button>
-        <TransitionGroup style={ styles.notificationContainer }>
-          { notifs }
-        </TransitionGroup>
-      </React.Fragment>
+      <TransitionGroup style={ styles.notificationContainer }>
+        { notifs }
+      </TransitionGroup>
     )
   }
 }
 
-export default Radium(Notifications)
+Notifications = Radium(Notifications)
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.user
+  }
+}
+
+const mapDispatchTopProps = {
+}
+
+export default connect(mapStateToProps, mapDispatchTopProps)(Notifications)

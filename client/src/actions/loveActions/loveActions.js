@@ -8,13 +8,13 @@ export const getLoveInformations = (userId) => {
     xhr.send()
     xhr.onload = () => {
       if (xhr.status === 200) {
-        dispatch(updateState(xhr.response))
+        dispatch(updateLove(xhr.response))
       }
     }
   }
 }
 
-const updateState = (infos) => {
+export const updateLove = (infos) => {
   return {
     type: UPDATE,
     payload: infos

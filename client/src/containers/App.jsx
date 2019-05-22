@@ -18,6 +18,8 @@ import { isObjectEmpty } from '../utilities/utilities'
 import Logout from './Logout'
 import io from 'socket.io-client'
 
+let socket
+
 class App extends React.Component {
   constructor (props) {
     super(props)
@@ -33,13 +35,13 @@ class App extends React.Component {
         loaded: true
       })
     }, 700)
+    socket = io('http://localhost:3000')
   }
 
   componentDidUpdate () {
     if (this.props.user.userId && isObjectEmpty(this.props.profile.mainInformations) && !this.props.profile.fetching) {
       this.props.updateProfile(this.props.user.userId)
       this.props.updateLove(this.props.user.userId)
-      const socket = io('http://localhost:3000')
     }
   }
 
@@ -122,4 +124,6 @@ const mapDispatchToProps = {
   updateLove: getLoveInformations
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+App = connect(mapStateToProps, mapDispatchToProps)(App)
+
+export { socket, App }

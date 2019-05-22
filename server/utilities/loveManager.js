@@ -82,7 +82,7 @@ export const getMeAboutUsersInfos = async (userId) => {
     users = [
       ...users,
       {
-        user_id: entry.user_target,
+        userId: entry.user_target,
         view: entry.view,
         like: entry.like,
         userInfos: userInfos
@@ -100,7 +100,7 @@ export const getUsersAboutMeInfos = async (userId) => {
     users = [
       ...users,
       {
-        user_id: entry.user_id,
+        userId: entry.user_id,
         view: entry.view,
         like: entry.like,
         userInfos: userInfos
