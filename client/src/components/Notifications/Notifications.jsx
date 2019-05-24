@@ -6,6 +6,8 @@ import { MDBIcon } from 'mdbreact'
 import './Notifications.css'
 import { connect } from 'react-redux'
 import { socket } from '../../containers/App'
+import { getView } from '../../utilities/loveUtilities'
+import { updateLove } from '../../actions/loveActions/loveActions'
 
 class Notifications extends React.Component {
   constructor (props) {
@@ -23,11 +25,14 @@ class Notifications extends React.Component {
     socket.on('view user', this.checkView)
   }
 
-  checkView (userId, userTarget) {
-    console.log(userTarget)
+  checkView (userId, userTarget, userProfile) {
     if (userTarget === this.props.user.userId) {
-      console.log('MAIS OUI MONSIEUR')
       this.notify('notificationView')
+      const usersAboutMe = getView(this.props.love.usersAboutMe, userId, userProfile)
+      this.props.updateLove({
+        meAboutUsers: this.props.love.meAboutUsers,
+        usersAboutMe: usersAboutMe
+      })
     }
   }
 
@@ -90,11 +95,13 @@ Notifications = Radium(Notifications)
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user
+    user: state.user,
+    love: state.love
   }
 }
 
 const mapDispatchTopProps = {
+  updateLove: updateLove
 }
 
 export default connect(mapStateToProps, mapDispatchTopProps)(Notifications)

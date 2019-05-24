@@ -7,7 +7,7 @@ import { isObjectEmpty } from '../utilities/utilities'
 import { connect } from 'react-redux'
 import { updateLove } from '../actions/loveActions/loveActions'
 import MatchModal from '../components/MatchModal'
-import { getLoveInfosFromProfile } from '../utilities/utilities'
+import { getUser, getView } from '../utilities/loveUtilities'
 import { socket } from '../containers/App'
 
 class ProfilePage extends React.Component {
@@ -20,7 +20,6 @@ class ProfilePage extends React.Component {
     }
     this.getDataProfile = this.getDataProfile.bind(this)
     this.getLoveInfos = this.getLoveInfos.bind(this)
-    this.emitView = this.emitView.bind(this)
   }
 
   componentDidMount () {
@@ -35,59 +34,27 @@ class ProfilePage extends React.Component {
   viewProfile () {
     const userId = this.props.user.userId
     const userTarget = this.props.match.params.userId
-    let alreadyViewed = false
-    this.props.love.meAboutUsers.map(x => {
-      if (x.userId === userTarget && x.view) {
-        alreadyViewed = true
-      }
-    })
-    if (!alreadyViewed) {
-      this.emitView(userId, userTarget)
-    }
-  }
-
-  emitView (userId, userTarget) {
-    socket.emit('view user', userId, userTarget)
-    let meAboutUsers = this.props.love.meAboutUsers
-    let exists = false
-    meAboutUsers.forEach(x => {
-      if (x.userId === userTarget) {
-        exists = true
-      }
-    })
-    if (exists) {
-      meAboutUsers = meAboutUsers.map(x => {
-        if (x.userId === userTarget) {
-          x.view = 1
-        }
-        return x
+    const user = getUser(this.props.love.meAboutUsers, userTarget)
+    if ((user && !user.view) || !user) {
+      socket.emit('view user', userId, userTarget, this.props.profile)
+      const meAboutUsers = getView(this.props.love.meAboutUsers, userTarget, this.state.profile)
+      this.props.updateLove({
+        meAboutUsers: meAboutUsers,
+        usersAboutMe: this.props.love.usersAboutMe
       })
-    } else {
-      const loveInfos = getLoveInfosFromProfile(this.state.profile)
-      const newUser = {
-        userId: userTarget,
-        view: 1,
-        like: 0,
-        userInfos: loveInfos
-      }
-      meAboutUsers = [...meAboutUsers, newUser]
     }
-    this.props.updateLove({
-      usersAboutMe: this.props.love.usersAboutMe,
-      meAboutUsers: meAboutUsers
-    })
   }
 
   getLoveInfos () {
     let userAboutMe = {}
     let meAboutUser = {}
     this.props.love.usersAboutMe.map(x => {
-      if (x.user_id === this.props.match.params.userId) {
+      if (x.userId === this.props.match.params.userId) {
         userAboutMe = Object.assign({}, x)
       }
     })
     this.props.love.meAboutUsers.map(x => {
-      if (x.user_id === this.props.match.params.userId) {
+      if (x.userId === this.props.match.params.userId) {
         meAboutUser = Object.assign({}, x)
       }
     })
@@ -145,7 +112,8 @@ class ProfilePage extends React.Component {
 const mapStateToProps = state => {
   return {
     user: state.user,
-    love: state.love
+    love: state.love,
+    profile: state.profile
   }
 }
 

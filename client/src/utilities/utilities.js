@@ -32,17 +32,3 @@ export const getOrientation = (orientationNum) => {
       return ['Bisexual', '#a19ee9']
   }
 }
-
-export const getLoveInfosFromProfile = (profile) => {
-  let mainPicture
-  profile.pictures.map(x => {
-    if (x.main) {
-      mainPicture = x.url
-    }
-  })
-  return {
-    mainInformations: profile.mainInformations,
-    informations: profile.informations,
-    mainPicture: mainPicture
-  }
-}
