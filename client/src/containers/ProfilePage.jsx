@@ -7,7 +7,9 @@ import { isObjectEmpty } from '../utilities/utilities'
 import { connect } from 'react-redux'
 import { updateLove } from '../actions/loveActions/loveActions'
 import MatchModal from '../components/MatchModal'
-import { getUser, getView } from '../utilities/loveUtilities'
+import { getUser } from '../utilities/loveUtilities'
+import { getView } from '../utilities/viewUtilities'
+import { getLike } from '../utilities/likeUtilities'
 import { socket } from '../containers/App'
 
 class ProfilePage extends React.Component {
@@ -16,10 +18,14 @@ class ProfilePage extends React.Component {
     this.state = {
       isPageLoading: true,
       isFetching: true,
-      profile: {}
+      profile: {},
+      matchModal: false
     }
+    this.toggleModal = this.toggleModal.bind(this)
     this.getDataProfile = this.getDataProfile.bind(this)
     this.getLoveInfos = this.getLoveInfos.bind(this)
+    this.viewProfile = this.viewProfile.bind(this)
+    this.updateLike = this.updateLike.bind(this)
   }
 
   componentDidMount () {
@@ -29,6 +35,27 @@ class ProfilePage extends React.Component {
       })
     }, 700)
     this.getDataProfile(this.props.match.params.userId)
+  }
+
+  toggleModal () {
+    this.setState({
+      matchModal: !this.state.matchModal
+    })
+  }
+
+  updateLike (value = 1) {
+    const userId = this.props.user.userId
+    const userTarget = this.props.match.params.userId
+    const userILike = getUser(this.props.love.usersAboutMe, userTarget)
+    socket.emit(value === 1 ? 'like user' : 'dislike user', userId, userTarget, this.props.profile)
+    const meAboutUsers = getLike(this.props.love.meAboutUsers, userTarget, this.state.profile, value)
+    this.props.updateLove({
+      meAboutUsers: meAboutUsers,
+      usersAboutMe: this.props.love.usersAboutMe
+    })
+    if (value === 1 && userILike.like) {
+      this.toggleModal()
+    }
   }
 
   viewProfile () {
@@ -87,15 +114,16 @@ class ProfilePage extends React.Component {
     if (!isObjectEmpty(this.state.profile)) {
       profilePage = this.state.profile.informations !== undefined ? (
         <React.Fragment>
-          { /* <MatchModal
+          <MatchModal
             picture={ this.state.profile.pictures[0].url }
             name={ this.state.profile.mainInformations.first_name + ' ' + this.state.profile.mainInformations.last_name }
-            modal={ this.state.modal } toggle={ this.toggleModal }
-          gender={ this.state.profile.informations.gender } /> */ }
+            modal={ this.state.matchModal } toggle={ this.toggleModal }
+            gender={ this.state.profile.informations.gender } />
           <MatchaNav color={ this.state.profile.informations.gender === 1 ? "indigo darken-4" : "pink darken-4" } />
           <Profile
             profile={ this.state.profile }
             loveInfos={ { userAboutMe: loveInfos.userAboutMe, meAboutUser: loveInfos.meAboutUser } }
+            updateLike={ this.updateLike }
             isMyProfile={ false } />
         </React.Fragment>
       ) : (

@@ -12,7 +12,6 @@ import {
   MDBCard,
   MDBCol
 } from 'mdbreact'
-import Spinner from '../Spinner'
 import MyCarouselItem from '../MyCarouselItem'
 import getStyles from './Profile_styles'
 import { getGender, getOrientation } from '../../utilities/utilities'
@@ -27,10 +26,19 @@ class Profile extends React.Component {
   getButton (styles) {
     let button = <MDBBtn className="mt-3" style={ styles.button } color="elegant">Edit</MDBBtn>
     if (!this.props.isMyProfile) {
-      button = <MDBBtn
-        className="mt-3"
-        style={ styles.button }
-        color="mdb-color">Like</MDBBtn>
+      if (this.props.loveInfos.meAboutUser.like) {
+        button = <MDBBtn
+          className="mt-3"
+          style={ styles.button }
+          onClick={ () => this.props.updateLike(0) }
+          color="blue-grey">Dislike</MDBBtn>
+      } else {
+        button = <MDBBtn
+          className="mt-3"
+          style={ styles.button }
+          onClick={ () => this.props.updateLike() }
+          color="mdb-color">Like</MDBBtn>
+      }
     }
     return button
   }

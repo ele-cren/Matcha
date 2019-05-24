@@ -8,6 +8,8 @@ import { connect } from 'react-redux'
 import { socket } from '../../containers/App'
 import { getView } from '../../utilities/loveUtilities'
 import { updateLove } from '../../actions/loveActions/loveActions'
+import { getUser } from '../../utilities/loveUtilities'
+import { getLike } from '../../utilities/likeUtilities'
 
 class Notifications extends React.Component {
   constructor (props) {
@@ -19,10 +21,44 @@ class Notifications extends React.Component {
     this.notify = this.notify.bind(this)
     this.addNotif = this.addNotif.bind(this)
     this.checkView = this.checkView.bind(this)
+    this.checkLike = this.checkLike.bind(this)
+    this.checkDislike = this.checkDislike.bind(this)
   }
 
   componentDidMount () {
     socket.on('view user', this.checkView)
+    socket.on('like user', this.checkLike)
+    socket.on('dislike user', this.checkDislike)
+  }
+
+  checkLike (userId, userTarget, userProfile) {
+    if (userTarget === this.props.user.userId) {
+      this.notify('notificationLike')
+      const user = getUser(this.props.love.meAboutUsers, userId)
+      if (user.like) {
+        this.notify('notificationMatch')
+      }
+      const usersAboutMe = getLike(this.props.love.usersAboutMe, userId, userProfile)
+      this.props.updateLove({
+        meAboutUsers: this.props.love.meAboutUsers,
+        usersAboutMe: usersAboutMe
+      })
+    }
+  }
+
+  checkDislike (userId, userTarget, userProfile) {
+    if (userTarget === this.props.user.userId) {
+      this.notify('notificationDislike')
+      const user = getUser(this.props.love.meAboutUsers, userId)
+      if (user.like) {
+        this.notify('notificationUnmatch')
+      }
+      const usersAboutMe = getLike(this.props.love.usersAboutMe, userId, userProfile, 0)
+      this.props.updateLove({
+        meAboutUsers: this.props.love.meAboutUsers,
+        usersAboutMe: usersAboutMe
+      })
+    }
   }
 
   checkView (userId, userTarget, userProfile) {
