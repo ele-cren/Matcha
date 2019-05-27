@@ -133,9 +133,12 @@ class NotificationsDropdown extends React.Component {
           <MDBDropdownToggle nav onClick={ this.viewNotifs }>
             <MDBIcon icon="bell" style={ styles().icon }/>
           </MDBDropdownToggle>
-          <MDBDropdownMenu className="dropdown-default" right>
-            { notifications }
-          </MDBDropdownMenu>
+          { this.props.notifications.length > 0 ? (
+            <MDBDropdownMenu className="dropdown-default" right>
+              { notifications }
+            </MDBDropdownMenu>
+
+          ) : ''}
         </MDBDropdown>
       </MDBNavItem>
     )
