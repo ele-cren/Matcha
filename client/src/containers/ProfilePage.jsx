@@ -58,12 +58,12 @@ class ProfilePage extends React.Component {
       meAboutUsers: meAboutUsers,
       usersAboutMe: this.props.love.usersAboutMe
     })
-    if (value === 1 && userILike.like) {
+    if (value === 1 && userILike && userILike.like) {
       const notif = getNotif(3, userTarget, userId, userInfos) // Notification for match
       socket.emit('add notification', notif)
       this.toggleModal()
     }
-    if (value === 0 && userILike.like) {
+    if (value === 0 && userILike && userILike.like) {
       const notif = getNotif(5, userTarget, userId, userInfos) // Notification for unmatch
       socket.emit('add notification', notif)
     }

@@ -41,7 +41,7 @@ class Notifications extends React.Component {
     if (userTarget === this.props.user.userId) {
       this.notify('notificationLike')
       const user = getUser(this.props.love.meAboutUsers, userId)
-      if (user.like) {
+      if (user && user.like) {
         this.notify('notificationMatch')
       }
       const usersAboutMe = getLike(this.props.love.usersAboutMe, userId, userProfile)
@@ -56,7 +56,7 @@ class Notifications extends React.Component {
     if (userTarget === this.props.user.userId) {
       this.notify('notificationDislike')
       const user = getUser(this.props.love.meAboutUsers, userId)
-      if (user.like) {
+      if (user && user.like) {
         this.notify('notificationUnmatch')
       }
       const usersAboutMe = getLike(this.props.love.usersAboutMe, userId, userProfile, 0)

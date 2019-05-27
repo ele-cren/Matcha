@@ -30,7 +30,7 @@ export const deleteNotif = (notifId) => {
   }
 }
 
-export const updateNotif = (notfiId) => {
+export const updateNotif = (notifId) => {
   return {
     type: UPDATE,
     payload: notifId
