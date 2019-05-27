@@ -87,7 +87,7 @@ class Notifications extends React.Component {
       case 'notificationMatch':
         return <div><MDBIcon far icon="heart" className="mr-3" />It's a match !</div>
       case 'notificationDislike':
-        return <div><MDBIcon icon="thumbs-down" className="mr-3" />Someone don't like you anymore</div>
+        return <div><MDBIcon icon="thumbs-down" className="mr-3" />Someone doesn't like you anymore</div>
       case 'notificationUnmatch':
         return <div><MDBIcon icon="heart-broken" className="mr-3" />It's not a match anymore...</div>
     }
