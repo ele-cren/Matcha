@@ -6,10 +6,11 @@ import { MDBIcon } from 'mdbreact'
 import './Notifications.css'
 import { connect } from 'react-redux'
 import { socket } from '../../containers/App'
-import { getView } from '../../utilities/loveUtilities'
+import { getView } from '../../utilities/viewUtilities'
 import { updateLove } from '../../actions/loveActions/loveActions'
 import { getUser } from '../../utilities/loveUtilities'
 import { getLike } from '../../utilities/likeUtilities'
+import { addNotification } from '../../actions/notificationsActions/notifActions'
 
 class Notifications extends React.Component {
   constructor (props) {
@@ -29,6 +30,11 @@ class Notifications extends React.Component {
     socket.on('view user', this.checkView)
     socket.on('like user', this.checkLike)
     socket.on('dislike user', this.checkDislike)
+    socket.on('add notification', (notification) => {
+      if (notification.user_id === this.props.user.userId) {
+        this.props.addNotif(notification)
+      }
+    })
   }
 
   checkLike (userId, userTarget, userProfile) {
@@ -137,7 +143,8 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchTopProps = {
-  updateLove: updateLove
+  updateLove: updateLove,
+  addNotif: addNotification
 }
 
 export default connect(mapStateToProps, mapDispatchTopProps)(Notifications)

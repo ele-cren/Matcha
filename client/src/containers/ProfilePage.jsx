@@ -11,6 +11,8 @@ import { getUser } from '../utilities/loveUtilities'
 import { getView } from '../utilities/viewUtilities'
 import { getLike } from '../utilities/likeUtilities'
 import { socket } from '../containers/App'
+import { getNotif } from '../utilities/notifications'
+import { getLoveInfosFromProfile } from '../utilities/loveUtilities'
 
 class ProfilePage extends React.Component {
   constructor (props) {
@@ -47,6 +49,9 @@ class ProfilePage extends React.Component {
     const userId = this.props.user.userId
     const userTarget = this.props.match.params.userId
     const userILike = getUser(this.props.love.usersAboutMe, userTarget)
+    const userInfos = getLoveInfosFromProfile(this.props.profile) //Userinfos for notification
+    const notif = getNotif(value === 1 ? 2 : 4, userTarget, userId, userInfos) // Notification for like or dislike
+    socket.emit('add notification', notif)
     socket.emit(value === 1 ? 'like user' : 'dislike user', userId, userTarget, this.props.profile)
     const meAboutUsers = getLike(this.props.love.meAboutUsers, userTarget, this.state.profile, value)
     this.props.updateLove({
@@ -54,7 +59,13 @@ class ProfilePage extends React.Component {
       usersAboutMe: this.props.love.usersAboutMe
     })
     if (value === 1 && userILike.like) {
+      const notif = getNotif(3, userTarget, userId, userInfos) // Notification for match
+      socket.emit('add notification', notif)
       this.toggleModal()
+    }
+    if (value === 0 && userILike.like) {
+      const notif = getNotif(5, userTarget, userId, userInfos) // Notification for unmatch
+      socket.emit('add notification', notif)
     }
   }
 
@@ -63,6 +74,8 @@ class ProfilePage extends React.Component {
     const userTarget = this.props.match.params.userId
     const user = getUser(this.props.love.meAboutUsers, userTarget)
     if ((user && !user.view) || !user) {
+      const notif = getNotif(1, userTarget, userId, getLoveInfosFromProfile(this.props.profile))
+      socket.emit('add notification', notif)
       socket.emit('view user', userId, userTarget, this.props.profile)
       const meAboutUsers = getView(this.props.love.meAboutUsers, userTarget, this.state.profile)
       this.props.updateLove({

@@ -13,6 +13,7 @@ import Notifications from '../components/Notifications/Notifications'
 import { checkLogged } from '../actions/userActions/loginUserActions'
 import { getLoveInformations } from '../actions/loveActions/loveActions'
 import { getInformations } from '../actions/profileActions/profileActions'
+import { getNotifications } from '../actions/notificationsActions/notifActions'
 import { connect } from 'react-redux'
 import { isObjectEmpty } from '../utilities/utilities'
 import Logout from './Logout'
@@ -42,6 +43,7 @@ class App extends React.Component {
     if (this.props.user.userId && isObjectEmpty(this.props.profile.mainInformations) && !this.props.profile.fetching) {
       this.props.updateProfile(this.props.user.userId)
       this.props.updateLove(this.props.user.userId)
+      this.props.getNotifications()
     }
   }
 
@@ -121,7 +123,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   isLogged: checkLogged,
   updateProfile: getInformations,
-  updateLove: getLoveInformations
+  updateLove: getLoveInformations,
+  getNotifications: getNotifications
 }
 
 App = connect(mapStateToProps, mapDispatchToProps)(App)
