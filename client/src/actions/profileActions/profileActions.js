@@ -1,11 +1,11 @@
 import { FETCHING, FETCHED, UPDATE } from './profileConsts'
 
-export const getInformations = () => {
+export const getInformations = (userId) => {
   return dispatch => {
     dispatch({ type: FETCHING })
     const xhr = new XMLHttpRequest()
     xhr.responseType = 'json'
-    xhr.open('GET', '/api/profile')
+    xhr.open('GET', '/api/profile/' + userId)
     xhr.send()
     xhr.onload = () => {
       if (xhr.status === 200) {
@@ -16,7 +16,7 @@ export const getInformations = () => {
   }
 }
 
-const updateInformations = (results) => {
+export const updateInformations = (results) => {
   return {
     type: UPDATE,
     payload: results

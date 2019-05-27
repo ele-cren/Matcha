@@ -1,7 +1,8 @@
-const getStyles = (genre = 1) => {
+const getStyles = (gender = 1) => {
   return {
     picture: {
-      width: '200px'
+      width: '200px',
+      height: '200px'
     },
     container: {
       display: 'flex',
@@ -15,9 +16,9 @@ const getStyles = (genre = 1) => {
       justifyContent: 'center',
       alignItems: 'center',
       flexDirection: 'column',
-      backgroundColor: genre === 1 ? '#e1e2ef' : '#eae3e7'
+      backgroundColor: gender === 1 ? '#e1e2ef' : '#eae3e7'
     },
-    genre: {
+    gender: {
       border: '1px solid black',
       width: '100px',
       padding: '5px 0 5px 0',
@@ -73,15 +74,29 @@ const getStyles = (genre = 1) => {
       height: '200px',
       marginTop: 10
     },
-    
     caption: {
       color: 'white',
       position: 'relative',
-      top: '-210px',
+      top: '-195px',
       left: '0px',
       display: 'flex',
       justifyContent: 'flex-start',
       padding: '3px'
+    },
+    button: {
+      width: 115,
+      height: 50
+    },
+    loveIcons: {
+      fontSize: '30px',
+      position: 'absolute',
+      left: 0,
+      top: 0,
+      color: gender === 1 ? '#1a237e' : '#880e4f',
+      display: 'flex',
+      '@media (max-width: 435px)': {
+        flexDirection: 'column'
+      }
     }
   }
 } 

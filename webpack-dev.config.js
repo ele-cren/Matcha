@@ -20,7 +20,7 @@ let config = {
     noInfo: true,
     contentBase: path.resolve(__dirname, 'client/public'),
     proxy: {
-      '/api': 'http://[::1]:3000'
+      '/api': 'http://localhost:3000'
     },
     historyApiFallback: true
   },

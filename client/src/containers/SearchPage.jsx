@@ -33,7 +33,7 @@ class SearchPage extends React.Component {
 
   render () {
     let searchPage = ''
-    if (!this.props.profile.informations || !this.props.profile.informations.bio || !this.props.profile.informations.genre
+    if (!this.props.profile.informations || !this.props.profile.informations.bio || !this.props.profile.informations.gender
         || !this.props.profile.informations.orientation || this.props.profile.pictures.length === 0) {
       searchPage = (
         <Redirect to='/profile/update' />

@@ -3,7 +3,7 @@ import Radium from 'radium'
 import { MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBDropdown,
 MDBDropdownToggle, MDBDropdownMenu, MDBIcon } from "mdbreact"
 import { Link } from 'react-router-dom'
-import { connect } from 'react-redux'
+import NotificationsDropdown from './NotificationsDropdown'
 
 const styles = {
   dropItem: {
@@ -12,7 +12,12 @@ const styles = {
       backgroundColor: '#f7f7f7'
     }
   },
-  userIcon: {
+  icon: {
+    fontSize: '25px',
+  },
+  navbar: {
+    display: 'flex',
+    flexDirection: 'row'
   }
 }
 
@@ -22,17 +27,18 @@ class MatchaNav extends Component {
   }
 
   render() {
-    const color = this.props.profile.informations.genre === 1 ? 'indigo darken-4' : 'pink darken-4'
+    const color = this.props.color
     return (
       <MDBNavbar color={ color } dark expand="md">
         <MDBNavbarBrand>
-          <strong className="white-text">Matcha</strong>
+          <Link to='/'><strong className="white-text">Matcha</strong></Link>
         </MDBNavbarBrand>
-        <MDBNavbarNav right>
+        <MDBNavbarNav right style={ styles.navbar }>
+        <NotificationsDropdown />
           <MDBNavItem>
             <MDBDropdown>
-              <MDBDropdownToggle nav caret style={ styles.userIcon }>
-                <MDBIcon icon="user" />
+              <MDBDropdownToggle nav caret>
+                <MDBIcon icon="user" style={ styles.icon }/>
               </MDBDropdownToggle>
               <MDBDropdownMenu className="dropdown-default" right>
                 <div key={ 1 } style={ styles.dropItem }><Link to='/profile'>Profile</Link></div>
@@ -49,13 +55,4 @@ class MatchaNav extends Component {
 
 MatchaNav = Radium(MatchaNav)
 
-const mapStateToProps = state => {
-  return {
-    profile: state.profile
-  }
-}
-
-const mapDispatchToProps = {
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(MatchaNav)
+export default MatchaNav
