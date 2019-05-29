@@ -18,7 +18,6 @@ class ProfilePage extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      isPageLoading: true,
       isFetching: true,
       profile: {},
       matchModal: false
@@ -31,11 +30,6 @@ class ProfilePage extends React.Component {
   }
 
   componentDidMount () {
-    setTimeout(() => {
-      this.setState({
-        isPageLoading: false
-      })
-    }, 700)
     this.getDataProfile(this.props.match.params.userId)
   }
 
@@ -146,7 +140,7 @@ class ProfilePage extends React.Component {
         </React.Fragment>
       )
     }
-    return this.state.isPageLoading || this.state.isFetching ? <Loader /> : profilePage
+    return this.state.isFetching ? <Loader /> : profilePage
   }
 }
 

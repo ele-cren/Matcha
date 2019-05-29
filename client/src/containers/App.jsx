@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-d
 import LoginPage from './LoginPage'
 import RegisterPage from './RegisterPage'
 import ResetPassword from './ResetPassword'
-import SearchPage from './SearchPage'
+import MainPage from './MainPage'
 import MyProfilePage from './MyProfilePage'
 import ProfilePage from './ProfilePage'
 import UpdateProfile from './UpdateProfile'
@@ -24,18 +24,10 @@ let socket
 class App extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {
-      loaded: false
-    }
   }
   
   componentDidMount () {
     this.props.isLogged()
-    setTimeout(() => {
-      this.setState({
-        loaded: true
-      })
-    }, 700)
     socket = io('http://localhost:3000')
   }
 
@@ -48,7 +40,7 @@ class App extends React.Component {
   }
 
   render () {
-    if (!this.props.user.checked || !this.state.loaded) {
+    if (!this.props.user.checked) {
       return <Loader />
     } else {
       return (
@@ -56,7 +48,7 @@ class App extends React.Component {
           <Notifications />
           <Router>
             <Switch>
-              <PrivateRoute exact path='/' component={ SearchPage } logged={ this.props.user.userId } />
+              <PrivateRoute exact path='/' component={ MainPage } logged={ this.props.user.userId } />
               <AlreadyLoggedRoute path='/login' component={ LoginPage } logged={ this.props.user.userId } /> 
               <AlreadyLoggedRoute path='/register' component={ RegisterPage } logged={ this.props.user.userId } />
               <AlreadyLoggedRoute path='/reset_pass' component={ ResetPassword } logged={ this.props.user.userId } />
