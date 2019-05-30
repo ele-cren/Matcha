@@ -208,7 +208,6 @@ class RegisterPage extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    user: state.user,
     errors: state.errors
   }
 }

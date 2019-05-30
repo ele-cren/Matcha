@@ -40,7 +40,7 @@ class ProfilePage extends React.Component {
   }
 
   updateLike (value = 1) {
-    const userId = this.props.user.userId
+    const userId = this.props.user.user.userId
     const userTarget = this.props.match.params.userId
     const userILike = getUser(this.props.love.usersAboutMe, userTarget)
     const userInfos = getLoveInfosFromProfile(this.props.profile) //Userinfos for notification
@@ -64,7 +64,7 @@ class ProfilePage extends React.Component {
   }
 
   viewProfile () {
-    const userId = this.props.user.userId
+    const userId = this.props.user.user.userId
     const userTarget = this.props.match.params.userId
     const user = getUser(this.props.love.meAboutUsers, userTarget)
     if ((user && !user.view) || !user) {

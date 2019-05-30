@@ -51,7 +51,6 @@ class ProfilePage extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    user: state.user,
     profile: state.profile,
     errors: state.errors
   }

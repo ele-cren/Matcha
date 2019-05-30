@@ -46,7 +46,10 @@ router.post('/login', async (req, res) => {
         success: true,
         message: 'You successfully logged in !',
         errors: {},
-        user: user[0].uuid
+        user: {
+          userId: user[0].uuid,
+          ip: user[0].ip
+        }
       })
     }
     return res.json({
@@ -58,7 +61,7 @@ router.post('/login', async (req, res) => {
 })
 
 router.get('/logged', (req, res) => {
-    return connection.query("SELECT id, pass_changed FROM users WHERE uuid=?", [req.session.userId], async (err, results) => {
+    return connection.query("SELECT pass_changed, ip FROM users WHERE uuid=?", [req.session.userId], async (err, results) => {
       if (err) {
         return res.status(400).send('Error ' + err)
       }
@@ -68,7 +71,10 @@ router.get('/logged', (req, res) => {
       }
       const remoteIp = await publicIp.v4()
       updateIp(req.session.userId, remoteIp)
-      return res.status(200).send(req.session.userId)
+      return res.status(200).json({
+        userId: req.session.userId,
+        ip: results[0].ip
+      })
     })
 })
 

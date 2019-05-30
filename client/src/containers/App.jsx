@@ -32,9 +32,9 @@ class App extends React.Component {
   }
 
   componentDidUpdate () {
-    if (this.props.user.userId && isObjectEmpty(this.props.profile.mainInformations) && !this.props.profile.fetching) {
-      this.props.updateProfile(this.props.user.userId)
-      this.props.updateLove(this.props.user.userId)
+    if (this.props.user.user.userId && isObjectEmpty(this.props.profile.mainInformations) && !this.props.profile.fetching) {
+      this.props.updateProfile(this.props.user.user.userId)
+      this.props.updateLove(this.props.user.user.userId)
       this.props.getNotifications()
     }
   }
@@ -48,15 +48,15 @@ class App extends React.Component {
           <Notifications />
           <Router>
             <Switch>
-              <PrivateRoute exact path='/' component={ MainPage } logged={ this.props.user.userId } />
-              <AlreadyLoggedRoute path='/login' component={ LoginPage } logged={ this.props.user.userId } /> 
-              <AlreadyLoggedRoute path='/register' component={ RegisterPage } logged={ this.props.user.userId } />
-              <AlreadyLoggedRoute path='/reset_pass' component={ ResetPassword } logged={ this.props.user.userId } />
+              <PrivateRoute exact path='/' component={ MainPage } logged={ this.props.user.user.userId } />
+              <AlreadyLoggedRoute path='/login' component={ LoginPage } logged={ this.props.user.user.userId } /> 
+              <AlreadyLoggedRoute path='/register' component={ RegisterPage } logged={ this.props.user.user.userId } />
+              <AlreadyLoggedRoute path='/reset_pass' component={ ResetPassword } logged={ this.props.user.user.userId } />
               <Route path='/logout' component={ Logout } />
               <Route path='/confirm_user/:userId' component={ ConfirmUser } />
-              <PrivateRoute path='/profile' exact component={ MyProfilePage } logged={ this.props.user.userId } />
-              <PrivateRoute path='/profile/update' exact component={ UpdateProfile } logged={ this.props.user.userId } />
-              <PrivateRoute path='/profile/:userId' exact component={ ProfilePage } logged={ this.props.user.userId } />
+              <PrivateRoute path='/profile' exact component={ MyProfilePage } logged={ this.props.user.user.userId } />
+              <PrivateRoute path='/profile/update' exact component={ UpdateProfile } logged={ this.props.user.user.userId } />
+              <PrivateRoute path='/profile/:userId' exact component={ ProfilePage } logged={ this.props.user.user.userId } />
             </Switch>
           </Router>
         </React.Fragment>

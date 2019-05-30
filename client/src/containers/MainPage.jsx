@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { cleanErrors } from '../actions/errorsActions/errorsActions'
 import { Redirect, Link } from 'react-router-dom'
 import Loader from '../components/Loader'
+import GeoLocation from './GeoLocation'
 
 class MainPage extends React.Component {
   constructor (props) {
@@ -28,13 +29,15 @@ class MainPage extends React.Component {
         </div>
       )
     }
+    if (!this.props.profile.latitude || !this.props.profile.longitude) {
+      searchPage = <GeoLocation />
+    }
     return this.props.profile.fetching ? <Loader /> : searchPage
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user,
     profile: state.profile,
     errors: state.errors
   }

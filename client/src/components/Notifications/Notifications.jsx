@@ -31,14 +31,14 @@ class Notifications extends React.Component {
     socket.on('like user', this.checkLike)
     socket.on('dislike user', this.checkDislike)
     socket.on('add notification', (notification) => {
-      if (notification.user_id === this.props.user.userId) {
+      if (notification.user_id === this.props.user.user.userId) {
         this.props.addNotif(notification)
       }
     })
   }
 
   checkLike (userId, userTarget, userProfile) {
-    if (userTarget === this.props.user.userId) {
+    if (userTarget === this.props.user.user.userId) {
       this.notify('notificationLike')
       const user = getUser(this.props.love.meAboutUsers, userId)
       if (user && user.like) {
@@ -53,7 +53,7 @@ class Notifications extends React.Component {
   }
 
   checkDislike (userId, userTarget, userProfile) {
-    if (userTarget === this.props.user.userId) {
+    if (userTarget === this.props.user.user.userId) {
       this.notify('notificationDislike')
       const user = getUser(this.props.love.meAboutUsers, userId)
       if (user && user.like) {
@@ -68,7 +68,7 @@ class Notifications extends React.Component {
   }
 
   checkView (userId, userTarget, userProfile) {
-    if (userTarget === this.props.user.userId) {
+    if (userTarget === this.props.user.user.userId) {
       this.notify('notificationView')
       const usersAboutMe = getView(this.props.love.usersAboutMe, userId, userProfile)
       this.props.updateLove({

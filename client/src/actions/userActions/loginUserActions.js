@@ -29,10 +29,11 @@ export const checkLogged = () => {
     dispatch({ type: FETCHING })
     const xhr = new XMLHttpRequest()
     xhr.open('GET', '/api/auth/logged')
+    xhr.responseType = 'json'
     xhr.send()
     xhr.onload = () => {
       if (xhr.status === 200) {
-        dispatch(logIn(xhr.responseText, ''))
+        dispatch(logIn(xhr.response))
       }
       dispatch({ type: FETCHED })
       dispatch({ type: CHECKED })
@@ -40,11 +41,9 @@ export const checkLogged = () => {
   }
 }
 
-const logIn = (userId) => {
+const logIn = (user) => {
   return {
     type: LOGIN,
-    payload: {
-      userId: userId
-    }
+    payload: user
   }
 }

@@ -34,7 +34,7 @@ class LoginPage extends React.Component {
   }
 
   componentDidUpdate () {
-    if (!this.state.redirect && isObjectEmpty(this.props.errors.errors) && this.props.user.userId) {
+    if (!this.state.redirect && isObjectEmpty(this.props.errors.errors) && this.props.user.user.userId) {
       setTimeout(() => {
         this.setState({
           redirect: true
