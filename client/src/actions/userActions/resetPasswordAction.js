@@ -1,6 +1,7 @@
 import { noErrors, showErrors } from '../errorsActions/errorsActions'
+const Messages = require('../../../languageLocalisation/authMessages.json')
 
-export const resetPass = (login) => {
+export const resetPass = (login, language) => {
   return dispatch => {
     login = encodeURIComponent(login)
     const params = `login=${login}`
@@ -11,9 +12,9 @@ export const resetPass = (login) => {
     xhr.send(params)
     xhr.onload = () => {
       if (xhr.response.success) {
-        dispatch(noErrors('The password has been successfully sent'))
+        dispatch(noErrors(Messages[language]["success_reset"]))
       } else {
-        dispatch(showErrors(xhr.response.errors, 'Reset failed'))
+        dispatch(showErrors(xhr.response.errors, Messages[language]["fail_reset"]))
       }
     }
   }

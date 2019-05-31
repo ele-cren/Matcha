@@ -14,11 +14,11 @@ class ConfirmUser extends React.Component {
 
   componentDidMount () {
     this.props.cleanErrors()
-    this.props.confirmUser(this.props.match.params.userId)
+    this.props.confirmUser(this.props.match.params.userId, "FR")
   }
 
   render () {
-    const confirmationErrors = getConfirmationErrors(this.props.errors.errors)
+    const confirmationErrors = getConfirmationErrors(this.props.errors.errors, "FR")
     const color = this.props.errors.errors.length === 0 ? 'success-color-dark' : 'danger-color-dark'
     const panel = (
       <MDBContainer>

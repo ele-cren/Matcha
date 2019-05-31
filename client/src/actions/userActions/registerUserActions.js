@@ -1,7 +1,8 @@
 import { showErrors, noErrors } from '../errorsActions/errorsActions'
 import { FETCHING, FETCHED } from '../userActions/userConsts'
+const Messages = require('../../../languageLocalisation/authMessages.json')
 
-export const tryRegister = (data) => {
+export const tryRegister = (data, language) => {
   return dispatch => {
     dispatch({ type: FETCHING })
     const first_name = encodeURIComponent(data.first_name)
@@ -18,9 +19,9 @@ export const tryRegister = (data) => {
     xhr.send(params)
     xhr.onload = () => {
       if (xhr.response.success) {
-        dispatch(noErrors('Successfully registered ! Please, confirm your email address'))
+        dispatch(noErrors(Messages[language]["success_register"]))
       } else {
-        dispatch(showErrors(xhr.response.errors, 'The form contains some errors, please fix it'))
+        dispatch(showErrors(xhr.response.errors, Messages[language]["fail_register"]))
       }
       dispatch({ type: FETCHED })
     }

@@ -57,17 +57,11 @@ class LoginPage extends React.Component {
       login: this.state.login,
       password: this.state.password
     }
-    this.props.onLoginUser(data)
-  }
-
-  getLoginErrors (errors) {
-    const loginErrors = {}
-    this.props.errors.forEach(x => {
-    })
+    this.props.onLoginUser(data, "FR")
   }
 
   render () {
-    const loginErrors = getLoginErrors(this.props.errors.errors)
+    const loginErrors = getLoginErrors(this.props.errors.errors, "FR")
     return (
       <React.Fragment>
         <MatchaNav color="pink darken-4" />

@@ -1,6 +1,6 @@
-import * as Errors from '../../languageLocalisation/errors.json'
+const Errors = require('../../languageLocalisation/errors.json')
 
-export const getLoginErrors = (errors) => {
+export const getLoginErrors = (errors, language) => {
   const loginErrors = {}
   const possibleErrors = {
     loginInputErrors: [9, 11, 12],
@@ -8,16 +8,16 @@ export const getLoginErrors = (errors) => {
   }
   errors.forEach(x => {
     if (possibleErrors.loginInputErrors.includes(x)) {
-      loginErrors.login = Errors["FR"][x]
+      loginErrors.login = Errors[language][x]
     }
     if (possibleErrors.passwordInputErrors.includes(x)) {
-      loginErrors.password = Errors["FR"][x]
+      loginErrors.password = Errors[language][x]
     }
   })
   return loginErrors
 }
 
-export const getRegisterErrors = (errors) => {
+export const getRegisterErrors = (errors, language) => {
   const registerErrors = {}
   const possibleErrors = {
     firstNameErrors: [5],
@@ -27,22 +27,22 @@ export const getRegisterErrors = (errors) => {
     passwordErrors: [3, 4],
   }
   errors.forEach(x => {
-    registerErrors.email = possibleErrors.emailErrors.includes(x) ? Errors["FR"][x] : registerErrors.email
-    registerErrors.username = possibleErrors.usernameErrors.includes(x) ? Errors["FR"][x] : registerErrors.username
-    registerErrors.first_name = possibleErrors.firstNameErrors.includes(x) ? Errors["FR"][x] : registerErrors.first_name
-    registerErrors.last_name = possibleErrors.lastNameErrors.includes(x) ? Errors["FR"][x] : registerErrors.last_name
-    registerErrors.password = possibleErrors.passwordErrors.includes(x) ? Errors["FR"][x] : registerErrors.password
+    registerErrors.email = possibleErrors.emailErrors.includes(x) ? Errors[language][x] : registerErrors.email
+    registerErrors.username = possibleErrors.usernameErrors.includes(x) ? Errors[language][x] : registerErrors.username
+    registerErrors.first_name = possibleErrors.firstNameErrors.includes(x) ? Errors[language][x] : registerErrors.first_name
+    registerErrors.last_name = possibleErrors.lastNameErrors.includes(x) ? Errors[language][x] : registerErrors.last_name
+    registerErrors.password = possibleErrors.passwordErrors.includes(x) ? Errors[language][x] : registerErrors.password
   })
   return registerErrors
 }
 
-export const getResetErrors = (errors) => {
+export const getResetErrors = (errors, language) => {
   const resetErrors = {}
   const possibleErrors = {
     loginErrors: [11]
   }
   errors.forEach(x => {
-    resetErrors.login = possibleErrors.loginErrors.includes(x) ? Errors["FR"][x] : resetErrors.login
+    resetErrors.login = possibleErrors.loginErrors.includes(x) ? Errors[language][x] : resetErrors.login
   })
   return resetErrors
 }
@@ -53,7 +53,7 @@ export const getConfirmationErrors = (errors) => {
     userErrors: [14]
   }
   errors.forEach(x => {
-    confirmationErrors.user = possibleErrors.userErrors.includes(x) ? Errors["FR"][x] : confirmationErrors.user
+    confirmationErrors.user = possibleErrors.userErrors.includes(x) ? Errors[language][x] : confirmationErrors.user
   })
   return confirmationErrors
 }

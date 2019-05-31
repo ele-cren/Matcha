@@ -1,7 +1,8 @@
 import { showErrors, noErrors } from '../errorsActions/errorsActions'
 import { LOGIN, FETCHING, FETCHED, CHECKED } from './userConsts'
+const Messages = require('../../../languageLocalisation/authMessages.json')
 
-export const tryLogIn = (data) => {
+export const tryLogIn = (data, language) => {
   return dispatch => {
     dispatch({ type: FETCHING })
     const xhr = new XMLHttpRequest()
@@ -15,9 +16,9 @@ export const tryLogIn = (data) => {
     xhr.onload= () => {
       if (xhr.response.success) {
         dispatch(logIn(xhr.response.user))
-        dispatch(noErrors('You successfully logged in !'))
+        dispatch(noErrors(Messages[language]["success_login"]))
       } else {
-        dispatch(showErrors(xhr.response.errors, 'Log in failed'))
+        dispatch(showErrors(xhr.response.errors, Messages[language]["fail_login"]))
       }
       dispatch({ type: FETCHED })
     }

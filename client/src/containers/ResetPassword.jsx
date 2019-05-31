@@ -40,11 +40,11 @@ class ResetPassword extends React.Component {
 
   submitForm (event) {
     event.preventDefault()
-    this.props.resetPass(this.state.login)
+    this.props.resetPass(this.state.login, "FR")
   }
 
   render () {
-    const resetErrors = getResetErrors(this.props.errors.errors)
+    const resetErrors = getResetErrors(this.props.errors.errors, "FR")
     return (
       <MDBContainer>
       <MDBRow>

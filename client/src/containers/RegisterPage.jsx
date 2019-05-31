@@ -58,7 +58,7 @@ class RegisterPage extends React.Component {
       password: this.state.password,
       password_confirmation: this.state.password_confirmation
     }
-    this.props.onRegister(data)
+    this.props.onRegister(data, "FR")
   }
 
   handleChange (event) {
@@ -68,7 +68,7 @@ class RegisterPage extends React.Component {
   }
 
   render () {
-    const registerErrors = getRegisterErrors(this.props.errors.errors)
+    const registerErrors = getRegisterErrors(this.props.errors.errors, "FR")
     if (!this.state.redirect) {
       return (
         <React.Fragment>
