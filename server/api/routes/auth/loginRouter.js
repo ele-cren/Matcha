@@ -13,7 +13,9 @@ const router = express.Router()
 router.post('/login', async (req, res) => {
   const validation = loginValidation(req.body)
   if (!validation.success) {
-    return res.json(validation)
+    return res.json({
+      errors: validation.errors
+    })
   }
   let user = await getUserFromUsername(req.body.login)
   if (!user) {
@@ -22,15 +24,13 @@ router.post('/login', async (req, res) => {
   if (!user) {
     return res.json({
       success: false,
-      errors: { login: 'This user does not exist' },
-      message: 'Login failed'
+      errors: [11]
     })
   }
   if (!user[0].confirmed) {
     return res.json({
       success: false,
-      errors: { login: 'This user has not been confirmed yet' },
-      message: 'Login failed'
+      errors: [12]
     })
   }
   return bcrypt.compare(req.body.password, user[0].password, async (err, isPasswordValid) => {
@@ -44,8 +44,7 @@ router.post('/login', async (req, res) => {
       updateIp(user[0].uuid, remoteIp)
       return res.json({
         success: true,
-        message: 'You successfully logged in !',
-        errors: {},
+        errors: [],
         user: {
           userId: user[0].uuid,
           ip: user[0].ip
@@ -54,8 +53,7 @@ router.post('/login', async (req, res) => {
     }
     return res.json({
       succes: false,
-      errors: { password: 'Wrong password, please try again or reset your password' },
-      message: 'Login failed',
+      errors: [13]
     })
   })
 })

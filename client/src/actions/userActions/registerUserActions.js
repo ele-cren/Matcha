@@ -18,9 +18,9 @@ export const tryRegister = (data) => {
     xhr.send(params)
     xhr.onload = () => {
       if (xhr.response.success) {
-        dispatch(noErrors(xhr.response.message))
+        dispatch(noErrors('Successfully registered ! Please, confirm your email address'))
       } else {
-        dispatch(showErrors(xhr.response.errors, xhr.response.message))
+        dispatch(showErrors(xhr.response.errors, 'The form contains some errors, please fix it'))
       }
       dispatch({ type: FETCHED })
     }

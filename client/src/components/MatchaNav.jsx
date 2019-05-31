@@ -19,6 +19,10 @@ const styles = {
   navbar: {
     display: 'flex',
     flexDirection: 'row'
+  },
+  linkItem: {
+    color: 'white',
+    margin: '0 15px 0 15px'
   }
 }
 
@@ -30,18 +34,31 @@ class MatchaNav extends Component {
   render() {
     const color = this.props.color
     const userItem = (
-      <MDBNavItem>
-        <MDBDropdown>
-          <MDBDropdownToggle nav caret>
-            <MDBIcon icon="user" style={ styles.icon }/>
-          </MDBDropdownToggle>
-          <MDBDropdownMenu className="dropdown-default" right>
-            <div key={ 1 } style={ styles.dropItem }><Link to='/profile'>Profile</Link></div>
-            <div key={ 2 } style={ styles.dropItem }><Link to='/profile/update'>Edit Profile</Link></div>
-            <div key={ 3 } style={ styles.dropItem }><Link to='/logout'>Logout</Link></div>
-          </MDBDropdownMenu>
-        </MDBDropdown>
-      </MDBNavItem>
+      <React.Fragment>
+        <NotificationsDropdown />
+        <MDBNavItem>
+          <MDBDropdown>
+            <MDBDropdownToggle nav caret>
+              <MDBIcon icon="user" style={ styles.icon }/>
+            </MDBDropdownToggle>
+            <MDBDropdownMenu className="dropdown-default" right>
+              <div key={ 1 } style={ styles.dropItem }><Link to='/profile'>Profile</Link></div>
+              <div key={ 2 } style={ styles.dropItem }><Link to='/profile/update'>Edit Profile</Link></div>
+              <div key={ 3 } style={ styles.dropItem }><Link to='/logout'>Logout</Link></div>
+            </MDBDropdownMenu>
+          </MDBDropdown>
+        </MDBNavItem>
+      </React.Fragment>
+    )
+    const notLoggedItems = (
+      <React.Fragment>
+        <MDBNavItem>
+          <Link to='/login' style={ styles.linkItem }>Log In</Link>
+        </MDBNavItem>
+        <MDBNavItem>
+          <Link to='/register' style={ styles.linkItem }>Register</Link>
+        </MDBNavItem>
+      </React.Fragment>
     )
     return (
       <MDBNavbar color={ color } dark expand="md">
@@ -49,8 +66,7 @@ class MatchaNav extends Component {
           <Link to='/'><strong className="white-text">Matcha</strong></Link>
         </MDBNavbarBrand>
         <MDBNavbarNav right style={ styles.navbar }>
-        <NotificationsDropdown />
-        { this.props.user.user.userId ? userItem : '' }
+        { this.props.user.user.userId ? userItem : notLoggedItems }
         </MDBNavbarNav>
       </MDBNavbar>
     )

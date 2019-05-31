@@ -10,9 +10,9 @@ export const confirmUser = (userId) => {
     xhr.send()
     xhr.onload = () => {
       if (xhr.status === 200) {
-        dispatch(noErrors(xhr.response.message))
+        dispatch(noErrors('User successfully confirmed')) //Update localisation
       } else {
-        dispatch(showErrors(xhr.response.errors, xhr.response.message))
+        dispatch(showErrors(xhr.response.errors, 'User not confirmed'))
       }
       dispatch({ type: FETCHED })
     }

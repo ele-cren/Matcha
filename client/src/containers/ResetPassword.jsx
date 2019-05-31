@@ -16,6 +16,7 @@ import { resetPass } from '../actions/userActions/resetPasswordAction'
 import { Link } from 'react-router-dom'
 import { isObjectEmpty } from '../utilities/utilities'
 import { cleanErrors } from '../actions/errorsActions/errorsActions'
+import { getResetErrors } from '../utilities/errorsFinder'
 
 class ResetPassword extends React.Component {
   constructor (props) {
@@ -43,6 +44,7 @@ class ResetPassword extends React.Component {
   }
 
   render () {
+    const resetErrors = getResetErrors(this.props.errors.errors)
     return (
       <MDBContainer>
       <MDBRow>
@@ -56,7 +58,7 @@ class ResetPassword extends React.Component {
               </MDBCardHeader>
               <form onSubmit={ this.submitForm }>
                 <div className="grey-text">
-                  <p className="red-text mt-3">{ this.props.errors.errors.login }</p>
+                  <p className="red-text mt-3">{ resetErrors.login }</p>
                   <MDBInput
                     className="p-2"
                     name="login"
@@ -77,7 +79,7 @@ class ResetPassword extends React.Component {
                 >
                   Send
                 </MDBBtn>
-                <p className={ isObjectEmpty(this.props.errors.errors) ? 'green-text' : 'red-text' }>
+                <p className={ this.props.errors.errors.length === 0 ? 'green-text' : 'red-text' }>
                   { this.props.errors.message }
                 </p>
               </div>

@@ -47,8 +47,7 @@ router.post('/register', async (req, res) => {
   if (emailExists || userExists) {
     return res.json({
       success: false,
-      message: 'The form contains some errors. Plese fix it',
-      errors: { email: emailExists ? 'This email already exists.' : '', username: userExists ? 'This username already exists' : '' }
+      errors: emailExists && userExists ? [7, 8] : emailExists ? [8] : [7]
     })
   }
   const uuid = uuidv4()
@@ -65,8 +64,7 @@ router.post('/register', async (req, res) => {
         mailer.sendConfirmation(req.body.email, uuid)
         return res.json({
           success: true,
-          message: 'Successfully registered ! Please, confirm your email address',
-          errors: {}
+          errors: []
         })
     })
   });

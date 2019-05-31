@@ -15,9 +15,9 @@ export const tryLogIn = (data) => {
     xhr.onload= () => {
       if (xhr.response.success) {
         dispatch(logIn(xhr.response.user))
-        dispatch(noErrors(xhr.response.message))
+        dispatch(noErrors('You successfully logged in !'))
       } else {
-        dispatch(showErrors(xhr.response.errors, xhr.response.message))
+        dispatch(showErrors(xhr.response.errors, 'Log in failed'))
       }
       dispatch({ type: FETCHED })
     }

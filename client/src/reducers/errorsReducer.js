@@ -1,7 +1,7 @@
 import { SHOW_ERRORS, CLEAN_ERRORS } from '../actions/errorsActions/errorsActions'
 
 const defaultState = {
-  errors: {},
+  errors: [],
   message: ''
 }
 

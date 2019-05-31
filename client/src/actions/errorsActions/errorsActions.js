@@ -15,7 +15,7 @@ export const noErrors = (message) => {
   return {
     type: SHOW_ERRORS,
     payload: {
-      errors: {},
+      errors: [],
       message: message
     }
   }

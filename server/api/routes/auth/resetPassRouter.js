@@ -23,8 +23,7 @@ router.post('/reset_pass', async (req, res) => {
   if (!user) {
     return res.json({
       success: false,
-      errors: { login: 'This user does not exist' },
-      message: 'Reset failed'
+      errors: [11]
     })
   }
   const email = user[0].email
@@ -37,8 +36,7 @@ router.post('/reset_pass', async (req, res) => {
   updatePassChanged(user[0].uuid, '1')
   return res.json({
     success: true,
-    message: 'The password has been successfully sent',
-    errors: {}
+    errors: []
   })
 })
 

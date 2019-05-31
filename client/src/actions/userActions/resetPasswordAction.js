@@ -11,9 +11,9 @@ export const resetPass = (login) => {
     xhr.send(params)
     xhr.onload = () => {
       if (xhr.response.success) {
-        dispatch(noErrors(xhr.response.message))
+        dispatch(noErrors('The password has been successfully sent'))
       } else {
-        dispatch(showErrors(xhr.response.errors, xhr.response.message))
+        dispatch(showErrors(xhr.response.errors, 'Reset failed'))
       }
     }
   }

@@ -15,8 +15,10 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { tryLogIn } from '../actions/userActions/loginUserActions'
 import { cleanErrors } from '../actions/errorsActions/errorsActions'
-import { isObjectEmpty } from '../utilities/utilities';
-
+import { isObjectEmpty } from '../utilities/utilities'
+import MatchaNav from '../components/MatchaNav'
+import { getLoginErrors } from '../utilities/errorsFinder'
+ 
 class LoginPage extends React.Component {
   constructor (props) {
     super(props)
@@ -58,65 +60,75 @@ class LoginPage extends React.Component {
     this.props.onLoginUser(data)
   }
 
+  getLoginErrors (errors) {
+    const loginErrors = {}
+    this.props.errors.forEach(x => {
+    })
+  }
+
   render () {
+    const loginErrors = getLoginErrors(this.props.errors.errors)
     return (
-      <MDBContainer>
-        <MDBRow>
-          <MDBCol md="12">
-            <MDBCard>
-              <MDBCardBody>
-                <MDBCardHeader className="form-header deep-blue-gradient rounded">
-                  <h3 className="my-3">
-                    <MDBIcon icon="lock" /> Login
-                  </h3>
-                </MDBCardHeader>
-                <form onSubmit={ this.submitForm }>
-                  <div className="grey-text">
-                    <p className="red-text mt-3">{ this.props.errors.errors.login }</p>
-                    <MDBInput
-                      className="p-2"
-                      name="login"
-                      value={ this.state.login }
-                      onChange={ this.handleChange }
-                      label="Type your email or your username"
-                      icon="envelope"
-                      group
-                      type="text"
-                    />
-                    <p className="red-text">{ this.props.errors.errors.password }</p>
-                    <MDBInput
-                      className="p-2"
-                      name="password"
-                      value={ this.state.password }
-                      onChange={ this.handleChange }
-                      label="Type your password"
-                      icon="lock"
-                      group
-                      type="password"
-                    />
+      <React.Fragment>
+        <MatchaNav color="pink darken-4" />
+        <MDBContainer>
+          <MDBRow>
+            <MDBCol md="12">
+              <MDBCard className="mt-2">
+                <MDBCardBody>
+                  <MDBCardHeader className="form-header deep-blue-gradient rounded">
+                    <h3 className="my-3">
+                      <MDBIcon icon="lock" /> Login
+                    </h3>
+                  </MDBCardHeader>
+                  <form onSubmit={ this.submitForm }>
+                    <div className="grey-text">
+                      <p className="red-text mt-3">{ loginErrors.login }</p>
+                      <MDBInput
+                        className="p-2"
+                        name="login"
+                        value={ this.state.login }
+                        onChange={ this.handleChange }
+                        label="Type your email or your username"
+                        icon="envelope"
+                        group
+                        type="text"
+                      />
+                      <p className="red-text">{ loginErrors.password }</p>
+                      <MDBInput
+                        className="p-2"
+                        name="password"
+                        value={ this.state.password }
+                        onChange={ this.handleChange }
+                        label="Type your password"
+                        icon="lock"
+                        group
+                        type="password"
+                      />
+                    </div>
+    
+                  <div className="text-center mt-4">
+                    <MDBBtn
+                      color="light-blue"
+                      className="mb-3"
+                      type="submit"
+                    >
+                      Log In
+                    </MDBBtn>
                   </div>
-  
-                <div className="text-center mt-4">
-                  <MDBBtn
-                    color="light-blue"
-                    className="mb-3"
-                    type="submit"
-                  >
-                    Log In
-                  </MDBBtn>
-                </div>
-                </form>
-                <MDBModalFooter>
-                  <div className="font-weight-light">
-                    <p>Not a member ? <Link to='/register'>Sign Up</Link></p>
-                    <p><Link to='/reset_pass'>Forgot my password</Link></p>
-                  </div>
-                </MDBModalFooter>
-              </MDBCardBody>
-            </MDBCard>
-          </MDBCol>
-        </MDBRow>
-      </MDBContainer>
+                  </form>
+                  <MDBModalFooter>
+                    <div className="font-weight-light">
+                      <p>Not a member ? <Link to='/register'>Sign Up</Link></p>
+                      <p><Link to='/reset_pass'>Forgot my password</Link></p>
+                    </div>
+                  </MDBModalFooter>
+                </MDBCardBody>
+              </MDBCard>
+            </MDBCol>
+          </MDBRow>
+        </MDBContainer>
+      </React.Fragment>
     )
   }
 }
