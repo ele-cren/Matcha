@@ -57,11 +57,11 @@ class LoginPage extends React.Component {
       login: this.state.login,
       password: this.state.password
     }
-    this.props.onLoginUser(data, "FR")
+    this.props.onLoginUser(data, this.props.language)
   }
 
   render () {
-    const loginErrors = getLoginErrors(this.props.errors.errors, "FR")
+    const loginErrors = getLoginErrors(this.props.errors.errors, this.props.language)
     return (
       <React.Fragment>
         <MatchaNav color="pink darken-4" />
@@ -130,7 +130,8 @@ class LoginPage extends React.Component {
 const mapStateToProps = state => {
   return {
     user: state.user,
-    errors: state.errors
+    errors: state.errors,
+    language: state.language
   }
 }
 

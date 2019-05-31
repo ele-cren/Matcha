@@ -1,10 +1,12 @@
 import React, { Component } from "react"
 import Radium from 'radium'
 import { MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBDropdown,
-MDBDropdownToggle, MDBDropdownMenu, MDBIcon } from "mdbreact"
+MDBDropdownToggle, MDBDropdownMenu, MDBIcon, MDBDropdownItem } from "mdbreact"
 import { Link } from 'react-router-dom'
 import NotificationsDropdown from './NotificationsDropdown'
 import { connect } from 'react-redux'
+import languages from '../../languageLocalisation/languageList'
+import { updateLanguage } from '../actions/languageActions/languageActions'
 
 const styles = {
   dropItem: {
@@ -15,6 +17,7 @@ const styles = {
   },
   icon: {
     fontSize: '25px',
+    color: 'white'
   },
   navbar: {
     display: 'flex',
@@ -22,7 +25,8 @@ const styles = {
   },
   linkItem: {
     color: 'white',
-    margin: '0 15px 0 15px'
+    margin: '0 15px 0 15px',
+    lineHeight: '40px'
   }
 }
 
@@ -60,6 +64,26 @@ class MatchaNav extends Component {
         </MDBNavItem>
       </React.Fragment>
     )
+    const languagesDiv = languages.map((x, i) => {
+      return (
+        <MDBDropdownItem
+          key={ "lang" + i}
+          className="text-center"
+          disabled={ x === this.props.language }
+          onClick={ () => this.props.updateLanguage(x) }
+          >{ x }</MDBDropdownItem>
+      )
+    })
+    const languageDropdown = (
+      <MDBDropdown>
+        <MDBDropdownToggle nav caret>
+          <MDBIcon icon="flag" style={ styles.icon }/>
+        </MDBDropdownToggle>
+        <MDBDropdownMenu className="dropdown-default" right>
+          { languagesDiv }
+        </MDBDropdownMenu>
+      </MDBDropdown>
+    )
     return (
       <MDBNavbar color={ color } dark expand="md">
         <MDBNavbarBrand>
@@ -67,6 +91,7 @@ class MatchaNav extends Component {
         </MDBNavbarBrand>
         <MDBNavbarNav right style={ styles.navbar }>
         { this.props.user.user.userId ? userItem : notLoggedItems }
+        { languageDropdown }
         </MDBNavbarNav>
       </MDBNavbar>
     )
@@ -77,11 +102,13 @@ MatchaNav = Radium(MatchaNav)
 
 const mapStateToProps = state => {
   return {
-    user: state.user
+    user: state.user,
+    language: state.language
   }
 }
 
 const mapDispatchToProps = {
+  updateLanguage: updateLanguage
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MatchaNav)
