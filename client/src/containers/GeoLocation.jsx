@@ -1,10 +1,12 @@
 import React, { createRef } from 'react'
+import L from 'leaflet'
 import { connect } from 'react-redux'
 import { getCoordsFromIp } from '../requests/geopip'
 import { isObjectEmpty } from '../utilities/utilities'
-import { Map, TileLayer, Marker, Popup } from 'react-leaflet'
-import { MDBCol, MDBContainer } from 'mdbreact'
-import L from 'leaflet'
+import { Map, TileLayer, Marker } from 'react-leaflet'
+import { MDBCol, MDBContainer, MDBAlert, MDBBtn } from 'mdbreact'
+import { updateInformations } from '../actions/profileActions/profileActions'
+import { updateInformations as updateInformationsRequest } from '../requests/profile'
 
 const homeIcon = L.icon({
   iconUrl: 'https://cdn0.iconfinder.com/data/icons/map-location-solid-style/91/Map_-_Location_Solid_Style_23-512.png',
@@ -26,13 +28,15 @@ class GeoLocation extends React.Component {
     this.state = {
       coords: {},
       markerPos: {},
-      zoom: 10
+      zoom: 10,
+      locationType: 'geo'
     }
     this.refmarker = createRef()
     this.refmap = createRef()
     this.updatePosition = this.updatePosition.bind(this)
     this.updateZoom = this.updateZoom.bind(this)
     this.getIpCoords = this.getIpCoords.bind(this)
+    this.saveProfilePosition = this.saveProfilePosition.bind(this)
   }
 
   componentDidMount () {
@@ -43,7 +47,8 @@ class GeoLocation extends React.Component {
       }
       this.setState({
         coords: coords,
-        markerPos: coords
+        markerPos: coords,
+        locationType: 'geo'
       })
     }, () => {
       this.getIpCoords()
@@ -59,7 +64,8 @@ class GeoLocation extends React.Component {
       }
       this.setState({
         coords: coords,
-        markerPos: coords
+        markerPos: coords,
+        locationType: 'ip'
       })
     }
   }
@@ -79,6 +85,14 @@ class GeoLocation extends React.Component {
     }
   }
 
+  saveProfilePosition () {
+    const newProfile = Object.assign({}, this.props.profile)
+    newProfile.informations.latitude = this.state.markerPos.lat
+    newProfile.informations.longitude = this.state.markerPos.lng
+    this.props.updateProfile(newProfile)
+    updateInformationsRequest(newProfile.informations)
+  }
+
   isSamePosition (position, markerPos) {
     return (position.lat === markerPos.lat && position.lng === markerPos.lng)
   }
@@ -88,6 +102,7 @@ class GeoLocation extends React.Component {
     const isSamePos = this.isSamePosition(this.state.coords, this.state.markerPos)
     const map = !isObjectEmpty(this.state.coords) ? (
       <Map
+        className="mt-3"
         onZoomend={ this.updateZoom }
         style={ { height: '500px', width: '100%' } }
         center={position}
@@ -105,13 +120,20 @@ class GeoLocation extends React.Component {
           zIndexOffset={ 10 }
           ref={ this.refmarker }>
         </Marker>
-        { isSamePos ? '' : <Marker position={ position } icon={ homeIcon }></Marker> } 
+        { isSamePos ? '' : <Marker position={ position } icon={ homeIcon }></Marker> }
       </Map>
+    ) : ''
+    const alert = this.state.locationType === 'ip' ? (
+      <MDBAlert color="warning" dismiss className="mt-3">
+        You position is not precise. Please <strong>enable Geo Location</strong> to get a more precise position. 
+      </MDBAlert>
     ) : ''
     return (
       <MDBContainer>
-        <MDBCol md="12">
+        { alert }
+        <MDBCol md="12" className="text-center">
           { map }
+          <MDBBtn onClick={ this.saveProfilePosition } color="unique" className="mt-3">Save</MDBBtn>
         </MDBCol>
       </MDBContainer>
     )
@@ -126,6 +148,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
+  updateProfile: updateInformations
 }
 
 GeoLocation = connect(mapStateToProps, mapDispatchToProps)(GeoLocation)

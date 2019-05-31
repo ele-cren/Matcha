@@ -4,6 +4,7 @@ import { cleanErrors } from '../actions/errorsActions/errorsActions'
 import { Redirect, Link } from 'react-router-dom'
 import Loader from '../components/Loader'
 import GeoLocation from './GeoLocation'
+import MatchaNav from '../components/MatchaNav'
 
 class MainPage extends React.Component {
   constructor (props) {
@@ -29,10 +30,15 @@ class MainPage extends React.Component {
         </div>
       )
     }
-    if (!this.props.profile.latitude || !this.props.profile.longitude) {
+    if (!this.props.profile.informations.latitude || !this.props.profile.informations.longitude) {
       searchPage = <GeoLocation />
     }
-    return this.props.profile.fetching ? <Loader /> : searchPage
+    return this.props.profile.fetching ? <Loader /> : (
+      <React.Fragment>
+        <MatchaNav color="pink darken-4" />
+        { searchPage }
+      </React.Fragment>
+    )
   }
 }
 
