@@ -16,7 +16,8 @@ import { tryRegister } from '../actions/userActions/registerUserActions'
 import { cleanErrors } from '../actions/errorsActions/errorsActions'
 import { Redirect } from 'react-router-dom'
 import MatchaNav from '../components/MatchaNav'
-import { getRegisterErrors } from '../utilities/errorsFinder';
+import { getRegisterErrors } from '../utilities/errorsFinder'
+const Text = require('../../languageLocalisation/texts.json')
  
 class RegisterPage extends React.Component {
   constructor (props) {
@@ -69,6 +70,7 @@ class RegisterPage extends React.Component {
 
   render () {
     const registerErrors = getRegisterErrors(this.props.errors.errors, this.props.language)
+    const myText = Text[this.props.language]
     if (!this.state.redirect) {
       return (
         <React.Fragment>
@@ -80,7 +82,7 @@ class RegisterPage extends React.Component {
                   <MDBCardBody>
                     <MDBCardHeader className="form-header warm-flame-gradient rounded">
                       <h3 className="my-3">
-                      <MDBIcon icon="pen-nib" /> Register
+                      <MDBIcon icon="pen-nib" /> { myText["nav_register"] }
                       </h3>
                     </MDBCardHeader>
                     <br />
@@ -91,7 +93,7 @@ class RegisterPage extends React.Component {
                           htmlFor="first_name"
                           className="grey-text font-weight-light"
                           >
-                          First Name
+                          { myText["first_name"] }
                         </label>
                         <input
                           type="text"
@@ -107,7 +109,7 @@ class RegisterPage extends React.Component {
                           htmlFor="last_name"
                           className="grey-text font-weight-light"
                           >
-                          Last Name
+                          { myText["last_name"] }
                         </label>
                         <input
                           type="text"
@@ -123,7 +125,7 @@ class RegisterPage extends React.Component {
                           htmlFor="username"
                           className="grey-text font-weight-light"
                           >
-                          Username
+                          { myText["username"] }
                         </label>
                         <input
                           type="text"
@@ -139,7 +141,7 @@ class RegisterPage extends React.Component {
                           htmlFor="email"
                           className="grey-text font-weight-light"
                           >
-                          Email
+                          { myText["email"] }
                         </label>
                         <input
                           type="email"
@@ -155,7 +157,7 @@ class RegisterPage extends React.Component {
                           htmlFor="password"
                           className="grey-text font-weight-light"
                           >
-                          Password
+                          { myText["password"] }
                         </label>
                         <input
                           type="password"
@@ -170,7 +172,7 @@ class RegisterPage extends React.Component {
                           htmlFor="password_confirmation"
                           className="grey-text font-weight-light"
                           >
-                          Confirmation
+                          { myText["confirmation"] }
                         </label>
                         <input
                           type="password"
@@ -184,7 +186,7 @@ class RegisterPage extends React.Component {
     
                       <div className="text-center mt-4">
                         <MDBBtn color="deep-orange" className="mb-3" type="submit">
-                        Register
+                        { myText["nav_register"] }
                         </MDBBtn>
                         <p className={ this.props.errors.errors.length === 0 ? 'green-text' : 'red-text' }>
                           { this.props.errors.message }
@@ -193,7 +195,7 @@ class RegisterPage extends React.Component {
                     </form>
                     <MDBModalFooter>
                       <div className="font-weight-light">
-                        <p>Already a member ? <Link to='/login'>Log In</Link></p>
+                        <p>{ myText["already_member"] }<Link to='/login'>{ myText["nav_login"] }</Link></p>
                       </div>
                     </MDBModalFooter>
                   </MDBCardBody>

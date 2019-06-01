@@ -11,6 +11,7 @@ import { updateLove } from '../../actions/loveActions/loveActions'
 import { getUser } from '../../utilities/loveUtilities'
 import { getLike } from '../../utilities/likeUtilities'
 import { addNotification } from '../../actions/notificationsActions/notifActions'
+const Text = require('../../../languageLocalisation/texts.json')
 
 class Notifications extends React.Component {
   constructor (props) {
@@ -81,15 +82,15 @@ class Notifications extends React.Component {
   getTextFromStyle (style) {
     switch (style) {
       case 'notificationView':
-        return <div><MDBIcon far icon="eye" className="mr-3" />Someone viewed your profile</div>
+        return <div><MDBIcon far icon="eye" className="mr-3" />{ Text[this.props.language]["notification_view"] }</div>
       case 'notificationLike':
-        return <div><MDBIcon icon="thumbs-up" className="mr-3" />Someone liked your profile</div>
+        return <div><MDBIcon icon="thumbs-up" className="mr-3" />{ Text[this.props.language]["notification_like"] }</div>
       case 'notificationMatch':
-        return <div><MDBIcon far icon="heart" className="mr-3" />It's a match !</div>
+        return <div><MDBIcon far icon="heart" className="mr-3" />{ Text[this.props.language]["notification_match"] }</div>
       case 'notificationDislike':
-        return <div><MDBIcon icon="thumbs-down" className="mr-3" />Someone doesn't like you anymore</div>
+        return <div><MDBIcon icon="thumbs-down" className="mr-3" />{ Text[this.props.language]["notification_dislike"] }</div>
       case 'notificationUnmatch':
-        return <div><MDBIcon icon="heart-broken" className="mr-3" />It's not a match anymore...</div>
+        return <div><MDBIcon icon="heart-broken" className="mr-3" />{ Text[this.props.language]["notification_unmatch"] }</div>
     }
   }
 
@@ -138,7 +139,8 @@ Notifications = Radium(Notifications)
 const mapStateToProps = (state) => {
   return {
     user: state.user,
-    love: state.love
+    love: state.love,
+    language: state.language
   }
 }
 

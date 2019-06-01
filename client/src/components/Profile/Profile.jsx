@@ -15,6 +15,7 @@ import {
 import MyCarouselItem from '../MyCarouselItem'
 import getStyles from './Profile_styles'
 import { getGender, getOrientation } from '../../utilities/utilities'
+const Text = require('../../../languageLocalisation/texts.json')
 
 
 class Profile extends React.Component {
@@ -24,36 +25,38 @@ class Profile extends React.Component {
   }
 
   getButton (styles) {
-    let button = <MDBBtn className="mt-3" style={ styles.button } color="elegant">Edit</MDBBtn>
+    const myText = Text[this.props.language]
+    let button = <MDBBtn className="mt-3" style={ styles.button } color="elegant">{ myText["button_edit"] }</MDBBtn>
     if (!this.props.isMyProfile) {
       if (this.props.loveInfos.meAboutUser.like) {
         button = <MDBBtn
           className="mt-3"
           style={ styles.button }
           onClick={ () => this.props.updateLike(0) }
-          color="blue-grey">Dislike</MDBBtn>
+          color="blue-grey">{ myText["button_dislike"] }</MDBBtn>
       } else {
         button = <MDBBtn
           className="mt-3"
           style={ styles.button }
           onClick={ () => this.props.updateLike() }
-          color="mdb-color">Like</MDBBtn>
+          color="mdb-color">{ myText["button_like"] }</MDBBtn>
       }
     }
     return button
   }
 
   render ()  {
+    const myText = Text[this.props.language]
     const profile = this.props.profile
-    const gender = getGender(profile.informations.gender)
-    const orientation = getOrientation(profile.informations.orientation)
+    const gender = getGender(profile.informations.gender, myText)
+    const orientation = getOrientation(profile.informations.orientation, myText)
     const styles = getStyles(profile.informations.gender)
     const button = this.getButton(styles)
     const eyeIcon = (
       <React.Fragment>
         <MDBIcon data-tip data-for='eye' className="mt-2 ml-2" far icon="eye" />
         <ReactTooltip id='eye' effect='solid' place="bottom">
-          <span>This user viewed your profile</span>
+          <span>{ myText["eye_popup"] }</span>
         </ReactTooltip>
       </React.Fragment>
     )
@@ -61,7 +64,7 @@ class Profile extends React.Component {
       <React.Fragment>
         <MDBIcon data-tip data-for='heart' className="mt-2 ml-2" far icon="heart" />
         <ReactTooltip id='heart' effect='solid' place="bottom">
-          <span>This user liked your profile</span>
+          <span>{ myText["like_popup"] }</span>
         </ReactTooltip>
       </React.Fragment>
     )
@@ -69,7 +72,7 @@ class Profile extends React.Component {
       <React.Fragment>
       <MDBIcon data-tip data-for='fullHeart' className="mt-2 ml-2" icon="heart" />
       <ReactTooltip id='fullHeart' effect='solid' place="bottom">
-        <span>It's a match !</span>
+        <span>{ myText["match_popup"] }</span>
       </ReactTooltip>
     </React.Fragment>
     )

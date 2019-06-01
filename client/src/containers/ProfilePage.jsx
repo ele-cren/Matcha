@@ -13,6 +13,7 @@ import { getLike } from '../utilities/likeUtilities'
 import { socket } from '../containers/App'
 import { getNotif } from '../utilities/notifications'
 import { getLoveInfosFromProfile } from '../utilities/loveUtilities'
+const Text = require('../../languageLocalisation/texts.json')
 
 class ProfilePage extends React.Component {
   constructor (props) {
@@ -123,6 +124,7 @@ class ProfilePage extends React.Component {
         <React.Fragment>
           <MatchModal
             picture={ this.state.profile.pictures[0].url }
+            language={ this.props.language }
             name={ this.state.profile.mainInformations.first_name + ' ' + this.state.profile.mainInformations.last_name }
             modal={ this.state.matchModal } toggle={ this.toggleModal }
             gender={ this.state.profile.informations.gender } />
@@ -131,6 +133,7 @@ class ProfilePage extends React.Component {
             profile={ this.state.profile }
             loveInfos={ { userAboutMe: loveInfos.userAboutMe, meAboutUser: loveInfos.meAboutUser } }
             updateLike={ this.updateLike }
+            language={ this.props.language }
             isMyProfile={ false } />
         </React.Fragment>
       ) : (
@@ -148,7 +151,8 @@ const mapStateToProps = state => {
   return {
     user: state.user,
     love: state.love,
-    profile: state.profile
+    profile: state.profile,
+    language: state.language
   }
 }
 

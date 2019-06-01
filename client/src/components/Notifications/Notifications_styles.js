@@ -17,7 +17,8 @@ const styles = {
     textAlign: 'center',
     lineHeight: '50px',
     color: 'white',
-    zIndex: '3'
+    zIndex: '3',
+    userSelect: 'none'
   },
   notificationView: {
     backgroundColor: 'rgba(34, 152, 165, 0.8)'

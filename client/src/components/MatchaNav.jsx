@@ -7,6 +7,7 @@ import NotificationsDropdown from './NotificationsDropdown'
 import { connect } from 'react-redux'
 import languages from '../../languageLocalisation/languageList'
 import { updateLanguage } from '../actions/languageActions/languageActions'
+const Text = require('../../languageLocalisation/texts.json')
 
 const styles = {
   dropItem: {
@@ -25,7 +26,7 @@ const styles = {
   },
   linkItem: {
     color: 'white',
-    margin: '0 15px 0 15px',
+    margin: '0 10px 0 10px',
     lineHeight: '40px'
   }
 }
@@ -36,6 +37,7 @@ class MatchaNav extends Component {
   }
 
   render() {
+    const myText = Text[this.props.language]
     const color = this.props.color
     const userItem = (
       <React.Fragment>
@@ -46,9 +48,9 @@ class MatchaNav extends Component {
               <MDBIcon icon="user" style={ styles.icon }/>
             </MDBDropdownToggle>
             <MDBDropdownMenu className="dropdown-default" right>
-              <div key={ 1 } style={ styles.dropItem }><Link to='/profile'>Profile</Link></div>
-              <div key={ 2 } style={ styles.dropItem }><Link to='/profile/update'>Edit Profile</Link></div>
-              <div key={ 3 } style={ styles.dropItem }><Link to='/logout'>Logout</Link></div>
+              <div key={ 1 } style={ styles.dropItem }><Link to='/profile'>{ myText["nav_profile"] }</Link></div>
+              <div key={ 2 } style={ styles.dropItem }><Link to='/profile/update'>{ myText["nav_edit"] }</Link></div>
+              <div key={ 3 } style={ styles.dropItem }><Link to='/logout'>{ myText["nav_logout"] }</Link></div>
             </MDBDropdownMenu>
           </MDBDropdown>
         </MDBNavItem>
@@ -57,10 +59,10 @@ class MatchaNav extends Component {
     const notLoggedItems = (
       <React.Fragment>
         <MDBNavItem>
-          <Link to='/login' style={ styles.linkItem }>Log In</Link>
+          <Link to='/login' style={ styles.linkItem }>{ myText["nav_login"] }</Link>
         </MDBNavItem>
         <MDBNavItem>
-          <Link to='/register' style={ styles.linkItem }>Register</Link>
+          <Link to='/register' style={ styles.linkItem }>{ myText["nav_register"] }</Link>
         </MDBNavItem>
       </React.Fragment>
     )

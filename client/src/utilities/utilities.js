@@ -7,28 +7,28 @@ export const capitalize = (s) => {
   return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
-export const getGender = (genderNum) => {
+export const getGender = (genderNum, text) => {
   switch (genderNum) {
     case 1:
-      return ['Male', '#7986cb']
+      return [text["gender_male"], '#7986cb']
     case 2:
-      return ['Female', '#ad1457']
+      return [text["gender_female"], '#ad1457']
     default:
-      return ['Male', '#7986cb']
+      return [text["gender_male"], '#7986cb']
   }
 }
 
-export const getOrientation = (orientationNum) => {
+export const getOrientation = (orientationNum, text) => {
   switch (orientationNum) {
     case 1:
-      return ['Straight', '#8c7e7a']
+      return [text["orientation_straight"], '#8c7e7a']
     case 2:
-      return ['Bisexual', '#583166']
+      return [text["orientation_bisexual"], '#583166']
     case 3:
-      return ['Lesbian', '#ad1457']
+      return [text["orientation_lesbian"], '#ad1457']
     case 4:
-      return ['Gay', '#7986cb']
+      return [text["orientation_gay"], '#7986cb']
     default:
-      return ['Bisexual', '#a19ee9']
+      return [text["orientation_bisexual"], '#a19ee9']
   }
 }

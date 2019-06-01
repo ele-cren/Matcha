@@ -6,6 +6,7 @@ import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardHeader, MDBBtn, MDBContainer
 import { Link } from 'react-router-dom'
 import Loader from '../components/Loader'
 import { getConfirmationErrors } from '../utilities/errorsFinder'
+const Text = require('../../languageLocalisation/texts.json')
 
 class ConfirmUser extends React.Component {
   constructor (props) {
@@ -18,6 +19,7 @@ class ConfirmUser extends React.Component {
   }
 
   render () {
+    const myText = Text[this.props.language]
     const confirmationErrors = getConfirmationErrors(this.props.errors.errors, this.props.language)
     const color = this.props.errors.errors.length === 0 ? 'success-color-dark' : 'danger-color-dark'
     const panel = (
@@ -26,10 +28,10 @@ class ConfirmUser extends React.Component {
           <MDBCard className="text-center mt-5">
             <MDBCardHeader color={ color }>{ this.props.errors.message }</MDBCardHeader>
             <MDBCardBody>
-              <MDBCardTitle>{ confirmationErrors.user ? confirmationErrors.user : 'You can now Log In' }</MDBCardTitle>
+              <MDBCardTitle>{ confirmationErrors.user ? confirmationErrors.user : myText["success_confirm"] }</MDBCardTitle>
               <Link to='/login' style={ { color: 'black' } }>
                 <MDBBtn color={ null } size="md">
-                  Log In
+                  { myText["login_button"] }
                 </MDBBtn>
               </Link>
             </MDBCardBody>

@@ -18,6 +18,7 @@ import { cleanErrors } from '../actions/errorsActions/errorsActions'
 import { isObjectEmpty } from '../utilities/utilities'
 import MatchaNav from '../components/MatchaNav'
 import { getLoginErrors } from '../utilities/errorsFinder'
+const Text = require('../../languageLocalisation/texts.json')
  
 class LoginPage extends React.Component {
   constructor (props) {
@@ -61,6 +62,7 @@ class LoginPage extends React.Component {
   }
 
   render () {
+    const myText = Text[this.props.language]
     const loginErrors = getLoginErrors(this.props.errors.errors, this.props.language)
     return (
       <React.Fragment>
@@ -72,7 +74,7 @@ class LoginPage extends React.Component {
                 <MDBCardBody>
                   <MDBCardHeader className="form-header deep-blue-gradient rounded">
                     <h3 className="my-3">
-                      <MDBIcon icon="lock" /> Login
+                      <MDBIcon icon="lock" /> { myText["login_title"] }
                     </h3>
                   </MDBCardHeader>
                   <form onSubmit={ this.submitForm }>
@@ -83,7 +85,7 @@ class LoginPage extends React.Component {
                         name="login"
                         value={ this.state.login }
                         onChange={ this.handleChange }
-                        label="Type your email or your username"
+                        label={ myText["login_label"] }
                         icon="envelope"
                         group
                         type="text"
@@ -94,7 +96,7 @@ class LoginPage extends React.Component {
                         name="password"
                         value={ this.state.password }
                         onChange={ this.handleChange }
-                        label="Type your password"
+                        label={ myText["password_label"] }
                         icon="lock"
                         group
                         type="password"
@@ -107,14 +109,14 @@ class LoginPage extends React.Component {
                       className="mb-3"
                       type="submit"
                     >
-                      Log In
+                      { myText["login_button"] }
                     </MDBBtn>
                   </div>
                   </form>
                   <MDBModalFooter>
                     <div className="font-weight-light">
-                      <p>Not a member ? <Link to='/register'>Sign Up</Link></p>
-                      <p><Link to='/reset_pass'>Forgot my password</Link></p>
+                      <p>{ myText["not_member"] }<Link to='/register'>{ myText["nav_register"] }</Link></p>
+                      <p><Link to='/reset_pass'>{ myText["forgot_pass"] }</Link></p>
                     </div>
                   </MDBModalFooter>
                 </MDBCardBody>

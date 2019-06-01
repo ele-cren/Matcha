@@ -6,7 +6,6 @@ import Loader from '../components/Loader'
 import MatchaNav from '../components/MatchaNav'
 import { isObjectEmpty } from '../utilities/utilities'
 import Profile from '../components/Profile/Profile'
-import { getLovers } from '../requests/profile'
 
 class ProfilePage extends React.Component {
   constructor (props) {
@@ -38,7 +37,7 @@ class ProfilePage extends React.Component {
     let profilePage = (
       <React.Fragment>
         <MatchaNav color={ this.props.profile.informations.gender === 1 ? "indigo darken-4" : "pink darken-4" } />
-        <Profile profile={ this.props.profile } isMyProfile={ true }/>
+        <Profile profile={ this.props.profile } isMyProfile={ true } language={ this.props.language }/>
       </React.Fragment>
     )
     profilePage = (isObjectEmpty(this.props.profile.informations) ||
@@ -52,7 +51,8 @@ class ProfilePage extends React.Component {
 const mapStateToProps = state => {
   return {
     profile: state.profile,
-    errors: state.errors
+    errors: state.errors,
+    language: state.language
   }
 }
 

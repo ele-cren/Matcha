@@ -84,7 +84,7 @@ const getStyles = (gender = 1) => {
       padding: '3px'
     },
     button: {
-      width: 115,
+      width: 165,
       height: 50
     },
     loveIcons: {
