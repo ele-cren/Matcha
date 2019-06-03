@@ -14,6 +14,7 @@ import { checkLogged } from '../actions/userActions/loginUserActions'
 import { getLoveInformations } from '../actions/loveActions/loveActions'
 import { getInformations } from '../actions/profileActions/profileActions'
 import { getNotifications } from '../actions/notificationsActions/notifActions'
+import { getBlocked } from '../actions/blockedActions/blockedActions'
 import { connect } from 'react-redux'
 import { isObjectEmpty } from '../utilities/utilities'
 import Logout from './Logout'
@@ -35,6 +36,7 @@ class App extends React.Component {
       socket = io('http://localhost:3000', { query: 'userId=' + this.props.user.user.userId })
       this.props.updateProfile(this.props.user.user.userId)
       this.props.updateLove(this.props.user.user.userId)
+      this.props.getBlocked()
       this.props.getNotifications()
     }
   }
@@ -116,7 +118,8 @@ const mapDispatchToProps = {
   isLogged: checkLogged,
   updateProfile: getInformations,
   updateLove: getLoveInformations,
-  getNotifications: getNotifications
+  getNotifications: getNotifications,
+  getBlocked: getBlocked
 }
 
 App = connect(mapStateToProps, mapDispatchToProps)(App)

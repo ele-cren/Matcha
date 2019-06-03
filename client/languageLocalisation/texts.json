@@ -51,7 +51,10 @@
     "send_button": "Envoyer",
     "remember_password": "Vous vous souvenez de votre mot de passe ? ",
     "online": "En ligne",
-    "offline": "Hors ligne"
+    "offline": "Hors ligne",
+    "angry_popup": "Signaler cet utilisateur",
+    "block_popup": "Bloquer cet utilisateur",
+    "unblock_popup": "Débloquer cet utilisateur"
   },
   "EN": {
     "notification_view": "Someone viewed your profile",
@@ -105,6 +108,9 @@
     "send_button": "Send",
     "remember_password": "Remember password ? ",
     "online": "Online",
-    "offline": "Offline"
+    "offline": "Offline",
+    "angry_popup": "Report this user",
+    "block_popup": "Block this user",
+    "unblock_popup": "Unblock this user"
   }
 }

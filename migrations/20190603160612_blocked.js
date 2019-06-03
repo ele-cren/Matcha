@@ -1,12 +1,12 @@
 
 exports.up = function(knex, Promise) {
-  return knex.schema.createTable('sessions', table => {
+  return knex.schema.createTable('blocked', table => {
     table.increments('id')
     table.string('user_id')
-    table.string('socket_id')
+    table.string('blocked_user')
   })
 }
 
 exports.down = function(knex, Promise) {
-  return knex.schema.dropTable('sessions')
+  return knex.schema.dropTable('blocked')
 };

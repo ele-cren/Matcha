@@ -67,7 +67,7 @@ class Profile extends React.Component {
     const heartIcon = (
       <React.Fragment>
         <MDBIcon data-tip data-for='heart' className="mt-2 ml-2" far icon="heart" />
-        <ReactTooltip id='heart' effect='solid' place="bottom">
+        <ReactTooltip id='heart' effect='solid' place="right">
           <span>{ myText["like_popup"] }</span>
         </ReactTooltip>
       </React.Fragment>
@@ -75,7 +75,7 @@ class Profile extends React.Component {
     const fullHeartIcon = (
       <React.Fragment>
       <MDBIcon data-tip data-for='fullHeart' className="mt-2 ml-2" icon="heart" />
-      <ReactTooltip id='fullHeart' effect='solid' place="bottom">
+      <ReactTooltip id='fullHeart' effect='solid' place="rihgt">
         <span>{ myText["match_popup"] }</span>
       </ReactTooltip>
     </React.Fragment>
@@ -86,6 +86,36 @@ class Profile extends React.Component {
         { this.props.loveInfos.userAboutMe.like ? this.props.loveInfos.meAboutUser.like ? fullHeartIcon : heartIcon : '' }
       </div>
     ) : ''
+    const reportIcon = (
+      <React.Fragment>
+        <MDBIcon data-tip data-for='angry' className="mt-2 ml-2" icon="angry" style={ styles.banIcon } />
+        <ReactTooltip id='angry' effect='solid' place="left">
+          <span>{ myText["angry_popup"] }</span>
+        </ReactTooltip>
+      </React.Fragment>
+    )
+    const blockIcon = (
+      <React.Fragment>
+        <MDBIcon data-tip data-for='block' className="mt-2 ml-2" icon="ban" style={ styles.banIcon } />
+        <ReactTooltip id='block' effect='solid' place="left">
+          <span>{ myText["block_popup"] }</span>
+        </ReactTooltip>
+      </React.Fragment>
+    )
+    const unblockIcon = (
+      <React.Fragment>
+        <MDBIcon data-tip data-for='unblock' className="mt-2 ml-2" far icon="check-circle" style={ styles.banIcon } />
+        <ReactTooltip id='unblock' effect='solid' place="left">
+          <span>{ myText["unblock_popup"] }</span>
+        </ReactTooltip>
+      </React.Fragment>
+    )
+    const banIcons = (
+      <div style={ styles.banIcons }>
+        { this.props.blocked && this.props.blocked.includes(profile.informations.user_id) ? '' : reportIcon }
+        { this.props.blocked && this.props.blocked.includes(profile.informations.user_id) ? unblockIcon : blockIcon }
+      </div>
+    )
     let pictures = []
     profile.pictures.map(x => pictures = x.main ? [x, ...pictures] : [...pictures, x])
 
@@ -94,6 +124,7 @@ class Profile extends React.Component {
         <MDBCol md="8">
           <MDBCard style={ styles.card }>
             { this.props.isMyProfile ? '' : userIcons  }
+            { this.props.isMyProfile ? '' : banIcons }
             <MDBCarousel
               activeItem={1}
               length={ pictures.length }

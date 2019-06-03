@@ -146,6 +146,7 @@ class ProfilePage extends React.Component {
             loveInfos={ { userAboutMe: loveInfos.userAboutMe, meAboutUser: loveInfos.meAboutUser } }
             updateLike={ this.updateLike }
             language={ this.props.language }
+            blocked={ this.props.blocked }
             isMyProfile={ false } />
         </React.Fragment>
       ) : (
@@ -164,7 +165,8 @@ const mapStateToProps = state => {
     user: state.user,
     love: state.love,
     profile: state.profile,
-    language: state.language
+    language: state.language,
+    blocked: state.blocked
   }
 }
 

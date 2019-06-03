@@ -96,6 +96,9 @@ const getStyles = (gender = 1) => {
       display: 'flex',
       '@media (max-width: 435px)': {
         flexDirection: 'column'
+      },
+      '@media (max-width: 345px)': {
+        fontSize: '20px'
       }
     },
     score: {
@@ -106,6 +109,23 @@ const getStyles = (gender = 1) => {
     online: {
       fontSize: '15px',
       marginTop: '5px'
+    },
+    banIcons: {
+      fontSize: '30px',
+      position: 'absolute',
+      right: 0,
+      top: 0,
+      color: gender === 1 ? '#1a237e' : '#880e4f',
+      display: 'flex',
+      '@media (max-width: 435px)': {
+        flexDirection: 'column'
+      },
+      '@media (max-width: 345px)': {
+        fontSize: '20px'
+      }
+    },
+    banIcon: {
+      cursor: 'pointer'
     }
   }
 } 
