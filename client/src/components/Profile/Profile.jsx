@@ -102,7 +102,7 @@ class Profile extends React.Component {
                   <MyCarouselItem key={ i } url={ x.url } id={ i + 1 } isMain={ x.main } styles={ styles } />) }
               </MDBCarouselInner>
             </MDBCarousel>
-            <h2 className='mt-3'>
+            <h2 className='mt-3 text-center'>
             { profile.mainInformations.first_name + ' ' + profile.mainInformations.last_name + ', ' + profile.informations.age }
             </h2>
             <MDBCardBody className="text-center">

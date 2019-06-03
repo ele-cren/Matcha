@@ -28,11 +28,11 @@ class App extends React.Component {
   
   componentDidMount () {
     this.props.isLogged()
-    socket = io('http://localhost:3000')
   }
-
+  
   componentDidUpdate () {
     if (this.props.user.user.userId && isObjectEmpty(this.props.profile.mainInformations) && !this.props.profile.fetching) {
+      socket = io('http://localhost:3000', { query: 'userId=' + this.props.user.user.userId })
       this.props.updateProfile(this.props.user.user.userId)
       this.props.updateLove(this.props.user.user.userId)
       this.props.getNotifications()
@@ -45,7 +45,7 @@ class App extends React.Component {
     } else {
       return (
         <React.Fragment>
-          <Notifications />
+          { socket ? <Notifications /> : '' }
           <Router>
             <Switch>
               <PrivateRoute exact path='/' component={ MainPage } logged={ this.props.user.user.userId } />

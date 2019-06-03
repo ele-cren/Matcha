@@ -5,6 +5,7 @@ import { Redirect, Link } from 'react-router-dom'
 import Loader from '../components/Loader'
 import GeoLocation from './GeoLocation'
 import MatchaNav from '../components/MatchaNav'
+import SearchPage from './SearchPage/SearchPage'
 
 class MainPage extends React.Component {
   constructor (props) {
@@ -16,27 +17,22 @@ class MainPage extends React.Component {
   }
 
   render () {
-    let searchPage = ''
+    let mainPage = ''
     if (!this.props.profile.informations || !this.props.profile.informations.bio || !this.props.profile.informations.gender
         || !this.props.profile.informations.orientation || this.props.profile.pictures.length === 0) {
-      searchPage = (
+      mainPage = (
         <Redirect to='/profile/update' />
       )
     } else {
-      searchPage = (
-        <div>
-          <h1>Hello Search</h1>
-          <Link to='/profile'>My Profile</Link>
-        </div>
-      )
+      mainPage = <SearchPage />
     }
     if (!this.props.profile.informations.latitude || !this.props.profile.informations.longitude) {
-      searchPage = <GeoLocation />
+      mainPage = <GeoLocation />
     }
     return this.props.profile.fetching ? <Loader /> : (
       <React.Fragment>
         <MatchaNav color="pink darken-4" />
-        { searchPage }
+        { mainPage }
       </React.Fragment>
     )
   }
