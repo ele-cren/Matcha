@@ -97,6 +97,15 @@ const getStyles = (gender = 1) => {
       '@media (max-width: 435px)': {
         flexDirection: 'column'
       }
+    },
+    score: {
+      color: gender === 1 ? '#1a237e' : '#880e4f',
+      fontSize: '30px',
+      marginLeft: '5px'
+    },
+    online: {
+      fontSize: '15px',
+      marginTop: '5px'
     }
   }
 } 

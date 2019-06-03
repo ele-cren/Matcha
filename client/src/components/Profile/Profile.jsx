@@ -51,6 +51,10 @@ class Profile extends React.Component {
     const gender = getGender(profile.informations.gender, myText)
     const orientation = getOrientation(profile.informations.orientation, myText)
     const styles = getStyles(profile.informations.gender)
+    const dotStyle = {
+      color: profile.mainInformations.online ? '#81ad64' : '#ad1838',
+      fontSize: '10px'
+    }
     const button = this.getButton(styles)
     const eyeIcon = (
       <React.Fragment>
@@ -102,8 +106,14 @@ class Profile extends React.Component {
                   <MyCarouselItem key={ i } url={ x.url } id={ i + 1 } isMain={ x.main } styles={ styles } />) }
               </MDBCarouselInner>
             </MDBCarousel>
-            <h2 className='mt-3 text-center'>
-            { profile.mainInformations.first_name + ' ' + profile.mainInformations.last_name + ', ' + profile.informations.age }
+            <h2 style={ styles.online } className="text-center">
+              <MDBIcon icon="circle" style={ dotStyle } /> { profile.mainInformations.online ? myText["online"] : myText["offline"] }
+            </h2>
+            <h2 className='mt-2 text-center'>
+              { profile.mainInformations.first_name + ' ' + profile.mainInformations.last_name + ', ' + profile.informations.age }
+            </h2>
+            <h2 className="mt-2 text-center">
+              { profile.informations.score } <MDBIcon far icon="star" style={ styles.score } />
             </h2>
             <MDBCardBody className="text-center">
               <MDBCardText style={ styles.bio }>

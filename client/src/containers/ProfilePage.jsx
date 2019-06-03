@@ -28,6 +28,7 @@ class ProfilePage extends React.Component {
     this.getLoveInfos = this.getLoveInfos.bind(this)
     this.viewProfile = this.viewProfile.bind(this)
     this.updateLike = this.updateLike.bind(this)
+    this.addScore = this.addScore.bind(this)
   }
 
   componentDidMount () {
@@ -49,6 +50,7 @@ class ProfilePage extends React.Component {
     socket.emit('add notification', notif)
     socket.emit(value === 1 ? 'like user' : 'dislike user', userId, userTarget, this.props.profile)
     const meAboutUsers = getLike(this.props.love.meAboutUsers, userTarget, this.state.profile, value)
+    this.addScore(value === 1 ?  20 : -20)
     this.props.updateLove({
       meAboutUsers: meAboutUsers,
       usersAboutMe: this.props.love.usersAboutMe
@@ -69,6 +71,7 @@ class ProfilePage extends React.Component {
     const userTarget = this.props.match.params.userId
     const user = getUser(this.props.love.meAboutUsers, userTarget)
     if ((user && !user.view) || !user) {
+      this.addScore(10)
       const notif = getNotif(1, userTarget, userId, getLoveInfosFromProfile(this.props.profile))
       socket.emit('add notification', notif)
       socket.emit('view user', userId, userTarget, this.props.profile)
@@ -78,6 +81,14 @@ class ProfilePage extends React.Component {
         usersAboutMe: this.props.love.usersAboutMe
       })
     }
+  }
+
+  addScore (score) {
+    const newProfile = Object.assign({}, this.state.profile)
+    newProfile.informations.score += score
+    this.setState({
+      profile: newProfile
+    })
   }
 
   getLoveInfos () {
@@ -117,6 +128,7 @@ class ProfilePage extends React.Component {
   }
   
   render () {
+    const myText = Text[this.props.language]
     const loveInfos = this.getLoveInfos()
     let profilePage = ''
     if (!isObjectEmpty(this.state.profile)) {
@@ -139,7 +151,7 @@ class ProfilePage extends React.Component {
       ) : (
         <React.Fragment>
           <MatchaNav color="brown lighten-3" />
-          <h2 className="text-center mt-4">This profile does not exist</h2>
+          <h2 className="text-center mt-4">{ myText["profile_notexist"] }</h2>
         </React.Fragment>
       )
     }

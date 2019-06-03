@@ -49,7 +49,9 @@
     "already_member": "Déjà membre ? ",
     "reset_password": "Réinitialiser",
     "send_button": "Envoyer",
-    "remember_password": "Vous vous souvenez de votre mot de passe ? "
+    "remember_password": "Vous vous souvenez de votre mot de passe ? ",
+    "online": "En ligne",
+    "offline": "Hors ligne"
   },
   "EN": {
     "notification_view": "Someone viewed your profile",
@@ -101,6 +103,8 @@
     "already_member": "Already a member ? ",
     "reset_password": "Reset",
     "send_button": "Send",
-    "remember_password": "Remember password ? "
+    "remember_password": "Remember password ? ",
+    "online": "Online",
+    "offline": "Offline"
   }
 }

@@ -11,6 +11,7 @@ import { updateLove } from '../../actions/loveActions/loveActions'
 import { getUser } from '../../utilities/loveUtilities'
 import { getLike } from '../../utilities/likeUtilities'
 import { addNotification } from '../../actions/notificationsActions/notifActions'
+import { updateInformations } from '../../actions/profileActions/profileActions'
 const Text = require('../../../languageLocalisation/texts.json')
 
 class Notifications extends React.Component {
@@ -25,6 +26,7 @@ class Notifications extends React.Component {
     this.checkView = this.checkView.bind(this)
     this.checkLike = this.checkLike.bind(this)
     this.checkDislike = this.checkDislike.bind(this)
+    this.addScore = this.addScore.bind(this)
   }
 
   componentDidMount () {
@@ -46,6 +48,7 @@ class Notifications extends React.Component {
         this.notify('notificationMatch')
       }
       const usersAboutMe = getLike(this.props.love.usersAboutMe, userId, userProfile)
+      this.addScore(20)
       this.props.updateLove({
         meAboutUsers: this.props.love.meAboutUsers,
         usersAboutMe: usersAboutMe
@@ -61,6 +64,7 @@ class Notifications extends React.Component {
         this.notify('notificationUnmatch')
       }
       const usersAboutMe = getLike(this.props.love.usersAboutMe, userId, userProfile, 0)
+      this.addScore(-20)
       this.props.updateLove({
         meAboutUsers: this.props.love.meAboutUsers,
         usersAboutMe: usersAboutMe
@@ -72,12 +76,19 @@ class Notifications extends React.Component {
     if (userTarget === this.props.user.user.userId) {
       this.notify('notificationView')
       const usersAboutMe = getView(this.props.love.usersAboutMe, userId, userProfile)
+      this.addScore(10)
       this.props.updateLove({
         meAboutUsers: this.props.love.meAboutUsers,
         usersAboutMe: usersAboutMe
       })
     }
   }
+
+  addScore (score) {
+    const myProfile = Object.assign({}, this.props.profile)
+    myProfile.informations.score += score
+    this.props.updateProfileInformations(myProfile)
+  } 
 
   getTextFromStyle (style) {
     switch (style) {
@@ -140,13 +151,15 @@ const mapStateToProps = (state) => {
   return {
     user: state.user,
     love: state.love,
-    language: state.language
+    language: state.language,
+    profile: state.profile
   }
 }
 
 const mapDispatchTopProps = {
   updateLove: updateLove,
-  addNotif: addNotification
+  addNotif: addNotification,
+  updateProfileInformations: updateInformations
 }
 
 export default connect(mapStateToProps, mapDispatchTopProps)(Notifications)
