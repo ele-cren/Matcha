@@ -1,0 +1,22 @@
+{
+  "FR": {
+    "success_login": "Vous êtes maintenant connecté(e)",
+    "success_register": "Inscription réussie ! Veuillez confirmer votre adresse email",
+    "success_reset": "Votre nouveau mot de passe a été envoyé",
+    "success_confirm": "Votre compte est maintenant confirmé",
+    "fail_login": "Authentification échouée",
+    "fail_register": "Le formulaire contient des erreurs, veuillez les corriger",
+    "fail_reset": "L'envoi a echoué",
+    "fail_confirm": "Vous n'avez pas été confirmé"
+  },
+  "EN": {
+    "success_login": "You successfully logged in !",
+    "success_register": "Successfully registered ! Please, confirm your email address",
+    "success_reset": "The password has been successfully sent",
+    "success_confirm": "User successfully confirmed",
+    "fail_login": "Log in failed",
+    "fail_register": "The form contains some errors, please fix it",
+    "fail_reset": "Reset failed",
+    "fail_confirm": "User has not been confirmed"
+  }
+}

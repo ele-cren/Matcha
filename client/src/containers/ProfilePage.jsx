@@ -13,12 +13,14 @@ import { getLike } from '../utilities/likeUtilities'
 import { socket } from '../containers/App'
 import { getNotif } from '../utilities/notifications'
 import { getLoveInfosFromProfile } from '../utilities/loveUtilities'
+import { blockUser, removeBlocked, reportUser } from '../actions/banActions/banActions'
+import { blockUser as requestBlock, removeBlockedUser as requestUnblock, reportUser as requestReport } from '../requests/ban'
+const Text = require('../../languageLocalisation/texts.json')
 
 class ProfilePage extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      isPageLoading: true,
       isFetching: true,
       profile: {},
       matchModal: false
@@ -28,14 +30,12 @@ class ProfilePage extends React.Component {
     this.getLoveInfos = this.getLoveInfos.bind(this)
     this.viewProfile = this.viewProfile.bind(this)
     this.updateLike = this.updateLike.bind(this)
+    this.addScore = this.addScore.bind(this)
+    this.blockUser = this.blockUser.bind(this)
+    this.reportUser = this.reportUser.bind(this)
   }
 
   componentDidMount () {
-    setTimeout(() => {
-      this.setState({
-        isPageLoading: false
-      })
-    }, 700)
     this.getDataProfile(this.props.match.params.userId)
   }
 
@@ -45,8 +45,25 @@ class ProfilePage extends React.Component {
     })
   }
 
+  blockUser (value = 1) {
+    const userToBlock = this.props.match.params.userId
+    if (value) {
+      this.props.blockUser(userToBlock)
+      requestBlock(userToBlock)
+    } else {
+      this.props.unblockUser(userToBlock)
+      requestUnblock(userToBlock)
+    }
+  }
+
+  reportUser () {
+    const userToReport = this.props.match.params.userId
+    this.props.reportUser(userToReport)
+    requestReport(userToReport)
+  }
+
   updateLike (value = 1) {
-    const userId = this.props.user.userId
+    const userId = this.props.user.user.userId
     const userTarget = this.props.match.params.userId
     const userILike = getUser(this.props.love.usersAboutMe, userTarget)
     const userInfos = getLoveInfosFromProfile(this.props.profile) //Userinfos for notification
@@ -54,6 +71,7 @@ class ProfilePage extends React.Component {
     socket.emit('add notification', notif)
     socket.emit(value === 1 ? 'like user' : 'dislike user', userId, userTarget, this.props.profile)
     const meAboutUsers = getLike(this.props.love.meAboutUsers, userTarget, this.state.profile, value)
+    this.addScore(value === 1 ?  20 : -20)
     this.props.updateLove({
       meAboutUsers: meAboutUsers,
       usersAboutMe: this.props.love.usersAboutMe
@@ -70,10 +88,11 @@ class ProfilePage extends React.Component {
   }
 
   viewProfile () {
-    const userId = this.props.user.userId
+    const userId = this.props.user.user.userId
     const userTarget = this.props.match.params.userId
     const user = getUser(this.props.love.meAboutUsers, userTarget)
     if ((user && !user.view) || !user) {
+      this.addScore(10)
       const notif = getNotif(1, userTarget, userId, getLoveInfosFromProfile(this.props.profile))
       socket.emit('add notification', notif)
       socket.emit('view user', userId, userTarget, this.props.profile)
@@ -83,6 +102,14 @@ class ProfilePage extends React.Component {
         usersAboutMe: this.props.love.usersAboutMe
       })
     }
+  }
+
+  addScore (score) {
+    const newProfile = Object.assign({}, this.state.profile)
+    newProfile.informations.score += score
+    this.setState({
+      profile: newProfile
+    })
   }
 
   getLoveInfos () {
@@ -122,6 +149,7 @@ class ProfilePage extends React.Component {
   }
   
   render () {
+    const myText = Text[this.props.language]
     const loveInfos = this.getLoveInfos()
     let profilePage = ''
     if (!isObjectEmpty(this.state.profile)) {
@@ -129,6 +157,7 @@ class ProfilePage extends React.Component {
         <React.Fragment>
           <MatchModal
             picture={ this.state.profile.pictures[0].url }
+            language={ this.props.language }
             name={ this.state.profile.mainInformations.first_name + ' ' + this.state.profile.mainInformations.last_name }
             modal={ this.state.matchModal } toggle={ this.toggleModal }
             gender={ this.state.profile.informations.gender } />
@@ -137,16 +166,20 @@ class ProfilePage extends React.Component {
             profile={ this.state.profile }
             loveInfos={ { userAboutMe: loveInfos.userAboutMe, meAboutUser: loveInfos.meAboutUser } }
             updateLike={ this.updateLike }
+            language={ this.props.language }
+            ban={ this.props.ban }
+            blockUser={ this.blockUser }
+            reportUser={ this.reportUser }
             isMyProfile={ false } />
         </React.Fragment>
       ) : (
         <React.Fragment>
           <MatchaNav color="brown lighten-3" />
-          <h2 className="text-center mt-4">This profile does not exist</h2>
+          <h2 className="text-center mt-4">{ myText["profile_notexist"] }</h2>
         </React.Fragment>
       )
     }
-    return this.state.isPageLoading || this.state.isFetching ? <Loader /> : profilePage
+    return this.state.isFetching ? <Loader /> : profilePage
   }
 }
 
@@ -154,12 +187,17 @@ const mapStateToProps = state => {
   return {
     user: state.user,
     love: state.love,
-    profile: state.profile
+    profile: state.profile,
+    language: state.language,
+    ban: state.ban
   }
 }
 
 const mapDispatchToProps = {
-  updateLove: updateLove
+  updateLove: updateLove,
+  blockUser: blockUser,
+  unblockUser: removeBlocked,
+  reportUser: reportUser
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage)

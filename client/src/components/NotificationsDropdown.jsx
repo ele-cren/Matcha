@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { updateNotif, deleteNotif } from '../actions/notificationsActions/notifActions'
 import { socket } from '../containers/App'
 import { Link } from 'react-router-dom'
+const Text = require('../../languageLocalisation/texts.json')
 
 const styles = (color = '#edf8f9') => {
   return {
@@ -15,7 +16,7 @@ const styles = (color = '#edf8f9') => {
     count: {
       position: 'absolute',
       top: '10px',
-      right: '80px',
+      right: '130px',
       width: '15px',
       height: '15px',
       backgroundColor: 'red',
@@ -55,6 +56,7 @@ class NotificationsDropdown extends React.Component {
     super(props)
     this.viewNotifs = this.viewNotifs.bind(this)
     this.deleteNotif = this.deleteNotif.bind(this)
+    this.getText = this.getText.bind(this)
   }
 
   viewNotifs () {
@@ -70,19 +72,20 @@ class NotificationsDropdown extends React.Component {
   }
 
   getText (notif) {
+    const myText = Text[this.props.language]
     switch (notif.type) {
       case 1:
-        return notif.userInfos.mainInformations.first_name + ' viewed your profile'
+        return notif.userInfos.mainInformations.first_name + myText["notif_drop_view"]
       case 2:
-        return notif.userInfos.mainInformations.first_name + ' liked your profile'
+        return notif.userInfos.mainInformations.first_name + myText["notif_drop_like"]
       case 3:
-        return "It's a match with " + notif.userInfos.mainInformations.first_name
+        return myText["notif_drop_match"] + notif.userInfos.mainInformations.first_name
       case 4:
-        return notif.userInfos.mainInformations.first_name + " doesn't like your profile anymore"
+        return notif.userInfos.mainInformations.first_name + myText["notif_drop_dislike"]
       case 5:
-        return "It's not a match with " + notif.userInfos.mainInformations.first_name + ' anymore'
+        return myText["notif_drop_unmatch"] + notif.userInfos.mainInformations.first_name
       default:
-        return notif.userInfos.mainInformations.first_name + ' viewed your profile'
+        return notif.userInfos.mainInformations.first_name + myText["notif_drop_view"]
     }
   }
 
@@ -149,7 +152,8 @@ NotificationsDropdown = Radium(NotificationsDropdown)
 
 const mapStateToProps = state => {
   return {
-    notifications: state.notifications
+    notifications: state.notifications,
+    language: state.language
   }
 }
 

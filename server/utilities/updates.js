@@ -8,3 +8,29 @@ export const updateLastActive = (userId) => {
   const date = new Date(Date.now())
   connection.query('UPDATE users SET last_active = ? WHERE users.uuid = ?', [date, userId])
 }
+
+export const updateScore = (userId, score) => {
+  connection.query('SELECT score from informations where user_id=?', [userId], (err, res) => {
+    if (!err) {
+      const newScore = res[0].score + score
+      connection.query("UPDATE `informations` SET `score` = ? WHERE `informations`.`user_id` = ?", [newScore, userId])
+    }
+  })
+}
+
+export const addSession = (userId, socketId) => {
+  connection.query("INSERT INTO `sessions` (`id`, `user_id`, `socket_id`) VALUES (NULL, ?, ?)", [userId, socketId])
+  connection.query("UPDATE `users` SET `online` = '1' WHERE `users`.`uuid` = ?", [userId])
+}
+
+export const removeSession = (userId, socketId) => {
+  connection.query("DELETE FROM `sessions` WHERE `sessions`.`socket_id` = ?", [socketId], (err, res) => {
+    if (!err) {
+      connection.query("SELECT * FROM sessions WHERE user_id = ?", [userId], (err, res) => {
+        if (!err && res.length === 0) {
+          connection.query("UPDATE `users` SET `online` = '0' WHERE `users`.`uuid` = ?", [userId])
+        }
+      })
+    }
+  })
+}

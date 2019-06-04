@@ -14,8 +14,10 @@ import {
 import { connect } from 'react-redux'
 import { resetPass } from '../actions/userActions/resetPasswordAction'
 import { Link } from 'react-router-dom'
-import { isObjectEmpty } from '../utilities/utilities'
 import { cleanErrors } from '../actions/errorsActions/errorsActions'
+import { getResetErrors } from '../utilities/errorsFinder'
+import MatchaNav from '../components/MatchaNav'
+const Text = require('../../languageLocalisation/texts.json')
 
 class ResetPassword extends React.Component {
   constructor (props) {
@@ -39,68 +41,73 @@ class ResetPassword extends React.Component {
 
   submitForm (event) {
     event.preventDefault()
-    this.props.resetPass(this.state.login)
+    this.props.resetPass(this.state.login, this.props.language)
   }
 
   render () {
+    const resetErrors = getResetErrors(this.props.errors.errors, this.props.language)
+    const myText = Text[this.props.language]
     return (
-      <MDBContainer>
-      <MDBRow>
-        <MDBCol md="12">
-          <MDBCard>
-            <MDBCardBody>
-              <MDBCardHeader className="form-header tempting-azure-gradient rounded">
-                <h3 className="my-3">
-                  <MDBIcon icon="lock" /> Reset Password
-                </h3>
-              </MDBCardHeader>
-              <form onSubmit={ this.submitForm }>
-                <div className="grey-text">
-                  <p className="red-text mt-3">{ this.props.errors.errors.login }</p>
-                  <MDBInput
-                    className="p-2"
-                    name="login"
-                    value={ this.state.login }
-                    onChange={ this.handleChange }
-                    label="Type your email or your username"
-                    icon="envelope"
-                    group
-                    type="text"
-                  />
-                </div>
+      <React.Fragment>
+        <MatchaNav color="pink darken-4" />
+        <MDBContainer>
+        <MDBRow>
+          <MDBCol md="12">
+            <MDBCard className="mt-2">
+              <MDBCardBody>
+                <MDBCardHeader className="form-header tempting-azure-gradient rounded">
+                  <h3 className="my-3">
+                    <MDBIcon icon="lock" /> { myText["reset_password"] }
+                  </h3>
+                </MDBCardHeader>
+                <form onSubmit={ this.submitForm }>
+                  <div className="grey-text">
+                    <p className="red-text mt-3">{ resetErrors.login }</p>
+                    <MDBInput
+                      className="p-2"
+                      name="login"
+                      value={ this.state.login }
+                      onChange={ this.handleChange }
+                      label={ myText["login_label"] }
+                      icon="envelope"
+                      group
+                      type="text"
+                    />
+                  </div>
 
-              <div className="text-center mt-4">
-                <MDBBtn
-                  color="light-blue"
-                  className="mb-3"
-                  type="submit"
-                >
-                  Send
-                </MDBBtn>
-                <p className={ isObjectEmpty(this.props.errors.errors) ? 'green-text' : 'red-text' }>
-                  { this.props.errors.message }
-                </p>
-              </div>
-              </form>
-              <MDBModalFooter>
-                <div className="font-weight-light">
-                  <p>Remember your password ? <Link to='/login'>Log In</Link></p>
-                  <p>Not a member ? <Link to='/register'>Register</Link></p>
+                <div className="text-center mt-4">
+                  <MDBBtn
+                    color="light-blue"
+                    className="mb-3"
+                    type="submit"
+                  >
+                    { myText["send_button"] }
+                  </MDBBtn>
+                  <p className={ this.props.errors.errors.length === 0 ? 'green-text' : 'red-text' }>
+                    { this.props.errors.message }
+                  </p>
                 </div>
-              </MDBModalFooter>
-            </MDBCardBody>
-          </MDBCard>
-        </MDBCol>
-      </MDBRow>
-    </MDBContainer>
+                </form>
+                <MDBModalFooter>
+                  <div className="font-weight-light">
+                    <p>{ myText["remember_password"] }<Link to='/login'>{ myText["nav_login"] }</Link></p>
+                    <p>{ myText["not_member"] }<Link to='/register'>{ myText["nav_register"] }</Link></p>
+                  </div>
+                </MDBModalFooter>
+              </MDBCardBody>
+            </MDBCard>
+          </MDBCol>
+        </MDBRow>
+      </MDBContainer>
+      </React.Fragment>
     )
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user,
-    errors: state.errors
+    errors: state.errors,
+    language: state.language
   }
 }
 

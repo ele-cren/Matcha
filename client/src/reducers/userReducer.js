@@ -1,13 +1,13 @@
 import { LOGIN, LOGOUT, FETCHING, FETCHED, CHECKED } from '../actions/userActions/userConsts'
 
 const defaultState = {
-  userId: ''
+  user: {}
 }
 
 const userReducer = (state = defaultState, action) => {
   switch (action.type) {
     case LOGIN:
-      return { ...state, userId: action.payload.userId }
+      return { ...state, user: action.payload }
     case FETCHING:
       return { ...state, fetching: true }
     case FETCHED:
@@ -15,7 +15,7 @@ const userReducer = (state = defaultState, action) => {
     case CHECKED:
       return { ...state, checked: true }
     case LOGOUT:
-      return { ...state, userId: '' }
+      return { ...state, user: {} }
     default:
       return state
   }

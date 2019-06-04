@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-d
 import LoginPage from './LoginPage'
 import RegisterPage from './RegisterPage'
 import ResetPassword from './ResetPassword'
-import SearchPage from './SearchPage'
+import MainPage from './MainPage'
 import MyProfilePage from './MyProfilePage'
 import ProfilePage from './ProfilePage'
 import UpdateProfile from './UpdateProfile'
@@ -14,6 +14,7 @@ import { checkLogged } from '../actions/userActions/loginUserActions'
 import { getLoveInformations } from '../actions/loveActions/loveActions'
 import { getInformations } from '../actions/profileActions/profileActions'
 import { getNotifications } from '../actions/notificationsActions/notifActions'
+import { getBlocked, getReported } from '../actions/banActions/banActions'
 import { connect } from 'react-redux'
 import { isObjectEmpty } from '../utilities/utilities'
 import Logout from './Logout'
@@ -24,47 +25,41 @@ let socket
 class App extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {
-      loaded: false
-    }
   }
   
   componentDidMount () {
     this.props.isLogged()
-    setTimeout(() => {
-      this.setState({
-        loaded: true
-      })
-    }, 700)
-    socket = io('http://localhost:3000')
   }
-
+  
   componentDidUpdate () {
-    if (this.props.user.userId && isObjectEmpty(this.props.profile.mainInformations) && !this.props.profile.fetching) {
-      this.props.updateProfile(this.props.user.userId)
-      this.props.updateLove(this.props.user.userId)
+    if (this.props.user.user.userId && isObjectEmpty(this.props.profile.mainInformations) && !this.props.profile.fetching) {
+      socket = io('http://localhost:3000', { query: 'userId=' + this.props.user.user.userId })
+      this.props.updateProfile(this.props.user.user.userId)
+      this.props.updateLove(this.props.user.user.userId)
+      this.props.getBlocked()
+      this.props.getReported()
       this.props.getNotifications()
     }
   }
 
   render () {
-    if (!this.props.user.checked || !this.state.loaded) {
+    if (!this.props.user.checked) {
       return <Loader />
     } else {
       return (
         <React.Fragment>
-          <Notifications />
+          { socket ? <Notifications /> : '' }
           <Router>
             <Switch>
-              <PrivateRoute exact path='/' component={ SearchPage } logged={ this.props.user.userId } />
-              <AlreadyLoggedRoute path='/login' component={ LoginPage } logged={ this.props.user.userId } /> 
-              <AlreadyLoggedRoute path='/register' component={ RegisterPage } logged={ this.props.user.userId } />
-              <AlreadyLoggedRoute path='/reset_pass' component={ ResetPassword } logged={ this.props.user.userId } />
+              <PrivateRoute exact path='/' component={ MainPage } logged={ this.props.user.user.userId } />
+              <AlreadyLoggedRoute path='/login' component={ LoginPage } logged={ this.props.user.user.userId } /> 
+              <AlreadyLoggedRoute path='/register' component={ RegisterPage } logged={ this.props.user.user.userId } />
+              <AlreadyLoggedRoute path='/reset_pass' component={ ResetPassword } logged={ this.props.user.user.userId } />
               <Route path='/logout' component={ Logout } />
               <Route path='/confirm_user/:userId' component={ ConfirmUser } />
-              <PrivateRoute path='/profile' exact component={ MyProfilePage } logged={ this.props.user.userId } />
-              <PrivateRoute path='/profile/update' exact component={ UpdateProfile } logged={ this.props.user.userId } />
-              <PrivateRoute path='/profile/:userId' exact component={ ProfilePage } logged={ this.props.user.userId } />
+              <PrivateRoute path='/profile' exact component={ MyProfilePage } logged={ this.props.user.user.userId } />
+              <PrivateRoute path='/profile/update' exact component={ UpdateProfile } logged={ this.props.user.user.userId } />
+              <PrivateRoute path='/profile/:userId' exact component={ ProfilePage } logged={ this.props.user.user.userId } />
             </Switch>
           </Router>
         </React.Fragment>
@@ -124,7 +119,9 @@ const mapDispatchToProps = {
   isLogged: checkLogged,
   updateProfile: getInformations,
   updateLove: getLoveInformations,
-  getNotifications: getNotifications
+  getNotifications: getNotifications,
+  getBlocked: getBlocked,
+  getReported: getReported
 }
 
 App = connect(mapStateToProps, mapDispatchToProps)(App)

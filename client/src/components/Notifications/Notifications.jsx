@@ -11,6 +11,8 @@ import { updateLove } from '../../actions/loveActions/loveActions'
 import { getUser } from '../../utilities/loveUtilities'
 import { getLike } from '../../utilities/likeUtilities'
 import { addNotification } from '../../actions/notificationsActions/notifActions'
+import { updateInformations } from '../../actions/profileActions/profileActions'
+const Text = require('../../../languageLocalisation/texts.json')
 
 class Notifications extends React.Component {
   constructor (props) {
@@ -24,6 +26,7 @@ class Notifications extends React.Component {
     this.checkView = this.checkView.bind(this)
     this.checkLike = this.checkLike.bind(this)
     this.checkDislike = this.checkDislike.bind(this)
+    this.addScore = this.addScore.bind(this)
   }
 
   componentDidMount () {
@@ -31,20 +34,21 @@ class Notifications extends React.Component {
     socket.on('like user', this.checkLike)
     socket.on('dislike user', this.checkDislike)
     socket.on('add notification', (notification) => {
-      if (notification.user_id === this.props.user.userId) {
+      if (notification.user_id === this.props.user.user.userId) {
         this.props.addNotif(notification)
       }
     })
   }
 
   checkLike (userId, userTarget, userProfile) {
-    if (userTarget === this.props.user.userId) {
+    if (userTarget === this.props.user.user.userId) {
       this.notify('notificationLike')
       const user = getUser(this.props.love.meAboutUsers, userId)
       if (user && user.like) {
         this.notify('notificationMatch')
       }
       const usersAboutMe = getLike(this.props.love.usersAboutMe, userId, userProfile)
+      this.addScore(20)
       this.props.updateLove({
         meAboutUsers: this.props.love.meAboutUsers,
         usersAboutMe: usersAboutMe
@@ -53,13 +57,14 @@ class Notifications extends React.Component {
   }
 
   checkDislike (userId, userTarget, userProfile) {
-    if (userTarget === this.props.user.userId) {
+    if (userTarget === this.props.user.user.userId) {
       this.notify('notificationDislike')
       const user = getUser(this.props.love.meAboutUsers, userId)
       if (user && user.like) {
         this.notify('notificationUnmatch')
       }
       const usersAboutMe = getLike(this.props.love.usersAboutMe, userId, userProfile, 0)
+      this.addScore(-20)
       this.props.updateLove({
         meAboutUsers: this.props.love.meAboutUsers,
         usersAboutMe: usersAboutMe
@@ -68,9 +73,10 @@ class Notifications extends React.Component {
   }
 
   checkView (userId, userTarget, userProfile) {
-    if (userTarget === this.props.user.userId) {
+    if (userTarget === this.props.user.user.userId) {
       this.notify('notificationView')
       const usersAboutMe = getView(this.props.love.usersAboutMe, userId, userProfile)
+      this.addScore(10)
       this.props.updateLove({
         meAboutUsers: this.props.love.meAboutUsers,
         usersAboutMe: usersAboutMe
@@ -78,18 +84,24 @@ class Notifications extends React.Component {
     }
   }
 
+  addScore (score) {
+    const myProfile = Object.assign({}, this.props.profile)
+    myProfile.informations.score += score
+    this.props.updateProfileInformations(myProfile)
+  } 
+
   getTextFromStyle (style) {
     switch (style) {
       case 'notificationView':
-        return <div><MDBIcon far icon="eye" className="mr-3" />Someone viewed your profile</div>
+        return <div><MDBIcon far icon="eye" className="mr-3" />{ Text[this.props.language]["notification_view"] }</div>
       case 'notificationLike':
-        return <div><MDBIcon icon="thumbs-up" className="mr-3" />Someone liked your profile</div>
+        return <div><MDBIcon icon="thumbs-up" className="mr-3" />{ Text[this.props.language]["notification_like"] }</div>
       case 'notificationMatch':
-        return <div><MDBIcon far icon="heart" className="mr-3" />It's a match !</div>
+        return <div><MDBIcon far icon="heart" className="mr-3" />{ Text[this.props.language]["notification_match"] }</div>
       case 'notificationDislike':
-        return <div><MDBIcon icon="thumbs-down" className="mr-3" />Someone doesn't like you anymore</div>
+        return <div><MDBIcon icon="thumbs-down" className="mr-3" />{ Text[this.props.language]["notification_dislike"] }</div>
       case 'notificationUnmatch':
-        return <div><MDBIcon icon="heart-broken" className="mr-3" />It's not a match anymore...</div>
+        return <div><MDBIcon icon="heart-broken" className="mr-3" />{ Text[this.props.language]["notification_unmatch"] }</div>
     }
   }
 
@@ -138,13 +150,16 @@ Notifications = Radium(Notifications)
 const mapStateToProps = (state) => {
   return {
     user: state.user,
-    love: state.love
+    love: state.love,
+    language: state.language,
+    profile: state.profile
   }
 }
 
 const mapDispatchTopProps = {
   updateLove: updateLove,
-  addNotif: addNotification
+  addNotif: addNotification,
+  updateProfileInformations: updateInformations
 }
 
 export default connect(mapStateToProps, mapDispatchTopProps)(Notifications)

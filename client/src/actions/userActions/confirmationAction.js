@@ -1,7 +1,8 @@
 import { noErrors, showErrors } from '../errorsActions/errorsActions'
 import { FETCHING, FETCHED } from '../userActions/userConsts'
+const Messages = require('../../../languageLocalisation/authMessages.json')
 
-export const confirmUser = (userId) => {
+export const confirmUser = (userId, language) => {
   return dispatch => {
     dispatch({ type: FETCHING })
     const xhr = new XMLHttpRequest()
@@ -10,9 +11,9 @@ export const confirmUser = (userId) => {
     xhr.send()
     xhr.onload = () => {
       if (xhr.status === 200) {
-        dispatch(noErrors(xhr.response.message))
+        dispatch(noErrors(Messages[language]["success_confirm"]))
       } else {
-        dispatch(showErrors(xhr.response.errors, xhr.response.message))
+        dispatch(showErrors(xhr.response.errors, Messages[language]["fail_confirm"]))
       }
       dispatch({ type: FETCHED })
     }

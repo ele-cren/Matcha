@@ -8,6 +8,9 @@ import ProfileRouter from './routes/profile/profileRouter'
 import UpdateActiveRouter from './routes/user/updateActive'
 import LoveInfosRouter from './routes/love/loveInformations'
 import GetNotifications from './routes/notifications/getNotifications'
+import GetProfilesRouter from './routes/search/profilesRoute'
+import BlockedRouter from './routes/ban/blockUserRouter'
+import ReportedRouter from './routes/ban/reportUserRouter'
 
 class Api {
   constructor (app) {
@@ -23,6 +26,9 @@ class Api {
     this.app.use('/api/', ConfirmationRouter)
     this.app.use('/api/profile', ProfileRouter)
     this.app.use('/api/profile', UpdateProfileRouter)
+    this.app.use('/api/profiles', GetProfilesRouter)
+    this.app.use('/api/ban', BlockedRouter)
+    this.app.use('/api/ban', ReportedRouter)
     this.app.use('/api/love', LoveInfosRouter)
     this.app.use('/api/notifications', GetNotifications)
   }

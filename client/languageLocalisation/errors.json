@@ -1,0 +1,34 @@
+{
+  "FR": {
+    "1": "Veuillez entrer une adresse email valide",
+    "2": "Veuillez entrer un nom d'utilisateur valide - 5 à 20 caractères [._-] chiffres et lettres",
+    "3": "Veuillez entrer un mot de passe entre 8 et 20 caractères",
+    "4": "Les mots de passe ne correspondent pas",
+    "5": "Veuillez entrer votre prénom",
+    "6": "Veuillez entrer votre nom de famille",
+    "7": "Ce nom d'utilisateur est déjà utilisé",
+    "8": "Cette adresse email est déjà utilisée",
+    "9": "Veuillez entrer votre adresse email ou votre nom d'utilisateur",
+    "10": "Veuillez entrer votre mot de passe",
+    "11": "Cet utilisateur n'existe pas",
+    "12": "Cet utilisateur n'a pas été confirmé",
+    "13": "Mot de passe incorrect",
+    "14": "Cet utilisateur a déjà été confirmé"
+  },
+  "EN": {
+    "1": "Please, provide a valid email address",
+    "2": "Please, provide a valid username - 5-20 characters [._-] digits and letters",
+    "3": "Please, provide a password between 8 and 20 characters",
+    "4": "Passwords don't match",
+    "5": "Please, provide your first name",
+    "6": "Please, provide your last name",
+    "7": "This username already exists",
+    "8": "This email address already exists",
+    "9": "Please, provide your username or your email address",
+    "10": "Please, provide your password",
+    "11": "This user does not exists",
+    "12": "This user has not been confirmed yet",
+    "13": "Wrong password",
+    "14": "This user has already been confirmed"
+  }
+}

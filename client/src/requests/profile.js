@@ -13,3 +13,13 @@ export const getLovers = (userId) => {
   xhr.send()
   return xhr
 }
+
+export const updateInformations = (informations) => {
+  const informationsJson = JSON.stringify(informations)
+  const encodedInformations = encodeURIComponent(informationsJson)
+  const data = `informations=${ encodedInformations }`
+  const xhr = new XMLHttpRequest()
+  xhr.open('PUT', '/api/profile/informations')
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+  xhr.send(data)
+}
