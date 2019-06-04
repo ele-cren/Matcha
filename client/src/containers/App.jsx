@@ -14,7 +14,7 @@ import { checkLogged } from '../actions/userActions/loginUserActions'
 import { getLoveInformations } from '../actions/loveActions/loveActions'
 import { getInformations } from '../actions/profileActions/profileActions'
 import { getNotifications } from '../actions/notificationsActions/notifActions'
-import { getBlocked } from '../actions/blockedActions/blockedActions'
+import { getBlocked, getReported } from '../actions/banActions/banActions'
 import { connect } from 'react-redux'
 import { isObjectEmpty } from '../utilities/utilities'
 import Logout from './Logout'
@@ -37,6 +37,7 @@ class App extends React.Component {
       this.props.updateProfile(this.props.user.user.userId)
       this.props.updateLove(this.props.user.user.userId)
       this.props.getBlocked()
+      this.props.getReported()
       this.props.getNotifications()
     }
   }
@@ -119,7 +120,8 @@ const mapDispatchToProps = {
   updateProfile: getInformations,
   updateLove: getLoveInformations,
   getNotifications: getNotifications,
-  getBlocked: getBlocked
+  getBlocked: getBlocked,
+  getReported: getReported
 }
 
 App = connect(mapStateToProps, mapDispatchToProps)(App)

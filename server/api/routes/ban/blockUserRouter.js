@@ -8,7 +8,7 @@ const blockUser = (userId, blockedUser) => {
 }
 
 const removeBlocked = (userId, blockedUser) => {
-  connection.query("DELETE FROM blocked WHERE user_id = ? AND blocked_user = ?", [userId, blockedUser])
+  connection.query("DELETE FROM `blocked` WHERE `blocked`.`user_id` = ? AND `blocked`.`blocked_user` = ?", [userId, blockedUser])
 }
 
 const getBlocked = (userId) => {
@@ -23,7 +23,7 @@ const getBlocked = (userId) => {
   })
 }
 
-router.put('/', (req, res) => {
+router.post('/block', (req, res) => {
   if (!req.session.userId) {
     return res.status(401).send('Not authorized')
   }
@@ -32,7 +32,7 @@ router.put('/', (req, res) => {
   return res.status(200).send('User blocked !')
 })
 
-router.get('/', async (req, res) => {
+router.get('/block', async (req, res) => {
   const userId = req.session.userId
   if (!userId) {
     return res.status(401).send('Not authorized')
@@ -43,9 +43,9 @@ router.get('/', async (req, res) => {
   })
 })
 
-router.delete('/', (req, res) => {
+router.delete('/block', (req, res) => {
   const userId = req.session.userId
-  const blockedUser = req.session.blockedUser
+  const blockedUser = req.body.blockedUser
   if (!userId) {
     return res.status(400).send('Not authorized')
   }

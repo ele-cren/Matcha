@@ -1,20 +1,19 @@
 import React from 'react'
 import Radium from 'radium'
-import ReactTooltip from 'react-tooltip'
-import { 
-  MDBCarousel,
+import {
   MDBCardText,
   MDBBtn,
   MDBIcon,
-  MDBCarouselInner,
   MDBCardBody,
   MDBContainer,
   MDBCard,
   MDBCol
 } from 'mdbreact'
-import MyCarouselItem from '../MyCarouselItem'
 import getStyles from './Profile_styles'
 import { getGender, getOrientation } from '../../utilities/utilities'
+import LoveIcons from './LoveIcons'
+import BanIcons from './BanIcons'
+import MyCarousel from './MyCarousel'
 const Text = require('../../../languageLocalisation/texts.json')
 
 
@@ -51,92 +50,29 @@ class Profile extends React.Component {
     const gender = getGender(profile.informations.gender, myText)
     const orientation = getOrientation(profile.informations.orientation, myText)
     const styles = getStyles(profile.informations.gender)
+    const button = this.getButton(styles)
+    const loveIcons = <LoveIcons styles={ styles } text={ myText } loveInfos={ this.props.loveInfos } />
+    const banIcons = <BanIcons
+                        styles={ styles }
+                        profile={ profile }
+                        text={ myText }
+                        blockUser={ this.props.blockUser }
+                        reportUser={ this.props.reportUser }
+                        ban={ this.props.ban } />
+    let pictures = []
+    profile.pictures.map(x => pictures = x.main ? [x, ...pictures] : [...pictures, x])
     const dotStyle = {
       color: profile.mainInformations.online ? '#81ad64' : '#ad1838',
       fontSize: '10px'
     }
-    const button = this.getButton(styles)
-    const eyeIcon = (
-      <React.Fragment>
-        <MDBIcon data-tip data-for='eye' className="mt-2 ml-2" far icon="eye" />
-        <ReactTooltip id='eye' effect='solid' place="bottom">
-          <span>{ myText["eye_popup"] }</span>
-        </ReactTooltip>
-      </React.Fragment>
-    )
-    const heartIcon = (
-      <React.Fragment>
-        <MDBIcon data-tip data-for='heart' className="mt-2 ml-2" far icon="heart" />
-        <ReactTooltip id='heart' effect='solid' place="right">
-          <span>{ myText["like_popup"] }</span>
-        </ReactTooltip>
-      </React.Fragment>
-    )
-    const fullHeartIcon = (
-      <React.Fragment>
-      <MDBIcon data-tip data-for='fullHeart' className="mt-2 ml-2" icon="heart" />
-      <ReactTooltip id='fullHeart' effect='solid' place="rihgt">
-        <span>{ myText["match_popup"] }</span>
-      </ReactTooltip>
-    </React.Fragment>
-    )
-    const userIcons = this.props.loveInfos ? (
-      <div style={ styles.loveIcons }>
-        { this.props.loveInfos.userAboutMe.view ? eyeIcon : ''}
-        { this.props.loveInfos.userAboutMe.like ? this.props.loveInfos.meAboutUser.like ? fullHeartIcon : heartIcon : '' }
-      </div>
-    ) : ''
-    const reportIcon = (
-      <React.Fragment>
-        <MDBIcon data-tip data-for='angry' className="mt-2 ml-2" icon="angry" style={ styles.banIcon } />
-        <ReactTooltip id='angry' effect='solid' place="left">
-          <span>{ myText["angry_popup"] }</span>
-        </ReactTooltip>
-      </React.Fragment>
-    )
-    const blockIcon = (
-      <React.Fragment>
-        <MDBIcon data-tip data-for='block' className="mt-2 ml-2" icon="ban" style={ styles.banIcon } />
-        <ReactTooltip id='block' effect='solid' place="left">
-          <span>{ myText["block_popup"] }</span>
-        </ReactTooltip>
-      </React.Fragment>
-    )
-    const unblockIcon = (
-      <React.Fragment>
-        <MDBIcon data-tip data-for='unblock' className="mt-2 ml-2" far icon="check-circle" style={ styles.banIcon } />
-        <ReactTooltip id='unblock' effect='solid' place="left">
-          <span>{ myText["unblock_popup"] }</span>
-        </ReactTooltip>
-      </React.Fragment>
-    )
-    const banIcons = (
-      <div style={ styles.banIcons }>
-        { this.props.blocked && this.props.blocked.includes(profile.informations.user_id) ? '' : reportIcon }
-        { this.props.blocked && this.props.blocked.includes(profile.informations.user_id) ? unblockIcon : blockIcon }
-      </div>
-    )
-    let pictures = []
-    profile.pictures.map(x => pictures = x.main ? [x, ...pictures] : [...pictures, x])
 
     return (
       <MDBContainer style={ styles.container }>
         <MDBCol md="8">
           <MDBCard style={ styles.card }>
-            { this.props.isMyProfile ? '' : userIcons  }
+            { this.props.isMyProfile ? '' : loveIcons }
             { this.props.isMyProfile ? '' : banIcons }
-            <MDBCarousel
-              activeItem={1}
-              length={ pictures.length }
-              showIndicators={ pictures.length > 1 }
-              showControls={ pictures.length > 1 }
-              className="z-depth-1"
-              style={ styles.carousel }>
-              <MDBCarouselInner>
-                { pictures.map((x, i) =>
-                  <MyCarouselItem key={ i } url={ x.url } id={ i + 1 } isMain={ x.main } styles={ styles } />) }
-              </MDBCarouselInner>
-            </MDBCarousel>
+            <MyCarousel pictures={ pictures } styles={ styles } />
             <h2 style={ styles.online } className="text-center">
               <MDBIcon icon="circle" style={ dotStyle } /> { profile.mainInformations.online ? myText["online"] : myText["offline"] }
             </h2>

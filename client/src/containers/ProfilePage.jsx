@@ -13,6 +13,8 @@ import { getLike } from '../utilities/likeUtilities'
 import { socket } from '../containers/App'
 import { getNotif } from '../utilities/notifications'
 import { getLoveInfosFromProfile } from '../utilities/loveUtilities'
+import { blockUser, removeBlocked, reportUser } from '../actions/banActions/banActions'
+import { blockUser as requestBlock, removeBlockedUser as requestUnblock, reportUser as requestReport } from '../requests/ban'
 const Text = require('../../languageLocalisation/texts.json')
 
 class ProfilePage extends React.Component {
@@ -29,6 +31,8 @@ class ProfilePage extends React.Component {
     this.viewProfile = this.viewProfile.bind(this)
     this.updateLike = this.updateLike.bind(this)
     this.addScore = this.addScore.bind(this)
+    this.blockUser = this.blockUser.bind(this)
+    this.reportUser = this.reportUser.bind(this)
   }
 
   componentDidMount () {
@@ -39,6 +43,23 @@ class ProfilePage extends React.Component {
     this.setState({
       matchModal: !this.state.matchModal
     })
+  }
+
+  blockUser (value = 1) {
+    const userToBlock = this.props.match.params.userId
+    if (value) {
+      this.props.blockUser(userToBlock)
+      requestBlock(userToBlock)
+    } else {
+      this.props.unblockUser(userToBlock)
+      requestUnblock(userToBlock)
+    }
+  }
+
+  reportUser () {
+    const userToReport = this.props.match.params.userId
+    this.props.reportUser(userToReport)
+    requestReport(userToReport)
   }
 
   updateLike (value = 1) {
@@ -146,7 +167,9 @@ class ProfilePage extends React.Component {
             loveInfos={ { userAboutMe: loveInfos.userAboutMe, meAboutUser: loveInfos.meAboutUser } }
             updateLike={ this.updateLike }
             language={ this.props.language }
-            blocked={ this.props.blocked }
+            ban={ this.props.ban }
+            blockUser={ this.blockUser }
+            reportUser={ this.reportUser }
             isMyProfile={ false } />
         </React.Fragment>
       ) : (
@@ -166,12 +189,15 @@ const mapStateToProps = state => {
     love: state.love,
     profile: state.profile,
     language: state.language,
-    blocked: state.blocked
+    ban: state.ban
   }
 }
 
 const mapDispatchToProps = {
-  updateLove: updateLove
+  updateLove: updateLove,
+  blockUser: blockUser,
+  unblockUser: removeBlocked,
+  reportUser: reportUser
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage)

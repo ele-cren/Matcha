@@ -39,7 +39,7 @@ body, html {
 }
 
 .heart:before , .heart:after {
-  background: #9fa3b7;
+  background: #880e4f;
 }
 .spinner .heart1 {
   animation-delay: -0.32s;
