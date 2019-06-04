@@ -7,13 +7,16 @@ import {
   MDBCardBody,
   MDBContainer,
   MDBCard,
-  MDBCol
+  MDBCol,
+  MDBRow
 } from 'mdbreact'
 import getStyles from './Profile_styles'
 import { getGender, getOrientation } from '../../utilities/utilities'
 import LoveIcons from './LoveIcons'
 import BanIcons from './BanIcons'
 import MyCarousel from './MyCarousel'
+import ProfileViewers from './ProfileViewers'
+import ProfileLikers from './ProfileLikers'
 const Text = require('../../../languageLocalisation/texts.json')
 
 
@@ -102,6 +105,11 @@ class Profile extends React.Component {
                 { profile.tags.map((x, i) =>
                 <p key={ i } className="shadow-box-example hoverable" style={ styles.tag }>{ x.tag }</p>) }
               </div>
+              { this.props.isMyProfile ? (
+                <MDBRow style={ styles.colContainer }>
+                    <ProfileViewers aboutMe={ this.props.aboutMe } styles={ styles } />
+                    <ProfileLikers aboutMe={ this.props.aboutMe } styles={ styles } />
+                </MDBRow> ) : '' }
               { button }
             </MDBCardBody>
           </MDBCard>

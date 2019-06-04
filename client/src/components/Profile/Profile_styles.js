@@ -94,11 +94,11 @@ const getStyles = (gender = 1) => {
       top: 0,
       color: gender === 1 ? '#1a237e' : '#880e4f',
       display: 'flex',
-      '@media (max-width: 435px)': {
+      '@media (max-width: 445px)': {
         flexDirection: 'column'
       },
-      '@media (max-width: 345px)': {
-        fontSize: '20px'
+      '@media (max-width: 370px)': {
+        fontSize: '18px'
       }
     },
     score: {
@@ -126,6 +126,35 @@ const getStyles = (gender = 1) => {
     },
     banIcon: {
       cursor: 'pointer'
+    },
+    colContainer: {
+      display: 'flex',
+      justifyContent: 'space-around',
+      marginTop: '10px'
+    },
+    profilesCol: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      borderRadius: '5px',
+      padding: 0,
+      marginTop: '10px'
+    },
+    profileCard: {
+      margin: 3,
+      width: '75px'
+    },
+    profileCardTitle: {
+      fontSize: '15px',
+      margin: 0
+    },
+    profileCardBody: {
+      width: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+      padding: 0,
+      color: 'black'
     }
   }
 } 

@@ -37,7 +37,11 @@ class ProfilePage extends React.Component {
     let profilePage = (
       <React.Fragment>
         <MatchaNav color={ this.props.profile.informations.gender === 1 ? "indigo darken-4" : "pink darken-4" } />
-        <Profile profile={ this.props.profile } isMyProfile={ true } language={ this.props.language }/>
+        <Profile
+          aboutMe={ this.props.love.usersAboutMe }
+          profile={ this.props.profile }
+          isMyProfile={ true }
+          language={ this.props.language }/>
       </React.Fragment>
     )
     profilePage = (isObjectEmpty(this.props.profile.informations) ||
@@ -52,7 +56,8 @@ const mapStateToProps = state => {
   return {
     profile: state.profile,
     errors: state.errors,
-    language: state.language
+    language: state.language,
+    love: state.love
   }
 }
 

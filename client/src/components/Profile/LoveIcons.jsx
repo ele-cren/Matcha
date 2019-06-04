@@ -9,7 +9,7 @@ const LoveIcons = (props) => {
   const eyeIcon = (
     <React.Fragment>
       <MDBIcon data-tip data-for='eye' className="mt-2 ml-2" far icon="eye" />
-      <ReactTooltip id='eye' effect='solid' place="bottom">
+      <ReactTooltip id='eye' effect='solid' place="right">
         <span>{ myText["eye_popup"] }</span>
       </ReactTooltip>
     </React.Fragment>
@@ -25,7 +25,7 @@ const LoveIcons = (props) => {
   const fullHeartIcon = (
     <React.Fragment>
     <MDBIcon data-tip data-for='fullHeart' className="mt-2 ml-2" icon="heart" />
-    <ReactTooltip id='fullHeart' effect='solid' place="rihgt">
+    <ReactTooltip id='fullHeart' effect='solid' place="right">
       <span>{ myText["match_popup"] }</span>
     </ReactTooltip>
   </React.Fragment>
