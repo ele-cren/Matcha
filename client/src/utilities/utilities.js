@@ -36,7 +36,7 @@ export const getOrientation = (orientationNum, text) => {
 export const getLastDisconnect = (date, text) => {
   const diff = new Date() - date
   let name = ''
-  let number = null
+  let number = 0
   const times = [1000, 60000, 3600000, 86400000]
   const names = [text["second"], text["minute"], text["hour"], text["day"]]
   for (let i = 1; i < times.length; i++) {
