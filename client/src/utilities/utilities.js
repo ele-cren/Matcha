@@ -40,6 +40,28 @@ export const getLastDisconnectDate = (utcDateString) => {
   return utcDate
 }
 
+export const formatDate = (date, language) => {
+  let day = date.getDate()
+  let month = date.getMonth() + 1
+  const year = date.getFullYear()
+  let hours = date.getHours()
+  let minutes = date.getMinutes()
+  let seconds = date.getSeconds()
+  day = day < 10 ? '0' + day : day
+  month = month < 10 ? '0' + month : month
+  hours = hours < 10 ? '0' + hours : hours
+  minutes = minutes < 10 ? '0' + minutes : minutes
+  seconds = seconds < 10 ? '0' + seconds : seconds
+  switch (language) {
+    case 'FR':
+      return day + '/' + month + '/' + year + ' ' + hours + ':' + minutes + ':' + seconds
+    case 'EN':
+      return month + '/' + day + '/' + year + ' ' + hours + ':' + minutes + ':' + seconds
+    default:
+      return day + '/' + month + '/' + year + ' ' + hours + ':' + minutes + ':' + seconds
+  }
+}
+
 export const getLastDisconnect = (date, text) => {
   const diff = new Date() - date
   let name = ''
