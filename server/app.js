@@ -27,6 +27,8 @@ connection.connect(err => {
 });
 
 process.on('SIGINT', () => {
+  connection.query("DELETE FROM sessions")
+  connection.query("UPDATE `users` SET `online` = 0")
   connection.end()
   server.stop()
   process.exit(0)
