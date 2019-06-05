@@ -11,9 +11,9 @@ export const confirmUser = (userId, language) => {
     xhr.send()
     xhr.onload = () => {
       if (xhr.status === 200) {
-        dispatch(noErrors(Messages[language]["success_confirm"]))
+        dispatch(noErrors())
       } else {
-        dispatch(showErrors(xhr.response.errors, Messages[language]["fail_confirm"]))
+        dispatch(showErrors(xhr.response.errors))
       }
       dispatch({ type: FETCHED })
     }

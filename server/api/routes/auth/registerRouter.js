@@ -9,7 +9,7 @@ const router = express.Router()
 
 const isEmailTaken = email => {
   return new Promise((resolve, reject) => {
-    connection.query("SELECT id FROM `users` WHERE email='" + email + "'", (err, results, field) => {
+    connection.query("SELECT id FROM `users` WHERE email = ?", [email], (err, results) => {
       if (err) {
         reject(err)
       }
@@ -23,7 +23,7 @@ const isEmailTaken = email => {
 
 const isUserTaken = username => {
   return new Promise((resolve, reject) => {
-    connection.query("SELECT id FROM `users` WHERE username='" + username + "'", (err, results, field) => {
+    connection.query("SELECT id FROM `users` WHERE username = ?", [username] , (err, results) => {
       if (err) {
         reject(err)
       }
@@ -56,16 +56,17 @@ router.post('/register', async (req, res) => {
     if (err) {
       return res.send('Error ' + err)
     }
-    connection.query("INSERT INTO `users` (`id`, `confirmed`, `username`, `email`, `password`, `first_name`, `last_name`, `uuid`) VALUES " + `(NULL, '0', '${req.body.username}', '${req.body.email}',\
-      '${hash}', '${req.body.first_name}', '${req.body.last_name}', '${uuid}');`, async (err, results, field) => {
-        if (err) {
-          return res.send('Error ' + err)
-        }
-        mailer.sendConfirmation(req.body.email, uuid)
-        return res.json({
-          success: true,
-          errors: []
-        })
+    connection.query("INSERT INTO `users` (`id`, `confirmed`, `username`, `email`, `password`, `first_name`, `last_name`, `uuid`)\
+                      VALUES (NULL, '0', ?, ?, ?, ?, ?, ?)",
+                      [req.body.username, req.body.email, hash, req.body.first_name, req.body.last_name, uuid], async (err) => {
+      if (err) {
+        return res.send('Error ' + err)
+      }
+      mailer.sendConfirmation(req.body.email, uuid)
+      return res.json({
+        success: true,
+        errors: []
+      })
     })
   });
 })

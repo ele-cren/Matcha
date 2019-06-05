@@ -1,8 +1,7 @@
 import { SHOW_ERRORS, CLEAN_ERRORS } from '../actions/errorsActions/errorsActions'
 
 const defaultState = {
-  errors: [],
-  message: ''
+  errors: []
 }
 
 const errorsReducer = (state = defaultState, action) => {

@@ -16,9 +16,9 @@ export const tryLogIn = (data, language) => {
     xhr.onload= () => {
       if (xhr.response.success) {
         dispatch(logIn(xhr.response.user))
-        dispatch(noErrors(Messages[language]["success_login"]))
+        dispatch(noErrors())
       } else {
-        dispatch(showErrors(xhr.response.errors, Messages[language]["fail_login"]))
+        dispatch(showErrors(xhr.response.errors))
       }
       dispatch({ type: FETCHED })
     }

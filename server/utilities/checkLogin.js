@@ -2,7 +2,7 @@ import { connection } from '../app'
 
 export const getUserFromUsername = username => {
   return new Promise((resolve, reject) => {
-    connection.query("SELECT * FROM `users` WHERE username=" + `'${username}'`, (err, results, field) => {
+    connection.query("SELECT * FROM `users` WHERE username = ?", [username], (err, results) => {
       if (err) {
         reject(err)
       }
@@ -16,7 +16,7 @@ export const getUserFromUsername = username => {
 
 export const getUserFromEmail = email => {
   return new Promise((resolve, reject) => {
-    connection.query("SELECT * FROM `users` WHERE email=" + `'${email}'`, (err, results, field) => {
+    connection.query("SELECT * FROM `users` WHERE email = ?", [email], (err, results) => {
       if (err) {
         reject(err)
       }
