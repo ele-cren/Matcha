@@ -1,5 +1,6 @@
 import express from 'express'
 import { connection } from '../../../app'
+import { updateLastDisconnect } from '../../../utilities/updates'
 
 const router = express.Router()
 
@@ -9,6 +10,7 @@ const deleteSessions = (userId) => {
 
 router.delete('/logout', (req, res) => {
   deleteSessions(req.session.userId)
+  updateLastDisconnect(req.session.userId)
   req.session.userId = ''
   return res.json({
     success: true,

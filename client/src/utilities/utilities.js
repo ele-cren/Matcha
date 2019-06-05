@@ -32,3 +32,33 @@ export const getOrientation = (orientationNum, text) => {
       return [text["orientation_bisexual"], '#a19ee9']
   }
 }
+
+export const getLastDisconnectDate = (utcDateString) => {
+  const utcDate = (new Date(utcDateString))
+  const hours = new Date().getTimezoneOffset() / 60
+  utcDate.setTime(utcDate.getTime() - (hours * 60 * 60 * 1000))
+  return utcDate
+}
+
+export const getLastDisconnect = (date, text) => {
+  const diff = new Date() - date
+  let name = ''
+  let number = 0
+  const times = [1000, 60000, 3600000, 86400000]
+  const names = [text["second"], text["minute"], text["hour"], text["day"]]
+  for (let i = 1; i < times.length; i++) {
+    if (diff < times[i]) {
+      name = names[i - 1]
+      break
+    }
+  }
+  name = name ? name : text["day"]
+  for (let i = 0; i < names.length; i++) {
+    if (name === names[i]) {
+      number = diff / times[i]
+      break
+    }
+  }
+  number = parseInt(number)
+  return number + ' ' + name + (number > 1 ? 's' : '')
+}
