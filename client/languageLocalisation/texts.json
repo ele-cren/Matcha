@@ -58,7 +58,8 @@
     "second": "seconde",
     "minute": "minute",
     "hour": "heure",
-    "day": "jour"
+    "day": "jour",
+    "offline_since": "Hors ligne depuis"
   },
   "EN": {
     "notification_view": "Someone viewed your profile",
@@ -119,6 +120,7 @@
     "second": "second",
     "minute": "minute",
     "hour": "hour",
-    "day": "day"
+    "day": "day",
+    "offlince_since": "Offline since"
   }
 }

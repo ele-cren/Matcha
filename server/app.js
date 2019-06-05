@@ -13,7 +13,8 @@ export const connection = mysql.createConnection({
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
   database: 'matcha',
-  dateStrings: true
+  dateStrings: true,
+  multipleStatements: true
 });
 
 connection.connect(err => {
@@ -27,8 +28,7 @@ connection.connect(err => {
 });
 
 process.on('SIGINT', () => {
-  connection.query("DELETE FROM sessions")
-  connection.query("UPDATE `users` SET `online` = 0")
+  connection.query("DELETE FROM sessions; UPDATE `users` SET `online` = 0")
   connection.end()
   server.stop()
   process.exit(0)
