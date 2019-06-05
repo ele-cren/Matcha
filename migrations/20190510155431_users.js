@@ -11,6 +11,7 @@ exports.up = function(knex, Promise) {
     table.string('uuid')
     table.boolean('pass_changed')
     table.boolean('online')
+    table.datetime('last_disconnect')
     table.string('ip', 15)
   })
 }

@@ -4,11 +4,6 @@ export const updateIp = (userId, ip) => {
   connection.query('UPDATE users SET ip = ? WHERE users.uuid = ?', [ip, userId])
 }
 
-export const updateLastActive = (userId) => {
-  const date = new Date(Date.now())
-  connection.query('UPDATE users SET last_active = ? WHERE users.uuid = ?', [date, userId])
-}
-
 export const updateScore = (userId, score) => {
   connection.query('SELECT score from informations where user_id=?', [userId], (err, res) => {
     if (!err) {
@@ -21,6 +16,10 @@ export const updateScore = (userId, score) => {
 export const addSession = (userId, socketId) => {
   connection.query("INSERT INTO `sessions` (`id`, `user_id`, `socket_id`) VALUES (NULL, ?, ?)", [userId, socketId])
   connection.query("UPDATE `users` SET `online` = '1' WHERE `users`.`uuid` = ?", [userId])
+}
+
+export const updateLastDisconnect = (userId) => {
+  connection.query("UPDATE `users` SET `last_disconnect` = now() WHERE `users`.`uuid` = ?", [userId])
 }
 
 export const removeSession = (userId, socketId) => {

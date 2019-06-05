@@ -32,3 +32,50 @@ export const getOrientation = (orientationNum, text) => {
       return [text["orientation_bisexual"], '#a19ee9']
   }
 }
+
+export const getLastDisconnect = (date, text) => {
+  const diff = new Date() - date
+  let name = ''
+  let number = null
+  const times = [1000, 60000, 3600000, 86400000]
+  const names = [text["second"], text["minute"], text["hour"], text["day"]]
+  for (let i = 1; i < times.length; i++) {
+    if (diff < times[i]) {
+      name = names[i - 1]
+      break
+    }
+  }
+  name = name ? name : text["day"]
+  for (let i = 0; i < names.length; i++) {
+    if (name === names[i]) {
+      number = diff / times[i]
+      break
+    }
+  }
+  number = parseInt(number)
+  return number + ' ' + name + (number > 1 ? 's' : '')
+  // const diff = new Date() - date
+  // let time = ''
+  // let number = ''
+  // if (diff < 60000) {
+  //   time = text["second"]
+  // } else if (diff < 3600000) {
+  //   time = text["minute"]
+  // } else if (diff < 86400000) {
+  //   time = text["hour"]
+  // } else {
+  //   time = text["day"]
+  // }
+  // if (time === text["second"]) {
+  //   number = diff / 1000
+  // } else if (time === text["minute"]) {
+  //   number = diff / 60000
+  // } else if (time === text["hour"]) {
+  //   number = diff / 3600000
+  // } else {
+  //   number = diff / 86400000
+  // }
+  // number = parseInt(number)
+  // const result = number + ' ' + time + (number > 1 ? 's' : '')
+  // return result
+}

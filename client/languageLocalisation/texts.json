@@ -54,7 +54,11 @@
     "offline": "Hors ligne",
     "angry_popup": "Signaler cet utilisateur",
     "block_popup": "Bloquer cet utilisateur",
-    "unblock_popup": "Débloquer cet utilisateur"
+    "unblock_popup": "Débloquer cet utilisateur",
+    "second": "seconde",
+    "minute": "minute",
+    "hour": "heure",
+    "day": "jour"
   },
   "EN": {
     "notification_view": "Someone viewed your profile",
@@ -111,6 +115,10 @@
     "offline": "Offline",
     "angry_popup": "Report this user",
     "block_popup": "Block this user",
-    "unblock_popup": "Unblock this user"
+    "unblock_popup": "Unblock this user",
+    "second": "second",
+    "minute": "minute",
+    "hour": "hour",
+    "day": "day"
   }
 }

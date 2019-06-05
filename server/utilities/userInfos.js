@@ -13,7 +13,7 @@ const getUserInformations = (userId) => {
 
 const getMainInformations = (userId) => {
   return new Promise((resolve, reject) => {
-    connection.query("SELECT first_name, last_name, email, online FROM users WHERE uuid=?", [userId], (err, results) => {
+    connection.query("SELECT first_name, last_name, email, online, last_disconnect FROM users WHERE uuid=?", [userId], (err, results) => {
       if (err) {
         reject(err)
       }
