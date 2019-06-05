@@ -54,28 +54,4 @@ export const getLastDisconnect = (date, text) => {
   }
   number = parseInt(number)
   return number + ' ' + name + (number > 1 ? 's' : '')
-  // const diff = new Date() - date
-  // let time = ''
-  // let number = ''
-  // if (diff < 60000) {
-  //   time = text["second"]
-  // } else if (diff < 3600000) {
-  //   time = text["minute"]
-  // } else if (diff < 86400000) {
-  //   time = text["hour"]
-  // } else {
-  //   time = text["day"]
-  // }
-  // if (time === text["second"]) {
-  //   number = diff / 1000
-  // } else if (time === text["minute"]) {
-  //   number = diff / 60000
-  // } else if (time === text["hour"]) {
-  //   number = diff / 3600000
-  // } else {
-  //   number = diff / 86400000
-  // }
-  // number = parseInt(number)
-  // const result = number + ' ' + time + (number > 1 ? 's' : '')
-  // return result
 }
