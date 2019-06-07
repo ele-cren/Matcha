@@ -1,5 +1,6 @@
 import React from 'react'
 import Radium from 'radium'
+import ReactTooltip from 'react-tooltip'
 import {
   MDBCardText,
   MDBBtn,
@@ -53,7 +54,6 @@ class Profile extends React.Component {
     const profile = this.props.profile
     const lastDisconnect = getLastDisconnectDate(profile.mainInformations.last_disconnect)
     const formatedDate = formatDate(lastDisconnect, this.props.language)
-    console.log(formatedDate)
     const gender = getGender(profile.informations.gender, myText)
     const orientation = getOrientation(profile.informations.orientation, myText)
     const styles = getStyles(profile.informations.gender)
@@ -72,6 +72,15 @@ class Profile extends React.Component {
       color: profile.mainInformations.online ? '#81ad64' : '#ad1838',
       fontSize: '10px'
     }
+    const dotOnline = profile.mainInformations.online ? <MDBIcon icon="circle" style={ dotStyle } /> : (
+      <React.Fragment>
+        <MDBIcon data-tip data-for='online' icon="circle" style={ dotStyle } />
+        <ReactTooltip id='online' effect='solid' place="bottom">
+          <span>{ myText["offline_since"] }</span><br />
+          <span>{ formatedDate }</span>
+        </ReactTooltip>
+      </React.Fragment>
+    )
 
     return (
       <MDBContainer style={ styles.container }>
@@ -81,7 +90,7 @@ class Profile extends React.Component {
             { this.props.isMyProfile ? '' : banIcons }
             <MyCarousel pictures={ pictures } styles={ styles } />
             <h2 style={ styles.online } className="text-center">
-              <MDBIcon icon="circle" style={ dotStyle } /> { profile.mainInformations.online ? myText["online"] : myText["offline"] }
+              { dotOnline } { profile.mainInformations.online ? myText["online"] : myText["offline"] }
             </h2>
             <h2 className='mt-2 text-center'>
               { profile.mainInformations.first_name + ' ' + profile.mainInformations.last_name + ', ' + profile.informations.age }
