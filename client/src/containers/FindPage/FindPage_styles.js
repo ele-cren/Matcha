@@ -16,7 +16,8 @@ const styles = {
     fontSize: '20px',
     border: '1px solid black',
     borderRadius: '3px 0 0 3px',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    userSelect: 'none'
   },
   tabRight: {
     width: '50%',
@@ -26,7 +27,8 @@ const styles = {
     border: '1px solid black',
     borderLeft: 0,
     borderRadius: '0 3px 3px 0',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    userSelect: 'none'
   }
 }
 

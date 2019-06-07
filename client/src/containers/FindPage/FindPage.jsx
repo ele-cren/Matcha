@@ -1,7 +1,5 @@
 import Radium from 'radium'
 import React from 'react'
-import { connect } from 'react-redux'
-import { getProfiles } from '../../requests/search'
 import { MDBContainer, MDBCol, MDBIcon } from 'mdbreact'
 import styles from './FindPage_styles'
 
@@ -14,17 +12,10 @@ class FindPage extends React.Component {
     this.changeSelected = this.changeSelected.bind(this)
   }
 
-  changeSelected () {
+  changeSelected (value) {
     this.setState({
-      selected: this.state.selected === 1 ? 2 : 1
+      selected: value
     })
-  }
-
-  componentDidMount () {
-    const xhr = getProfiles()
-    xhr.onload = () => {
-      console.log(xhr.response)
-    }
   }
 
   render () {
@@ -40,8 +31,8 @@ class FindPage extends React.Component {
       <MDBContainer>
         <MDBCol md="12" style={ styles.col }>
           <div style={ styles.tabContainer }>
-            <div style={ tabLeft } onClick={ this.changeSelected }>Search</div>
-            <div style={ tabRight } onClick={ this.changeSelected }>Suggestions</div>
+            <div style={ tabLeft } onClick={ () => this.changeSelected(1) }>Search</div>
+            <div style={ tabRight } onClick={ () => this.changeSelected(2) }>Suggestions</div>
           </div>
         </MDBCol>
       </MDBContainer>
@@ -49,15 +40,6 @@ class FindPage extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    profile: state.profile
-  }
-}
-
-const mapDispatchToProps = {
-}
-
 FindPage = Radium(FindPage)
 
-export default connect(mapStateToProps, mapDispatchToProps)(FindPage)
+export default FindPage
