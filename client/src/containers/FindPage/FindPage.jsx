@@ -1,7 +1,9 @@
 import Radium from 'radium'
 import React from 'react'
-import { MDBContainer, MDBCol, MDBIcon } from 'mdbreact'
+import { MDBContainer, MDBCol } from 'mdbreact'
 import styles from './FindPage_styles'
+import Search from '../../components/Search/Search'
+import Suggests from '../../components/Suggests/Suggests'
 
 class FindPage extends React.Component {
   constructor (props) {
@@ -28,14 +30,17 @@ class FindPage extends React.Component {
       backgroundColor: this.state.selected === 2 ? '#880e4f' : '#f7e8ef'
     })
     return (
-      <MDBContainer>
-        <MDBCol md="12" style={ styles.col }>
-          <div style={ styles.tabContainer }>
-            <div style={ tabLeft } onClick={ () => this.changeSelected(1) }>Search</div>
-            <div style={ tabRight } onClick={ () => this.changeSelected(2) }>Suggestions</div>
-          </div>
-        </MDBCol>
-      </MDBContainer>
+      <React.Fragment>
+        <MDBContainer>
+          <MDBCol md="12" style={ styles.col }>
+            <div style={ styles.tabContainer }>
+              <div style={ tabLeft } onClick={ () => this.changeSelected(1) }>Search</div>
+              <div style={ tabRight } onClick={ () => this.changeSelected(2) }>Suggestions</div>
+            </div>
+          </MDBCol>
+        </MDBContainer>
+        { this.state.selected === 1 ? <Search /> : <Suggests /> }
+      </React.Fragment>
     )
   }
 }

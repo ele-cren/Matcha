@@ -84,3 +84,14 @@ export const getLastDisconnect = (date, text) => {
   number = parseInt(number)
   return number + ' ' + name + (number > 1 ? 's' : '')
 }
+
+export const getGenderFromOriGend = (gender, orientation) => {
+  if (orientation === 2) {
+    return -1
+  }
+  if (gender === 1) {
+    return orientation === 1 ? 2 : 4
+  } else {
+    return orientation === 1 ? 1 : 3
+  }
+}

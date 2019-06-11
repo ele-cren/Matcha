@@ -6,6 +6,7 @@ import loveReducer from './reducers/loveReducer'
 import notificationsReducer from './reducers/notificationsReducer'
 import languageReducer from './reducers/languageReducer'
 import banReducer from './reducers/banReducer'
+import searchReducer from './reducers/searchReducer'
 import thunk from 'redux-thunk'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
@@ -17,7 +18,8 @@ const reducers = combineReducers({
   love: loveReducer,
   notifications: notificationsReducer,
   language: languageReducer,
-  ban: banReducer
+  ban: banReducer,
+  search: searchReducer
 })
 
 const store = createStore(reducers, composeEnhancers(applyMiddleware(thunk)))
