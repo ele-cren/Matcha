@@ -5,6 +5,7 @@ import styles from './Suggests_styles'
 import { getGenderFromOriGend } from '../../utilities/utilities'
 import { getProfiles } from '../../requests/search'
 import { connect } from 'react-redux'
+import SortDropdown from './SortDropdown'
 import ProfileCard from '../ProfileCard/ProfileCard'
 import { addDistanceToProfiles, addMatchingTagsToProfiles } from '../../utilities/searchUtils'
 
@@ -13,9 +14,11 @@ class Suggests extends React.Component {
     super(props)
     this.state = {
       profiles: [],
-      fetching: false
+      fetching: false,
+      order: -1
     }
     this.getProfiles = this.getProfiles.bind(this)
+    this.selectOrder = this.selectOrder.bind(this)
   }
 
   componentDidMount () {
@@ -32,8 +35,7 @@ class Suggests extends React.Component {
       let profiles = addDistanceToProfiles(this.props.profile, xhr.response.userProfiles)
       profiles = addMatchingTagsToProfiles(this.props.profile, profiles)
       profiles = this.state.profiles.concat(profiles)
-      profiles = this.sortProfiles(profiles)
-      console.log(profiles)
+      profiles = this.sortFilter(this.state.order, profiles)
       this.setState({
         profiles: profiles,
         fetching: false
@@ -52,6 +54,32 @@ class Suggests extends React.Component {
     })
   }
 
+  sortFilter (order, profiles) {
+    switch (order) {
+      case -1:
+        return this.sortProfiles(profiles)
+      case 0:
+        return profiles.sort((a, b) => a.informations.age - b.informations.age)
+      case 1:
+        return profiles.sort((a, b) => a.distance - b.distance)
+      case 2:
+        return profiles.sort((a, b) => a.matchingTags - b.matchingTags)
+      case 3:
+        return profiles.sort((a, b) => a.informations.score - b.informations.score)
+      default:
+        return this.sortProfiles(profiles)
+    }
+  }
+
+  selectOrder (order) {
+    if (order !== this.state.order) {
+      this.setState({ order: order })
+      let profiles = [].concat(this.state.profiles)
+      profiles = this.sortFilter(order, profiles)
+      this.setState({ profiles: profiles })
+    }
+  }
+
   render () {
     const spinner = (
       <div className="spinner-border" role="status">
@@ -66,6 +94,9 @@ class Suggests extends React.Component {
     return (
       <MDBContainer>
         <MDBCol md="12">
+          <div style={ styles.filterContainer }>
+            <SortDropdown order={ this.state.order } selectOrder={ this.selectOrder } />
+          </div>
           <div style={ styles.loadingContainer }>
             { this.state.fetching && this.state.profiles.length === 0 ? spinner : '' }
           </div>

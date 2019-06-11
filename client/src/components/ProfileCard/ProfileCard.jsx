@@ -26,7 +26,7 @@ const ProfileCard = (props) => {
       <MDBCardBody style={ styles.cardBody }>
         <MDBCardTitle className="text-center m-0">{ fullName }</MDBCardTitle>
         <MDBCardText className="text-center m-0" style={ styles.cardText }>
-          <MDBIcon icon="circle" style={ dotStyle} /> { props.profile.informations.age } ans
+          <MDBIcon icon="circle" style={ dotStyle} /> { props.profile.informations.age } ans - { props.profile.distance } km
         </MDBCardText>
       </MDBCardBody>
     </MDBCard>

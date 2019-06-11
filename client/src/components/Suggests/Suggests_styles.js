@@ -35,6 +35,18 @@ const styles = {
     cursor: 'pointer',
     borderRadius: '3px',
     fontSize: '30px',
+  },
+  filterContainer: {
+    marginTop: 5,
+    width: '100%',
+    display: 'flex',
+    flexWrap: 'wrap',
+    border: '1px solid black'
+  },
+  dropdownItem: {
+    padding: '5px 0 5px 10px',
+    userSelect: 'none',
+    cursor: 'pointer'
   }
 }
 
