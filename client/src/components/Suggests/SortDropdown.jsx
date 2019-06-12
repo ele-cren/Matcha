@@ -22,17 +22,17 @@ class SortDropdown extends React.Component {
       }
     }
     const selectStyle = {
-      backgroundColor: 'orange'
+      backgroundColor: '#f7eff3'
     }
     const order = this.props.order
     return (
       <MDBDropdown>
-        <MDBDropdownToggle caret color="elegant" ref={ this.dropdownRef }>
-          Order
+        <MDBDropdownToggle caret color="" ref={ this.dropdownRef } style={ styles.dropdownBtn }>
+          Sort
         </MDBDropdownToggle>
         <MDBDropdownMenu basic>
           <div key={ 'dd1' } style={ [styles.dropdownItem, order === -1 ? selectStyle : hovStyle] } onClick={ () => this.selectOrder(-1) }>
-            No order
+            No sort
           </div>
           <div key={ 'dd2' } style={ [styles.dropdownItem, order === 0 ? selectStyle : hovStyle] } onClick={ () => this.selectOrder(0) }>
             Age

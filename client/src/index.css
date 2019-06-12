@@ -70,3 +70,11 @@ body, html {
   border:0;
   -moz-outline-style: none;
 }
+
+.rc-slider-handle:active {
+  box-shadow: none !important;
+}
+
+.rc-slider-handle:focus {
+  box-shadow: none !important;
+}

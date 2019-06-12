@@ -1,6 +1,5 @@
 const styles = {
   container: {
-    marginTop: 10,
     display: 'flex',
     flexWrap: 'wrap',
     '@media (max-width: 490px)': {
@@ -37,16 +36,54 @@ const styles = {
     fontSize: '30px',
   },
   filterContainer: {
-    marginTop: 5,
+    marginTop: 10,
     width: '100%',
     display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'row',
     flexWrap: 'wrap',
-    border: '1px solid black'
+    border: '1px solid #880e4f',
+    backgroundColor: '#fffcfd',
+    borderRadius: '3px'
+  },
+  dropdownBtn: {
+    color: '#880e4f',
+    border: '1px solid #880e4f'
   },
   dropdownItem: {
     padding: '5px 0 5px 10px',
     userSelect: 'none',
     cursor: 'pointer'
+  },
+  sliderContainer: {
+    width: '150px',
+    color: '#880e4f',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+    margin: 10,
+    padding: 10,
+    borderRadius: '3px',
+    border: '1px solid #880e4f',
+    '@media (max-width: 385px)': {
+      width: 100
+    }
+  },
+  handleStyle: {
+    backgroundColor: '#880e4f',
+    border: 'none',
+    width: '10px',
+    cursor: 'auto'
+  },
+  trackStyle: {
+    backgroundColor: '#d6becb'
+  },
+  displayAge: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'space-between'
   }
 }
 
