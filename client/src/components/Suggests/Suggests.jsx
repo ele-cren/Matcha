@@ -46,6 +46,7 @@ class Suggests extends React.Component {
       profiles = this.state.profiles.concat(profiles)
       profiles = this.sortFilter(this.state.order, profiles)
       profiles = this.filterAge(profiles)
+      profiles = this.filterDistance(profiles)
       this.setState({
         profiles: profiles,
         fetching: false
