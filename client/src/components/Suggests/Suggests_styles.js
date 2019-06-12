@@ -66,10 +66,7 @@ const styles = {
     margin: 10,
     padding: 10,
     borderRadius: '3px',
-    border: '1px solid #880e4f',
-    '@media (max-width: 385px)': {
-      width: 100
-    }
+    border: '1px solid #880e4f'
   },
   handleStyle: {
     backgroundColor: '#880e4f',

@@ -5,11 +5,9 @@ import styles from './Suggests_styles'
 import { getGenderFromOriGend } from '../../utilities/utilities'
 import { getProfiles } from '../../requests/search'
 import { connect } from 'react-redux'
-import SortDropdown from './SortDropdown'
 import ProfileCard from '../ProfileCard/ProfileCard'
 import { addDistanceToProfiles, addMatchingTagsToProfiles } from '../../utilities/searchUtils'
-import 'rc-slider/assets/index.css'
-const { Range } = require('rc-slider')
+import Filters from './Filters'
 
 class Suggests extends React.Component {
   constructor (props) {
@@ -18,13 +16,18 @@ class Suggests extends React.Component {
       profiles: [],
       fetching: false,
       order: -1,
-      age: [18, 30]
+      age: [18, 30],
+      distance: [0, 500],
+      tags: [0, 4],
+      score: [0, 100],
     }
     this.getProfiles = this.getProfiles.bind(this)
     this.selectOrder = this.selectOrder.bind(this)
-    this.updateAge = this.updateAge.bind(this)
     this.filterAge = this.filterAge.bind(this)
     this.setAge = this.setAge.bind(this)
+    this.updateValue = this.updateValue.bind(this)
+    this.filterDistance = this.filterDistance.bind(this)
+    this.setDistance = this.setDistance.bind(this)
   }
 
   componentDidMount () {
@@ -87,10 +90,19 @@ class Suggests extends React.Component {
     }
   }
 
-  updateAge (age) {
-    this.setState({
-      age: age
-    })
+  updateValue (key, value) {
+    this.setState({ [key]: value })
+  }
+
+  filterDistance (profiles) {
+    let newProfiles = [].concat(profiles)
+    if (this.state.distance[1] < 500) {
+      newProfiles = newProfiles.map(x => {
+        x.noDisplay = x.distance < this.state.distance[0] || x.distance > this.state.distance[1] ? 1 : 0
+        return x
+      })
+    }
+    return newProfiles
   }
 
   filterAge (profiles) {
@@ -102,11 +114,14 @@ class Suggests extends React.Component {
     return newProfiles
   }
 
+  setDistance () {
+    const profiles = this.filterDistance(this.state.profiles)
+    this.setState({ profiles: profiles })
+  }
+
   setAge () {
     const profiles = this.filterAge(this.state.profiles)
-    this.setState({
-      profiles: profiles
-    })
+    this.setState({ profiles: profiles })
   }
 
   render () {
@@ -123,18 +138,8 @@ class Suggests extends React.Component {
     return (
       <MDBContainer>
         <MDBCol md="12">
-          <div style={ styles.filterContainer }>
-            <SortDropdown order={ this.state.order } selectOrder={ this.selectOrder } />
-            <div style={ styles.sliderContainer } >
-              <div style={ styles.displayAge }>
-                <h6>Age</h6>
-                <h6>{ this.state.age[0] } - { this.state.age[1] }</h6>
-              </div>
-              <Range 
-                min={18} max={100} value={ this.state.age } handleStyle={ [styles.handleStyle, styles.handleStyle] }
-                trackStyle={ [styles.trackStyle] } pushable={ true } onChange={ this.updateAge } onAfterChange={ this.setAge } />
-            </div>
-          </div>
+          <Filters order={ this.state.order } age={ this.state.age } selectOrder= { this.selectOrder } updateValue={ this.updateValue }
+            setAge={ this.setAge } distance={ this.state.distance } setDistance={ this.setDistance } />
           <div style={ styles.loadingContainer }>
             { this.state.fetching && this.state.profiles.length === 0 ? spinner : '' }
           </div>
