@@ -8,6 +8,7 @@ import { connect } from 'react-redux'
 import ProfileCard from '../../ProfileCard/ProfileCard'
 import { addDistanceToProfiles, addMatchingTagsToProfiles } from '../../../utilities/searchUtils'
 import Filters from './Filters'
+import { saveSuggested } from '../../../actions/searchActions'
 
 class Suggests extends React.Component {
   constructor (props) {
@@ -35,9 +36,13 @@ class Suggests extends React.Component {
   }
 
   componentDidMount () {
-    this.getProfiles()
+    if (this.props.search.lastSuggested.length > 0) {
+      this.setState({ profiles: this.props.search.lastSuggested })
+    } else {
+      this.getProfiles()
+    }
   }
-
+  
   getProfiles () {
     this.setState({
       fetching: true
@@ -57,6 +62,7 @@ class Suggests extends React.Component {
         profiles: profiles,
         fetching: false
       })
+      this.props.saveSuggested(profiles)
     }
   }
 
@@ -94,6 +100,7 @@ class Suggests extends React.Component {
       let profiles = [].concat(this.state.profiles)
       profiles = this.sortFilter(order, profiles)
       this.setState({ profiles: profiles })
+      this.props.saveSuggested(profiles)
     }
   }
 
@@ -142,21 +149,25 @@ class Suggests extends React.Component {
   setDistance () {
     const profiles = this.filterDistance(this.state.profiles)
     this.setState({ profiles: profiles })
+    this.props.saveSuggested(profiles)
   }
 
   setTags () {
     const profiles = this.filterTags(this.state.profiles)
     this.setState({ profiles: profiles })
+    this.props.saveSuggested(profiles)
   }
 
   setScore () {
     const profiles = this.filterScore(this.state.profiles)
     this.setState({ profiles: profiles })
+    this.props.saveSuggested(profiles)
   }
 
   setAge () {
     const profiles = this.filterAge(this.state.profiles)
     this.setState({ profiles: profiles })
+    this.props.saveSuggested(profiles)
   }
 
   render () {
@@ -196,11 +207,13 @@ class Suggests extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    profile: state.profile
+    profile: state.profile,
+    search: state.search
   }
 }
 
 const mapDispatchToProps = {
+  saveSuggested: saveSuggested
 }
 
 Suggests = Radium(Suggests)

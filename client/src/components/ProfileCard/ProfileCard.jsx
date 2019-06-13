@@ -3,6 +3,7 @@ import React from 'react'
 import Radium from 'radium'
 import getStyles from './ProfileCard_styles'
 import { selectProfile } from '../../actions/searchActions'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 const ProfileCard = (props) => {
@@ -21,15 +22,17 @@ const ProfileCard = (props) => {
   }
   const styles = getStyles(props.profile.informations.gender)
   return (
-    <MDBCard style={ styles.card } onClick={ () => props.selectProfile(props.profile) } >
-      <MDBCardImage className="img-fluid" src={ picture } waves style={ styles.img } />
-      <MDBCardBody style={ styles.cardBody }>
-        <MDBCardTitle className="text-center m-0">{ fullName }</MDBCardTitle>
-        <MDBCardText className="text-center m-0" style={ styles.cardText }>
-          <MDBIcon icon="circle" style={ dotStyle} /> { props.profile.informations.age } ans - { props.profile.distance } km
-        </MDBCardText>
-      </MDBCardBody>
-    </MDBCard>
+    <Link to={ '/profile/' + props.profile.informations.user_id }>
+      <MDBCard style={ styles.card } >
+        <MDBCardImage className="img-fluid" src={ picture } waves style={ styles.img } />
+        <MDBCardBody style={ styles.cardBody }>
+          <MDBCardTitle className="text-center m-0">{ fullName }</MDBCardTitle>
+          <MDBCardText className="text-center m-0" style={ styles.cardText }>
+            <MDBIcon icon="circle" style={ dotStyle} /> { props.profile.informations.age } ans - { props.profile.distance } km
+          </MDBCardText>
+        </MDBCardBody>
+      </MDBCard>
+    </Link>
   )
 }
 

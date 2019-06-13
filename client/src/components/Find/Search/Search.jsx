@@ -7,7 +7,7 @@ import { MDBIcon, MDBContainer, MDBCol } from 'mdbreact'
 import { getProfiles as getProfilesReq } from '../../../requests/search'
 import { addDistanceToProfiles, addMatchingTagsToProfiles } from '../../../utilities/searchUtils'
 import SearchFilters from './SearchFilters'
-import { updateOptions } from '../../../actions/searchActions'
+import { updateOptions, selectProfile, saveSearched } from '../../../actions/searchActions'
  
 class Search extends React.Component {
   constructor (props) {
@@ -25,7 +25,11 @@ class Search extends React.Component {
   }
 
   componentDidMount () {
-    this.getProfiles ()
+    if (this.props.search.lastSearched.length > 0) {
+      this.setState({ profiles: this.props.search.lastSearched })
+    } else {
+      this.getProfiles ()
+    }
   }
 
   search (data) {
@@ -58,6 +62,7 @@ class Search extends React.Component {
       let profiles = [].concat(this.state.profiles)
       profiles = this.sortFilter(order, profiles)
       this.setState({ profiles: profiles })
+      this.props.saveSearched(profiles)
     }
   }
 
@@ -72,7 +77,6 @@ class Search extends React.Component {
       search: this.props.search.searchOpts.search,
     }, reset ? 0 : this.state.profiles.length)
     xhr.onload = () => {
-      console.log(xhr.response.userProfiles)
       let profiles = addDistanceToProfiles(this.props.profile, xhr.response.userProfiles)
       profiles = addMatchingTagsToProfiles(this.props.profile, profiles)
       profiles = this.state.profiles.concat(profiles)
@@ -83,6 +87,7 @@ class Search extends React.Component {
         fetching: false,
         profiles: profiles
       })
+      this.props.saveSearched(profiles)
     }
   }
 
@@ -149,7 +154,9 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-  updateOptions: updateOptions
+  updateOptions: updateOptions,
+  selectProfile: selectProfile,
+  saveSearched: saveSearched
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Radium(Search))
