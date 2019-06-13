@@ -1,6 +1,6 @@
 import React from 'react'
 import Radium from 'radium'
-import { MDBBtn } from 'mdbreact'
+import { MDBBtn, MDBIcon } from 'mdbreact'
 import styles from '../Find_styles'
 import 'rc-slider/assets/index.css'
 const { Range } = require('rc-slider')
@@ -11,25 +11,44 @@ class SearchFilters extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
+      gender: -1,
       age: [],
       distance: [],
       score: [],
-      tags: []
+      tags: [],
+      online: 0,
+      search: ''
     }
     this.updateValue = this.updateValue.bind(this)
+    this.updateGender = this.updateGender.bind(this)
   }
 
   componentDidMount () {
     this.setState({
+      gender: this.props.search.searchOpts.gender,
       age: this.props.search.searchOpts.age,
       distance: this.props.search.searchOpts.distance,
       tags: this.props.search.searchOpts.tags,
-      score: this.props.search.searchOpts.score
+      score: this.props.search.searchOpts.score,
+      online: this.props.search.searchOpts.online,
+      search: this.props.search.searchOpts.search
     })
   }
 
   updateValue (key, value) {
     this.setState({ [key]: value })
+  }
+
+  updateGender (gender) {
+    let newGender
+    if (gender === 1) {
+      newGender = this.state.gender === -1 ? 2 : this.state.gender === 2 ? -1 : this.state.gender
+    } else {
+      newGender = this.state.gender === -1 ? 1 : this.state.gender === 1 ? -1 : this.state.gender
+    }
+    this.setState({
+      gender: newGender
+    })
   }
 
   render () {
@@ -40,10 +59,30 @@ class SearchFilters extends React.Component {
         alignItems: 'center'
       }
     }
+    const selectedCheckbox = {
+      backgroundColor: '#880e4f'
+    }
     return (
       <div style={ styles.searchContainer }>
         <div style={ styles.filterContainer }>
           <SortDropdown order={ this.props.order } selectOrder={ this.props.selectOrder } />
+          <div style={ styles.checkboxContainer } >
+            <div style={ [styles.checkbox, this.state.online ? selectedCheckbox : ''] }
+              onClick={ () => this.updateValue('online', !this.state.online) }></div>
+            Online
+          </div>
+          <div style={ [styles.sliderContainer, { width: 100, alignItems: 'flex-start' }] }>
+            <div style={ { display: 'flex' } } >
+              <div style={ [styles.checkbox, (this.state.gender === 1 || this.state.gender === -1) ? selectedCheckbox : ''] }
+                onClick={ () => this.updateGender(1) }></div>
+              Male
+            </div>
+            <div style={ { display: 'flex' } } >
+              <div style={ [styles.checkbox, (this.state.gender === 2 || this.state.gender === -1) ? selectedCheckbox : ''] }
+                onClick={ () => this.updateGender(2) }></div>
+              Female
+            </div>
+          </div>
           <div style={ [styles.sliderContainer, { '@media (max-width: 385px)': { width: 110 } }] } >
             <div style={ styles.displayAge }>
               <h6>Age</h6>
@@ -83,6 +122,13 @@ class SearchFilters extends React.Component {
               min={0} max={1000} value={ score } step={ 10 } handleStyle={ [styles.handleStyle, styles.handleStyle] }
               trackStyle={ [styles.trackStyle] } pushable={ true }
               onChange={ (score) => this.updateValue('score', score) } />
+          </div>
+          <div style={ styles.sliderContainer } >
+            <div style={ { display: 'flex', justifyContent: 'center', alignItems: 'center' } }>
+              <MDBIcon icon="search" className="mr-2" />
+              <input style={ styles.searchInput }
+                type="text" value={ this.state.search } name="search" onChange={ (e) => this.updateValue('search', e.target.value) } />
+            </div>
           </div>
         </div>
         <div style={ styles.searchBtnContainer } >

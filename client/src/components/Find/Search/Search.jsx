@@ -20,7 +20,6 @@ class Search extends React.Component {
     this.getProfiles = this.getProfiles.bind(this)
     this.filterDistance = this.filterDistance.bind(this)
     this.filterTags = this.filterTags.bind(this)
-    this.filterSearch = this.filterSearch.bind(this)
     this.search = this.search.bind(this)
     this.selectOrder = this.selectOrder.bind(this)
   }
@@ -69,9 +68,11 @@ class Search extends React.Component {
       gender: this.props.search.searchOpts.gender,
       age: this.props.search.searchOpts.age,
       score: this.props.search.searchOpts.score,
-      online: this.props.search.searchOpts.online
+      online: this.props.search.searchOpts.online,
+      search: this.props.search.searchOpts.search,
     }, reset ? 0 : this.state.profiles.length)
     xhr.onload = () => {
+      console.log(xhr.response.userProfiles)
       let profiles = addDistanceToProfiles(this.props.profile, xhr.response.userProfiles)
       profiles = addMatchingTagsToProfiles(this.props.profile, profiles)
       profiles = this.state.profiles.concat(profiles)
@@ -102,26 +103,6 @@ class Search extends React.Component {
       newProfiles = newProfiles.map(x => {
         x.noDisplay = x.distance < distance[0] || x.distance > distance[1] ? 1 : x.noDisplay
         return x
-      })
-    }
-    return newProfiles
-  }
-
-  filterSearch (profiles) {
-    let newProfiles = [].concat(profiles)
-    if (this.props.search.searchOpts.search) {
-      newProfiles = newProfiles.map(x => {
-        let exists = false
-        if (x.mainInformations.fist_name.includes(this.props.search.searchOpts.search)
-            || x.mainInformations.last_name.includes(this.props.search.searchOpts.search)) {
-          exists = true    
-        }
-        x.tags.forEach(y => {
-          if (y.tag.includes(this.props.search.searchOpts.search)) {
-            exists = true
-          }
-        })
-        x.noDisplay = exists ? x.noDisplay : 1
       })
     }
     return newProfiles

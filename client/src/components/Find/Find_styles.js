@@ -97,6 +97,34 @@ const styles = {
     width: '100%',
     display: 'flex',
     justifyContent: 'space-between'
+  },
+  checkboxContainer: {
+    width: '100px',
+    color: '#880e4f',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+    margin: 10,
+    padding: 10,
+    borderRadius: '3px',
+    border: '1px solid #880e4f'
+  },
+  checkbox: {
+    width: 20,
+    height: 20,
+    backgroundColor: '#f2f2f2',
+    marginRight: 5,
+    cursor: 'pointer'
+  },
+  searchInput: {
+    width: 100,
+    ':focus': {
+      outline: 'none'
+    },
+    ':active': {
+      outline: 'none'
+    }
   }
 }
 
