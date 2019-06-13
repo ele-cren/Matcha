@@ -1,10 +1,18 @@
-export const UPDATE = 'search:update'
+export const UPDATE_SEARCH_OPTS = 'search:updateSearchOpts'
+export const UPDATE_SUGGEST_OPTS = 'search:updatSuggestOpts'
 export const SAVE_SEARCHED = 'search:saveSearched'
 export const SAVE_SUGGESTED = 'search:saveSuggested'
 
-export const updateOptions = (options) => {
+export const updateSearchOptions = (options) => {
   return {
-    type: UPDATE,
+    type: UPDATE_SEARCH_OPTS,
+    payload: options
+  }
+}
+
+export const updateSuggestOptions = (options) => {
+  return {
+    type: UPDATE_SUGGEST_OPTS,
     payload: options
   }
 }

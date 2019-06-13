@@ -2,7 +2,6 @@ import { MDBIcon, MDBCard, MDBCardImage, MDBCardBody, MDBCardTitle, MDBCardText 
 import React from 'react'
 import Radium from 'radium'
 import getStyles from './ProfileCard_styles'
-import { selectProfile } from '../../actions/searchActions'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
@@ -43,7 +42,6 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-  selectProfile: selectProfile
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Radium(ProfileCard))

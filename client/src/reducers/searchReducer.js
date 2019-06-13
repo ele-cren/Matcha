@@ -1,4 +1,4 @@
-import { UPDATE, SAVE_SEARCHED, SAVE_SUGGESTED, saveSearched } from '../actions/searchActions'
+import { UPDATE_SEARCH_OPTS, SAVE_SEARCHED, SAVE_SUGGESTED, UPDATE_SUGGEST_OPTS } from '../actions/searchActions'
 
 const defaultState = {
   searchOpts: {
@@ -10,14 +10,22 @@ const defaultState = {
     tags: [0, 4],
     search: ''
   },
+  suggestOpts: {
+    distance: [0, 400],
+    age: [18, 30],
+    score: [0, 100],
+    tags: [0, 4],
+  },
   lastSuggested: [],
   lastSearched: []
 }
 
 const searchReducer = (state = defaultState, action) => {
   switch (action.type) {
-    case UPDATE:
+    case UPDATE_SEARCH_OPTS:
         return { ...state, searchOpts: action.payload }
+    case UPDATE_SUGGEST_OPTS:
+      return { ...state, suggestOpts: action.payload }
     case SAVE_SUGGESTED:
         return { ...state, lastSuggested: action.payload }
     case SAVE_SEARCHED:

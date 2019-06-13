@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 import ProfileCard from '../../ProfileCard/ProfileCard'
 import { addDistanceToProfiles, addMatchingTagsToProfiles } from '../../../utilities/searchUtils'
 import Filters from './Filters'
-import { saveSuggested } from '../../../actions/searchActions'
+import { saveSuggested, updateSuggestOptions } from '../../../actions/searchActions'
 
 class Suggests extends React.Component {
   constructor (props) {
@@ -16,11 +16,7 @@ class Suggests extends React.Component {
     this.state = {
       profiles: [],
       fetching: false,
-      order: -1,
-      age: [18, 30],
-      distance: [0, 400],
-      tags: [0, 4],
-      score: [0, 100]
+      order: -1
     }
     this.getProfiles = this.getProfiles.bind(this)
     this.selectOrder = this.selectOrder.bind(this)
@@ -105,32 +101,37 @@ class Suggests extends React.Component {
   }
 
   updateValue (key, value) {
-    this.setState({ [key]: value })
+    const newOpts = Object.assign({}, this.props.search.suggestOpts)
+    newOpts[key] = value
+    this.props.updateOptions(newOpts)
   }
 
   filterTags (profiles) {
+    const tags = this.props.search.suggestOpts.tags
     let newProfiles = [].concat(profiles)
     newProfiles = newProfiles.map(x => {
-      x.noDisplay = x.matchingTags < this.state.tags[0] || x.matchingTags > this.state.tags[1] ? 1 : x.noDisplay
+      x.noDisplay = x.matchingTags < tags[0] || x.matchingTags > tags[1] ? 1 : x.noDisplay
       return x
     })
     return newProfiles
   }
 
   filterScore (profiles) {
+    const score = this.props.search.suggestOpts.score
     let newProfiles = [].concat(profiles)
     newProfiles = newProfiles.map(x => {
-      x.noDisplay = x.informations.score < this.state.score[0] || x.informations.score > this.state.score[1] ? 1 : x.noDisplay
+      x.noDisplay = x.informations.score < score[0] || x.informations.score > score[1] ? 1 : x.noDisplay
       return x
     })
     return newProfiles
   }
 
   filterDistance (profiles) {
+    const distance = this.props.search.suggestOpts.distance
     let newProfiles = [].concat(profiles)
-    if (this.state.distance[1] < 500) {
+    if (distance[1] < 500) {
       newProfiles = newProfiles.map(x => {
-        x.noDisplay = x.distance < this.state.distance[0] || x.distance > this.state.distance[1] ? 1 : x.noDisplay
+        x.noDisplay = x.distance < distance[0] || x.distance > distance[1] ? 1 : x.noDisplay
         return x
       })
     }
@@ -138,9 +139,10 @@ class Suggests extends React.Component {
   }
 
   filterAge (profiles) {
+    const age = this.props.search.suggestOpts.age
     let newProfiles = [].concat(profiles)
     newProfiles = newProfiles.map(x => {
-      x.noDisplay = x.informations.age < this.state.age[0] || x.informations.age > this.state.age[1] ? 1 : 0
+      x.noDisplay = x.informations.age < age[0] || x.informations.age > age[1] ? 1 : 0
       return x
     })
     return newProfiles
@@ -181,12 +183,13 @@ class Suggests extends React.Component {
         <ProfileCard key={ i } profile={ x } />
       ) : ''
     })
+    const { age, distance, score, tags } = this.props.search.suggestOpts
     return (
       <MDBContainer>
         <MDBCol md="12">
-          <Filters order={ this.state.order } age={ this.state.age } selectOrder= { this.selectOrder } updateValue={ this.updateValue }
-            setAge={ this.setAge } distance={ this.state.distance } setDistance={ this.setDistance }
-            tags={ this.state.tags } score={ this.state.score }  setScore={ this.setScore } setTags={ this.setTags }  />
+          <Filters order={ this.state.order } age={ age } selectOrder= { this.selectOrder } updateValue={ this.updateValue }
+            setAge={ this.setAge } distance={ distance } setDistance={ this.setDistance }
+            tags={ tags } score={ score }  setScore={ this.setScore } setTags={ this.setTags }  />
           <div style={ styles.loadingContainer }>
             { this.state.fetching && this.state.profiles.length === 0 ? spinner : '' }
           </div>
@@ -213,7 +216,8 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-  saveSuggested: saveSuggested
+  saveSuggested: saveSuggested,
+  updateOptions: updateSuggestOptions
 }
 
 Suggests = Radium(Suggests)

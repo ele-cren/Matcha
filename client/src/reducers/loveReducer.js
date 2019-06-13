@@ -1,4 +1,4 @@
-import { UPDATE } from '../actions/loveActions/loveActionsConst'
+import { UPDATE, CHECKED } from '../actions/loveActions/loveActionsConst'
 
 const defaultState = {
   meAboutUsers: [],
@@ -13,8 +13,11 @@ const loveReducer = (state = defaultState, action) => {
         meAboutUsers: action.payload.meAboutUsers,
         usersAboutMe: action.payload.usersAboutMe
       }
-      default:
-        return state
+    case CHECKED: {
+      return { ...state, checked: true }
+    }
+    default:
+      return state
   }
 }
 

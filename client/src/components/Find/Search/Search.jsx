@@ -7,7 +7,7 @@ import { MDBIcon, MDBContainer, MDBCol } from 'mdbreact'
 import { getProfiles as getProfilesReq } from '../../../requests/search'
 import { addDistanceToProfiles, addMatchingTagsToProfiles } from '../../../utilities/searchUtils'
 import SearchFilters from './SearchFilters'
-import { updateOptions, selectProfile, saveSearched } from '../../../actions/searchActions'
+import { updateSearchOptions, saveSearched } from '../../../actions/searchActions'
  
 class Search extends React.Component {
   constructor (props) {
@@ -154,8 +154,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-  updateOptions: updateOptions,
-  selectProfile: selectProfile,
+  updateOptions: updateSearchOptions,
   saveSearched: saveSearched
 }
 

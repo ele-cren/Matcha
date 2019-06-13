@@ -43,7 +43,7 @@ class App extends React.Component {
   }
 
   render () {
-    if (!this.props.user.checked) {
+    if (!this.props.user.checked || !this.props.love.checked) {
       return <Loader />
     } else {
       return (
@@ -111,7 +111,8 @@ function PrivateRoute({ component: Component, ...rest }) {
 const mapStateToProps = state => {
   return {
     user: state.user,
-    profile: state.profile
+    profile: state.profile,
+    love: state.love
   }
 }
 
