@@ -2,8 +2,8 @@ import Radium from 'radium'
 import React from 'react'
 import { MDBContainer, MDBCol } from 'mdbreact'
 import styles from './FindPage_styles'
-import Search from '../../components/Search/Search'
-import Suggests from '../../components/Suggests/Suggests'
+import Search from '../../components/Find/Search/Search'
+import Suggests from '../../components/Find/Suggests/Suggests'
 
 class FindPage extends React.Component {
   constructor (props) {

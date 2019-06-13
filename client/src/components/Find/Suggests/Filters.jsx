@@ -1,7 +1,7 @@
 import React from 'react'
 import Radium from 'radium'
-import styles from './Suggests_styles'
-import SortDropdown from './SortDropdown'
+import styles from '../Find_styles'
+import SortDropdown from '../SortDropdown'
 import 'rc-slider/assets/index.css'
 const { Range } = require('rc-slider')
 

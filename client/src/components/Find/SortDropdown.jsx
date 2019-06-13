@@ -1,6 +1,6 @@
 import React from 'react'
 import Radium from 'radium'
-import styles from './Suggests_styles'
+import styles from './Find_styles'
 import { MDBDropdown, MDBDropdownMenu, MDBDropdownToggle } from 'mdbreact'
 
 class SortDropdown extends React.Component {

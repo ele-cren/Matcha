@@ -1,12 +1,12 @@
 import React from 'react'
 import { MDBContainer, MDBCol, MDBIcon } from 'mdbreact'
 import Radium from 'radium'
-import styles from './Suggests_styles'
-import { getGenderFromOriGend } from '../../utilities/utilities'
-import { getProfiles } from '../../requests/search'
+import styles from '../Find_styles'
+import { getGenderFromOriGend } from '../../../utilities/utilities'
+import { getProfiles } from '../../../requests/search'
 import { connect } from 'react-redux'
-import ProfileCard from '../ProfileCard/ProfileCard'
-import { addDistanceToProfiles, addMatchingTagsToProfiles } from '../../utilities/searchUtils'
+import ProfileCard from '../../ProfileCard/ProfileCard'
+import { addDistanceToProfiles, addMatchingTagsToProfiles } from '../../../utilities/searchUtils'
 import Filters from './Filters'
 
 class Suggests extends React.Component {
@@ -17,7 +17,7 @@ class Suggests extends React.Component {
       fetching: false,
       order: -1,
       age: [18, 30],
-      distance: [0, 500],
+      distance: [0, 400],
       tags: [0, 4],
       score: [0, 100]
     }
@@ -104,7 +104,7 @@ class Suggests extends React.Component {
   filterTags (profiles) {
     let newProfiles = [].concat(profiles)
     newProfiles = newProfiles.map(x => {
-      x.noDisplay = x.matchingTags < this.state.tags[0] || x.matchingTags > this.state.tags[1] ? 1 : 0
+      x.noDisplay = x.matchingTags < this.state.tags[0] || x.matchingTags > this.state.tags[1] ? 1 : x.noDisplay
       return x
     })
     return newProfiles
@@ -113,7 +113,7 @@ class Suggests extends React.Component {
   filterScore (profiles) {
     let newProfiles = [].concat(profiles)
     newProfiles = newProfiles.map(x => {
-      x.noDisplay = x.informations.score < this.state.score[0] || x.informations.score > this.state.score[1] ? 1 : 0
+      x.noDisplay = x.informations.score < this.state.score[0] || x.informations.score > this.state.score[1] ? 1 : x.noDisplay
       return x
     })
     return newProfiles
@@ -123,7 +123,7 @@ class Suggests extends React.Component {
     let newProfiles = [].concat(profiles)
     if (this.state.distance[1] < 500) {
       newProfiles = newProfiles.map(x => {
-        x.noDisplay = x.distance < this.state.distance[0] || x.distance > this.state.distance[1] ? 1 : 0
+        x.noDisplay = x.distance < this.state.distance[0] || x.distance > this.state.distance[1] ? 1 : x.noDisplay
         return x
       })
     }

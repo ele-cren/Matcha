@@ -35,6 +35,22 @@ const styles = {
     borderRadius: '3px',
     fontSize: '30px',
   },
+  searchContainer: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  searchBtnContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  searchBtn: {
+    color: '#880e4f',
+    border: '1px solid #880e4f'
+  },
   filterContainer: {
     marginTop: 10,
     width: '100%',
