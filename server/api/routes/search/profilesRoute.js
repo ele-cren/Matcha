@@ -5,23 +5,13 @@ import mysql from 'mysql'
 
 const router = express.Router()
 
-const getUsersWithGender = (gender, offset) => {
+const getUsers = (gender, offset) => {
+  console.log(gender)
+  let genderSql = gender != -1 ? 'gender = ?' : 'gender = ? OR gender = ?'
+  let genderArray = gender != -1 ? [gender] : [1, 2]
   return new Promise((resolve, reject) => {
     const limit = `${ offset },10`
-    connection.query('SELECT user_id FROM informations WHERE gender=? LIMIT ' + limit, [gender], (err, results) => {
-      if (err) {
-        reject(err)
-      } else {
-        resolve(results)
-      }
-    })
-  })
-}
-
-const getUsers = (offset) => {
-  return new Promise((resolve, reject) => {
-    const limit = `${ offset },10`
-    connection.query("SELECT user_id FROM informations LIMIT " + limit, (err, results) => {
+    connection.query(`SELECT user_id FROM informations WHERE ${ genderSql } LIMIT ${ limit }`, genderArray, (err, results) => {
       if (err) {
         reject(err)
       } else {
@@ -32,13 +22,12 @@ const getUsers = (offset) => {
 }
 
 router.get('/', async (req, res) => {
+  const type = req.query.type
   const gender = req.query.gender
   const offset = req.query.offset
-  let users
-  if (gender != -1) {
-    users = await getUsersWithGender(gender, offset)
-  } else {
-    users = await getUsers(offset)
+  let users = []
+  if (type === 'suggests') {
+    users = await getUsers(gender, offset)
   }
   let profiles = []
   for (const user of users) {

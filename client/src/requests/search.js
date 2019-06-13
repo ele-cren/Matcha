@@ -1,9 +1,10 @@
-export const getProfiles = (gender, offset) => {
-  const genderEncoded = encodeURIComponent(gender)
+export const getProfiles = (data, offset) => {
+  const genderEncoded = encodeURIComponent(data.gender)
   const offsetEncoded = encodeURIComponent(offset)
-  const data = `gender=${ genderEncoded }&offset=${ offsetEncoded }`
+  const typeEncoded = encodeURIComponent(data.type)
+  const dataSend = `type=${ typeEncoded }&gender=${ genderEncoded }&offset=${ offsetEncoded }`
   const xhr = new XMLHttpRequest()
-  xhr.open('GET', '/api/profiles?' + data)
+  xhr.open('GET', '/api/profiles?' + dataSend)
   xhr.responseType = 'json'
   xhr.send()
   return xhr

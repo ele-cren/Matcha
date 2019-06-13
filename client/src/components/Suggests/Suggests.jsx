@@ -19,7 +19,7 @@ class Suggests extends React.Component {
       age: [18, 30],
       distance: [0, 500],
       tags: [0, 4],
-      score: [0, 100],
+      score: [0, 100]
     }
     this.getProfiles = this.getProfiles.bind(this)
     this.selectOrder = this.selectOrder.bind(this)
@@ -27,7 +27,11 @@ class Suggests extends React.Component {
     this.setAge = this.setAge.bind(this)
     this.updateValue = this.updateValue.bind(this)
     this.filterDistance = this.filterDistance.bind(this)
+    this.filterTags = this.filterTags.bind(this)
+    this.filterScore = this.filterScore.bind(this)
     this.setDistance = this.setDistance.bind(this)
+    this.setTags = this.setTags.bind(this)
+    this.setScore = this.setScore.bind(this)
   }
 
   componentDidMount () {
@@ -39,7 +43,7 @@ class Suggests extends React.Component {
       fetching: true
     })
     const gender = getGenderFromOriGend(this.props.profile.informations.gender, this.props.profile.informations.orientation)
-    const xhr = getProfiles(gender, this.state.profiles.length)
+    const xhr = getProfiles({ type: 'suggests', gender: gender }, this.state.profiles.length)
     xhr.onload = () => {
       let profiles = addDistanceToProfiles(this.props.profile, xhr.response.userProfiles)
       profiles = addMatchingTagsToProfiles(this.props.profile, profiles)
@@ -47,6 +51,8 @@ class Suggests extends React.Component {
       profiles = this.sortFilter(this.state.order, profiles)
       profiles = this.filterAge(profiles)
       profiles = this.filterDistance(profiles)
+      profiles = this.filterTags(profiles)
+      profiles = this.filterScore(profiles)
       this.setState({
         profiles: profiles,
         fetching: false
@@ -95,6 +101,24 @@ class Suggests extends React.Component {
     this.setState({ [key]: value })
   }
 
+  filterTags (profiles) {
+    let newProfiles = [].concat(profiles)
+    newProfiles = newProfiles.map(x => {
+      x.noDisplay = x.matchingTags < this.state.tags[0] || x.matchingTags > this.state.tags[1] ? 1 : 0
+      return x
+    })
+    return newProfiles
+  }
+
+  filterScore (profiles) {
+    let newProfiles = [].concat(profiles)
+    newProfiles = newProfiles.map(x => {
+      x.noDisplay = x.informations.score < this.state.score[0] || x.informations.score > this.state.score[1] ? 1 : 0
+      return x
+    })
+    return newProfiles
+  }
+
   filterDistance (profiles) {
     let newProfiles = [].concat(profiles)
     if (this.state.distance[1] < 500) {
@@ -120,6 +144,16 @@ class Suggests extends React.Component {
     this.setState({ profiles: profiles })
   }
 
+  setTags () {
+    const profiles = this.filterTags(this.state.profiles)
+    this.setState({ profiles: profiles })
+  }
+
+  setScore () {
+    const profiles = this.filterScore(this.state.profiles)
+    this.setState({ profiles: profiles })
+  }
+
   setAge () {
     const profiles = this.filterAge(this.state.profiles)
     this.setState({ profiles: profiles })
@@ -140,7 +174,8 @@ class Suggests extends React.Component {
       <MDBContainer>
         <MDBCol md="12">
           <Filters order={ this.state.order } age={ this.state.age } selectOrder= { this.selectOrder } updateValue={ this.updateValue }
-            setAge={ this.setAge } distance={ this.state.distance } setDistance={ this.setDistance } />
+            setAge={ this.setAge } distance={ this.state.distance } setDistance={ this.setDistance }
+            tags={ this.state.tags } score={ this.state.score }  setScore={ this.setScore } setTags={ this.setTags }  />
           <div style={ styles.loadingContainer }>
             { this.state.fetching && this.state.profiles.length === 0 ? spinner : '' }
           </div>
