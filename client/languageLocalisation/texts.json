@@ -62,7 +62,8 @@
     "offline_since": "Hors ligne depuis",
     "search": "Recherche",
     "sort": "Trier",
-    "age": "ans"
+    "age": "ans",
+    "no_sort": "Pas de tri"
   },
   "EN": {
     "notification_view": "Someone viewed your profile",
@@ -127,6 +128,7 @@
     "offline_since": "Offline since",
     "search": "Search",
     "sort": "Sort",
-    "age": "yo"
+    "age": "yo",
+    "no_sort": "No sort"
   }
 }

@@ -2,6 +2,8 @@ import React from 'react'
 import Radium from 'radium'
 import styles from './Find_styles'
 import { MDBDropdown, MDBDropdownMenu, MDBDropdownToggle } from 'mdbreact'
+import { connect } from 'react-redux'
+const Text = require('../../../languageLocalisation/texts.json')
 
 class SortDropdown extends React.Component {
   constructor (props) {
@@ -24,15 +26,16 @@ class SortDropdown extends React.Component {
     const selectStyle = {
       backgroundColor: '#f7eff3'
     }
+    const myText = Text[this.props.language]
     const order = this.props.order
     return (
       <MDBDropdown>
         <MDBDropdownToggle caret color="" ref={ this.dropdownRef } style={ styles.dropdownBtn }>
-          Sort
+          { myText["sort"] }
         </MDBDropdownToggle>
         <MDBDropdownMenu basic>
           <div key={ 'dd1' } style={ [styles.dropdownItem, order === -1 ? selectStyle : hovStyle] } onClick={ () => this.selectOrder(-1) }>
-            No sort
+            { myText["no_sort"] }
           </div>
           <div key={ 'dd2' } style={ [styles.dropdownItem, order === 0 ? selectStyle : hovStyle] } onClick={ () => this.selectOrder(0) }>
             Age
@@ -52,4 +55,10 @@ class SortDropdown extends React.Component {
   }
 }
 
-export default Radium(SortDropdown)
+const mapStateToProps = state => {
+  return {
+    language: state.language
+  }
+}
+
+export default connect(mapStateToProps, {})(Radium(SortDropdown))
