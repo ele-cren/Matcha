@@ -20,14 +20,18 @@ class Search extends React.Component {
     this.getProfiles = this.getProfiles.bind(this)
     this.filterDistance = this.filterDistance.bind(this)
     this.filterTags = this.filterTags.bind(this)
+    this.filterBlocked = this.filterBlocked.bind(this)
     this.search = this.search.bind(this)
     this.selectOrder = this.selectOrder.bind(this)
     this.setProfile = this.setProfile.bind(this)
+    this.applyFilters = this.applyFilters.bind(this)
   }
 
   componentDidMount () {
     if (this.props.search.lastSearched.length > 0) {
-      this.setState({ profiles: this.props.search.lastSearched })
+      let profiles = [].concat(this.props.search.lastSearched)
+      profiles = this.applyFilters(profiles)
+      this.setState({ profiles: profiles })
     } else {
       this.getProfiles ()
     }
@@ -85,15 +89,31 @@ class Search extends React.Component {
       let profiles = addDistanceToProfiles(this.props.profile, xhr.response.userProfiles)
       profiles = addMatchingTagsToProfiles(this.props.profile, profiles)
       profiles = this.state.profiles.concat(profiles)
-      profiles = this.sortFilter(this.state.order, profiles)
-      profiles = this.filterDistance(profiles)
-      profiles = this.filterTags(profiles)
+      profiles = this.applyFilters(profiles)
       this.setState({
         fetching: false,
         profiles: profiles
       })
       this.props.saveSearched(profiles)
     }
+  }
+
+  applyFilters (profiles) {
+    let newProfiles = [].concat(profiles)
+    newProfiles = this.sortFilter(this.state.order, newProfiles)
+    newProfiles = this.filterDistance(newProfiles)
+    newProfiles = this.filterTags(newProfiles)
+    newProfiles = this.filterBlocked(newProfiles)
+    return newProfiles
+  }
+
+  filterBlocked (profiles) {
+    let newProfiles = [].concat(profiles)
+    newProfiles = newProfiles.map(x => {
+      x.noDisplay = this.props.ban.blockedUsers.includes(x.informations.user_id) ? 1 : x.noDisplay
+      return x
+    })
+    return newProfiles
   }
 
   filterTags (profiles) {
@@ -111,7 +131,7 @@ class Search extends React.Component {
     let newProfiles = [].concat(profiles)
     if (distance[1] < 500) {
       newProfiles = newProfiles.map(x => {
-        x.noDisplay = x.distance < distance[0] || x.distance > distance[1] ? 1 : x.noDisplay
+        x.noDisplay = x.distance < distance[0] || x.distance > distance[1] ? 1 : 0
         return x
       })
     }
@@ -154,7 +174,8 @@ class Search extends React.Component {
 const mapStateToProps = state => {
   return {
     search: state.search,
-    profile: state.profile
+    profile: state.profile,
+    ban: state.ban
   }
 }
 

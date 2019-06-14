@@ -30,11 +30,15 @@ class Suggests extends React.Component {
     this.setTags = this.setTags.bind(this)
     this.setScore = this.setScore.bind(this)
     this.setProfile = this.setProfile.bind(this)
+    this.filterBlocked = this.filterBlocked.bind(this)
+    this.applyFilters = this.applyFilters.bind(this)
   }
 
   componentDidMount () {
     if (this.props.search.lastSuggested.length > 0) {
-      this.setState({ profiles: this.props.search.lastSuggested })
+      let profiles = [].concat(this.props.search.lastSuggested)
+      profiles = this.applyFilters(profiles)
+      this.setState({ profiles: profiles })
     } else {
       this.getProfiles()
     }
@@ -54,17 +58,33 @@ class Suggests extends React.Component {
       let profiles = addDistanceToProfiles(this.props.profile, xhr.response.userProfiles)
       profiles = addMatchingTagsToProfiles(this.props.profile, profiles)
       profiles = this.state.profiles.concat(profiles)
-      profiles = this.sortFilter(this.state.order, profiles)
-      profiles = this.filterAge(profiles)
-      profiles = this.filterDistance(profiles)
-      profiles = this.filterTags(profiles)
-      profiles = this.filterScore(profiles)
+      profiles = this.applyFilters(profiles)
       this.setState({
         profiles: profiles,
         fetching: false
       })
       this.props.saveSuggested(profiles)
     }
+  }
+
+  applyFilters (profiles) {
+    let newProfiles = [].concat(profiles)
+    newProfiles = this.sortFilter(this.state.order, newProfiles)
+    newProfiles = this.filterAge(newProfiles)
+    newProfiles = this.filterDistance(newProfiles)
+    newProfiles = this.filterTags(newProfiles)
+    newProfiles = this.filterScore(newProfiles)
+    newProfiles = this.filterBlocked(newProfiles)
+    return newProfiles
+  }
+
+  filterBlocked (profiles) {
+    let newProfiles = [].concat(profiles)
+    newProfiles = newProfiles.map(x => {
+      x.noDisplay = this.props.ban.blockedUsers.includes(x.informations.user_id) ? 1 : x.noDisplay
+      return x
+    })
+    return newProfiles
   }
 
   sortProfiles (profiles) {
@@ -216,7 +236,8 @@ class Suggests extends React.Component {
 const mapStateToProps = state => {
   return {
     profile: state.profile,
-    search: state.search
+    search: state.search,
+    ban: state.ban
   }
 }
 
