@@ -208,6 +208,7 @@ class Suggests extends React.Component {
         <ProfileCard key={ i } profile={ x } selectProfile={ this.setProfile }  />
       ) : ''
     })
+    profiles = profiles.filter(Boolean)
     const { age, distance, score, tags } = this.props.search.suggestOpts
     return (
       <MDBContainer>
@@ -221,8 +222,8 @@ class Suggests extends React.Component {
           <div style={ styles.container }>
             { profiles.length > 0 ? profiles : '' }
             <div style={ styles.addContainer }>
-              { this.state.fetching && this.state.profiles.length > 0 ? spinner :
-              this.state.profiles.length > 0 ? (
+              { this.state.fetching && profiles.length > 0 ? spinner :
+                profiles.length > 0 ? (
                 <div style={ styles.addButton } onClick={ this.getProfiles }><MDBIcon icon="plus" /></div>
                ) : '' }
             </div>

@@ -41,7 +41,7 @@ class Notifications extends React.Component {
   }
 
   checkLike (userId, userTarget, userProfile) {
-    if (userTarget === this.props.user.user.userId) {
+    if (userTarget === this.props.user.user.userId && !this.props.ban.blockedUsers.includes(userId)) {
       this.notify('notificationLike')
       const user = getUser(this.props.love.meAboutUsers, userId)
       if (user && user.like) {
@@ -57,7 +57,7 @@ class Notifications extends React.Component {
   }
 
   checkDislike (userId, userTarget, userProfile) {
-    if (userTarget === this.props.user.user.userId) {
+    if (userTarget === this.props.user.user.userId && !this.props.ban.blockedUsers.includes(userId)) {
       this.notify('notificationDislike')
       const user = getUser(this.props.love.meAboutUsers, userId)
       if (user && user.like) {
@@ -73,7 +73,7 @@ class Notifications extends React.Component {
   }
 
   checkView (userId, userTarget, userProfile) {
-    if (userTarget === this.props.user.user.userId) {
+    if (userTarget === this.props.user.user.userId && !this.props.ban.blockedUsers.includes(userId)) {
       this.notify('notificationView')
       const usersAboutMe = getView(this.props.love.usersAboutMe, userId, userProfile)
       this.addScore(10)
@@ -152,7 +152,8 @@ const mapStateToProps = (state) => {
     user: state.user,
     love: state.love,
     language: state.language,
-    profile: state.profile
+    profile: state.profile,
+    ban: state.ban
   }
 }
 

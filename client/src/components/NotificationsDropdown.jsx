@@ -61,8 +61,10 @@ class NotificationsDropdown extends React.Component {
 
   viewNotifs () {
     for (const notif of this.props.notifications) {
-      this.props.updateNotif(notif.uuid)
-      socket.emit('update notification', notif.uuid)
+      if (!this.props.ban.blockedUsers.includes(notif.from_user)) {
+        this.props.updateNotif(notif.uuid)
+        socket.emit('update notification', notif.uuid)
+      }
     }
   }
 
@@ -109,11 +111,14 @@ class NotificationsDropdown extends React.Component {
   render () {
     let count = 0
     for (const notif of this.props.notifications) {
-      if (!notif.view) {
+      if (!notif.view && !this.props.ban.blockedUsers.includes(notif.from_user)) {
         count++
       }
     }
-    const notifications = this.props.notifications.map((x, i) => {
+    let notifications = this.props.notifications.map((x, i) => {
+      if (this.props.ban.blockedUsers.includes(x.from_user)) {
+        return ''
+      }
       const text = this.getText(x)
       const color = this.getColor(x.type)
       return (
@@ -129,6 +134,7 @@ class NotificationsDropdown extends React.Component {
         </div>
       )
     })
+    notifications = notifications.filter(Boolean)
     return (
       <MDBNavItem>
         { count > 0 ? <div style={ styles().count }>{ count >= 100 ? '..' : count }</div> : '' }
@@ -136,7 +142,7 @@ class NotificationsDropdown extends React.Component {
           <MDBDropdownToggle nav onClick={ this.viewNotifs }>
             <MDBIcon icon="bell" style={ styles().icon }/>
           </MDBDropdownToggle>
-          { this.props.notifications.length > 0 ? (
+          { notifications.length > 0 ? (
             <MDBDropdownMenu className="dropdown-default" right>
               { notifications }
             </MDBDropdownMenu>
@@ -153,7 +159,8 @@ NotificationsDropdown = Radium(NotificationsDropdown)
 const mapStateToProps = state => {
   return {
     notifications: state.notifications,
-    language: state.language
+    language: state.language,
+    ban: state.ban
   }
 }
 

@@ -144,23 +144,24 @@ class Search extends React.Component {
         <span className="sr-only">Loading...</span>
       </div>
     )
-    const profiles = this.state.profiles.map((x, i) => {
+    let profiles = this.state.profiles.map((x, i) => {
       return !x.noDisplay ? (
         <ProfileCard key={ i } profile={ x } selectProfile={ this.setProfile }  />
       ) : ''
     })
+    profiles = profiles.filter(Boolean)
     return (
       <MDBContainer>
         <MDBCol md="12">
           <SearchFilters searchProfiles={ this.search } order={ this.state.order } selectOrder={ this.selectOrder } />
           <div style={ styles.loadingContainer }>
-            { this.state.fetching && this.state.profiles.length === 0 ? spinner : '' }
+            { this.state.fetching && profiles.length === 0 ? spinner : '' }
           </div>
           <div style={ styles.container }>
             { profiles.length > 0 ? profiles : '' }
             <div style={ styles.addContainer }>
-              { this.state.fetching && this.state.profiles.length > 0 ? spinner :
-              this.state.profiles.length > 0 ? (
+              { this.state.fetching && profiles.length > 0 ? spinner :
+                profiles.length > 0 ? (
                 <div style={ styles.addButton } onClick={ () => this.getProfiles(false) }><MDBIcon icon="plus" /></div>
                ) : '' }
             </div>
