@@ -4,6 +4,8 @@ import { MDBContainer, MDBCol } from 'mdbreact'
 import styles from './FindPage_styles'
 import Search from '../../components/Find/Search/Search'
 import Suggests from '../../components/Find/Suggests/Suggests'
+import { connect } from 'react-redux'
+const Text = require('../../../languageLocalisation/texts.json')
 
 class FindPage extends React.Component {
   constructor (props) {
@@ -21,6 +23,7 @@ class FindPage extends React.Component {
   }
 
   render () {
+    const myText = Text[this.props.language]
     const tabLeft = Object.assign(styles.tabLeft, {
       color: this.state.selected === 1 ? 'white' : 'black',
       backgroundColor: this.state.selected === 1 ? '#880e4f' : '#f7e8ef'
@@ -34,7 +37,7 @@ class FindPage extends React.Component {
         <MDBContainer>
           <MDBCol md="12" style={ styles.col }>
             <div style={ styles.tabContainer }>
-              <div style={ tabLeft } onClick={ () => this.changeSelected(1) }>Search</div>
+              <div style={ tabLeft } onClick={ () => this.changeSelected(1) }>{ myText["search"] }</div>
               <div style={ tabRight } onClick={ () => this.changeSelected(2) }>Suggestions</div>
             </div>
           </MDBCol>
@@ -45,6 +48,13 @@ class FindPage extends React.Component {
   }
 }
 
-FindPage = Radium(FindPage)
+const mapStateToProps = state => {
+  return {
+    language: state.language
+  }
+}
 
-export default FindPage
+const mapDispatchToProps = {
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Radium(FindPage))

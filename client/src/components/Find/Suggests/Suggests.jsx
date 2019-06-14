@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 import ProfileCard from '../../ProfileCard/ProfileCard'
 import { addDistanceToProfiles, addMatchingTagsToProfiles } from '../../../utilities/searchUtils'
 import Filters from './Filters'
-import { saveSuggested, updateSuggestOptions } from '../../../actions/searchActions'
+import { saveSuggested, updateSuggestOptions, selectProfile } from '../../../actions/searchActions'
 
 class Suggests extends React.Component {
   constructor (props) {
@@ -29,6 +29,7 @@ class Suggests extends React.Component {
     this.setDistance = this.setDistance.bind(this)
     this.setTags = this.setTags.bind(this)
     this.setScore = this.setScore.bind(this)
+    this.setProfile = this.setProfile.bind(this)
   }
 
   componentDidMount () {
@@ -39,6 +40,10 @@ class Suggests extends React.Component {
     }
   }
   
+  setProfile (profile) {
+    this.props.selectProfile(profile)
+  }
+
   getProfiles () {
     this.setState({
       fetching: true
@@ -180,7 +185,7 @@ class Suggests extends React.Component {
     )
     const profiles = this.state.profiles.map((x, i) => {
       return !x.noDisplay ? (
-        <ProfileCard key={ i } profile={ x } />
+        <ProfileCard key={ i } profile={ x } selectProfile={ this.setProfile }  />
       ) : ''
     })
     const { age, distance, score, tags } = this.props.search.suggestOpts
@@ -217,7 +222,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   saveSuggested: saveSuggested,
-  updateOptions: updateSuggestOptions
+  updateOptions: updateSuggestOptions,
+  selectProfile: selectProfile
 }
 
 Suggests = Radium(Suggests)

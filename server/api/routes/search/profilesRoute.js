@@ -22,15 +22,17 @@ const getUsers = (gender, offset) => {
 const searchUsers = (data) => {
   let genderSql = data.gender !== '-1' ? 'informations.gender = ?' : '(informations.gender = ? OR informations.gender = ?)'
   let genderArray = data.gender !== '-1' ? [data.gender] : ['1', '2']
+  let onlineSql = data.online === '1' ? 'AND users.online = ?' : ''
   const searchSql = !data.search ? '' : "AND (tags.tag LIKE ? OR users.first_name LIKE ? OR users.last_name LIKE ?)"
-  let array = genderArray.concat([data.minAge, data.maxAge, data.minScore, data.maxScore, data.online])
+  let array = genderArray.concat([data.minAge, data.maxAge, data.minScore, data.maxScore])
+  array = data.online === '1' ? array.concat(['1']) : array
   array = data.search ? array.concat(['%' + data.search + '%', '%' + data.search + '%', '%' + data.search + '%']) : array
   return new Promise((resolve, reject) => {
     const limit = `${ data.offset },10`
     connection.query(`SELECT informations.user_id FROM informations INNER JOIN users ON informations.user_id = users.uuid\
                       INNER JOIN tags ON tags.user_id = informations.user_id WHERE ${ genderSql } AND informations.age >= ?\
                       AND informations.age <= ? AND informations.score >= ? AND informations.score <= ?\
-                      AND users.online = ? ${ searchSql } GROUP BY informations.user_id LIMIT ${ limit }`, array, (err, results) => {
+                      ${ onlineSql } ${ searchSql } GROUP BY informations.user_id LIMIT ${ limit }`, array, (err, results) => {
       if (err) {
         reject(err)
       } else {

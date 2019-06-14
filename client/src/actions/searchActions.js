@@ -2,6 +2,14 @@ export const UPDATE_SEARCH_OPTS = 'search:updateSearchOpts'
 export const UPDATE_SUGGEST_OPTS = 'search:updatSuggestOpts'
 export const SAVE_SEARCHED = 'search:saveSearched'
 export const SAVE_SUGGESTED = 'search:saveSuggested'
+export const SELECT = 'search:select'
+
+export const selectProfile = (profile) => {
+  return {
+    type: SELECT,
+    payload: profile
+  }
+}
 
 export const updateSearchOptions = (options) => {
   return {

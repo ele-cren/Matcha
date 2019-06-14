@@ -5,6 +5,7 @@ import styles from '../Find_styles'
 import 'rc-slider/assets/index.css'
 const { Range } = require('rc-slider')
 import SortDropdown from '../SortDropdown'
+const Text = require('../../../../languageLocalisation/texts.json')
 import { connect } from 'react-redux'
 
 class SearchFilters extends React.Component {
@@ -62,25 +63,26 @@ class SearchFilters extends React.Component {
     const selectedCheckbox = {
       backgroundColor: '#880e4f'
     }
+    const myText = Text[this.props.language]
     return (
       <div style={ styles.searchContainer }>
         <div style={ styles.filterContainer }>
           <SortDropdown order={ this.props.order } selectOrder={ this.props.selectOrder } />
-          <div style={ styles.checkboxContainer } >
+          <div style={ [styles.checkboxContainer, { width: 110 }] } >
             <div style={ [styles.checkbox, this.state.online ? selectedCheckbox : ''] }
-              onClick={ () => this.updateValue('online', !this.state.online) }></div>
-            Online
+              onClick={ () => this.updateValue('online', this.state.online ? 0 : 1) }></div>
+            { myText["online"] }
           </div>
           <div style={ [styles.sliderContainer, { width: 100, alignItems: 'flex-start' }] }>
             <div style={ { display: 'flex' } } >
               <div style={ [styles.checkbox, (this.state.gender === 1 || this.state.gender === -1) ? selectedCheckbox : ''] }
                 onClick={ () => this.updateGender(1) }></div>
-              Male
+              { myText["gender_male"] }
             </div>
             <div style={ { display: 'flex' } } >
               <div style={ [styles.checkbox, (this.state.gender === 2 || this.state.gender === -1) ? selectedCheckbox : ''] }
                 onClick={ () => this.updateGender(2) }></div>
-              Female
+              { myText["gender_female"] }
             </div>
           </div>
           <div style={ [styles.sliderContainer, { '@media (max-width: 385px)': { width: 110 } }] } >
@@ -132,7 +134,7 @@ class SearchFilters extends React.Component {
           </div>
         </div>
         <div style={ styles.searchBtnContainer } >
-          <MDBBtn color="" style={ styles.searchBtn } onClick={ () => this.props.searchProfiles(this.state) } >Search</MDBBtn>
+          <MDBBtn color="" style={ styles.searchBtn } onClick={ () => this.props.searchProfiles(this.state) } >{ myText["search"] } </MDBBtn>
         </div>
       </div>
     )
@@ -141,7 +143,8 @@ class SearchFilters extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    search: state.search
+    search: state.search,
+    language: state.language
   }
 }
 

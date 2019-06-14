@@ -1,6 +1,7 @@
-import { UPDATE_SEARCH_OPTS, SAVE_SEARCHED, SAVE_SUGGESTED, UPDATE_SUGGEST_OPTS } from '../actions/searchActions'
+import { SELECT, UPDATE_SEARCH_OPTS, SAVE_SEARCHED, SAVE_SUGGESTED, UPDATE_SUGGEST_OPTS } from '../actions/searchActions'
 
 const defaultState = {
+  selectedProfile: {},
   searchOpts: {
     gender: -1,
     online: 0,
@@ -22,6 +23,8 @@ const defaultState = {
 
 const searchReducer = (state = defaultState, action) => {
   switch (action.type) {
+    case SELECT:
+      return { ...state, selectedProfile: action.payload }
     case UPDATE_SEARCH_OPTS:
         return { ...state, searchOpts: action.payload }
     case UPDATE_SUGGEST_OPTS:

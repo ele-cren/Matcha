@@ -7,7 +7,7 @@ import { MDBIcon, MDBContainer, MDBCol } from 'mdbreact'
 import { getProfiles as getProfilesReq } from '../../../requests/search'
 import { addDistanceToProfiles, addMatchingTagsToProfiles } from '../../../utilities/searchUtils'
 import SearchFilters from './SearchFilters'
-import { updateSearchOptions, saveSearched } from '../../../actions/searchActions'
+import { updateSearchOptions, saveSearched, selectProfile } from '../../../actions/searchActions'
  
 class Search extends React.Component {
   constructor (props) {
@@ -22,6 +22,7 @@ class Search extends React.Component {
     this.filterTags = this.filterTags.bind(this)
     this.search = this.search.bind(this)
     this.selectOrder = this.selectOrder.bind(this)
+    this.setProfile = this.setProfile.bind(this)
   }
 
   componentDidMount () {
@@ -30,6 +31,10 @@ class Search extends React.Component {
     } else {
       this.getProfiles ()
     }
+  }
+
+  setProfile (profile) {
+    this.props.selectProfile(profile)
   }
 
   search (data) {
@@ -121,7 +126,7 @@ class Search extends React.Component {
     )
     const profiles = this.state.profiles.map((x, i) => {
       return !x.noDisplay ? (
-        <ProfileCard key={ i } profile={ x } />
+        <ProfileCard key={ i } profile={ x } selectProfile={ this.setProfile }  />
       ) : ''
     })
     return (
@@ -155,7 +160,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   updateOptions: updateSearchOptions,
-  saveSearched: saveSearched
+  saveSearched: saveSearched,
+  selectProfile: selectProfile
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Radium(Search))

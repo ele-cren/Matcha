@@ -59,7 +59,10 @@
     "minute": "minute",
     "hour": "heure",
     "day": "jour",
-    "offline_since": "Hors ligne depuis"
+    "offline_since": "Hors ligne depuis",
+    "search": "Recherche",
+    "sort": "Trier",
+    "age": "ans"
   },
   "EN": {
     "notification_view": "Someone viewed your profile",
@@ -121,6 +124,9 @@
     "minute": "minute",
     "hour": "hour",
     "day": "day",
-    "offlince_since": "Offline since"
+    "offline_since": "Offline since",
+    "search": "Search",
+    "sort": "Sort",
+    "age": "yo"
   }
 }

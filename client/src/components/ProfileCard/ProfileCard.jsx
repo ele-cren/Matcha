@@ -4,6 +4,7 @@ import Radium from 'radium'
 import getStyles from './ProfileCard_styles'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+const Text = require('../../../languageLocalisation/texts.json')
 
 const ProfileCard = (props) => {
   let picture
@@ -20,14 +21,15 @@ const ProfileCard = (props) => {
     fontSize: '10px'
   }
   const styles = getStyles(props.profile.informations.gender)
+  const myText = Text[props.language]
   return (
     <Link to={ '/profile/' + props.profile.informations.user_id }>
-      <MDBCard style={ styles.card } >
+      <MDBCard style={ styles.card } onClick={ () => props.selectProfile(props.profile) } >
         <MDBCardImage className="img-fluid" src={ picture } waves style={ styles.img } />
         <MDBCardBody style={ styles.cardBody }>
           <MDBCardTitle className="text-center m-0">{ fullName }</MDBCardTitle>
           <MDBCardText className="text-center m-0" style={ styles.cardText }>
-            <MDBIcon icon="circle" style={ dotStyle} /> { props.profile.informations.age } ans - { props.profile.distance } km
+            <MDBIcon icon="circle" style={ dotStyle} /> { props.profile.informations.age } { myText["age"] } - { props.profile.distance } km
           </MDBCardText>
         </MDBCardBody>
       </MDBCard>
@@ -37,7 +39,8 @@ const ProfileCard = (props) => {
 
 const mapStateToProps = state => {
   return {
-    myProfile: state.profile
+    myProfile: state.profile,
+    language: state.language
   }
 }
 
