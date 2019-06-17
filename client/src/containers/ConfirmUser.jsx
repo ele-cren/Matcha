@@ -23,7 +23,6 @@ class ConfirmUser extends React.Component {
   render () {
     const myText = Text[this.props.language]
     const confirmationErrors = getConfirmationErrors(this.props.errors.errors, this.props.language)
-    console.log(confirmationErrors)
     const color = this.props.errors.errors.length === 0 ? 'success-color-dark' : 'danger-color-dark'
     const panel = (
       <React.Fragment>

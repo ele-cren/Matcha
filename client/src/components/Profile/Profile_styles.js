@@ -1,7 +1,7 @@
 const getStyles = (gender = 1) => {
   return {
     picture: {
-      width: '200px',
+      width: '190px',
       height: '200px'
     },
     container: {
@@ -70,7 +70,7 @@ const getStyles = (gender = 1) => {
       backgroundColor: '#fafafa'
     },
     carousel: {
-      width: '200px',
+      width: '190px',
       height: '200px',
       marginTop: 10
     },

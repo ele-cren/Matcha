@@ -6,7 +6,7 @@ import ResetPassword from './ResetPassword'
 import MainPage from './MainPage'
 import MyProfilePage from './MyProfilePage'
 import ProfilePage from './ProfilePage'
-import UpdateProfile from './UpdateProfile'
+import UpdateProfile from './UpdateProfile/UpdateProfile'
 import ConfirmUser from './ConfirmUser'
 import Loader from '../components/Loader'
 import Notifications from '../components/Notifications/Notifications'
@@ -43,7 +43,7 @@ class App extends React.Component {
   }
 
   render () {
-    if (!this.props.user.checked || !this.props.love.checked) {
+    if (!this.props.user.checked || (this.props.user.userId && !this.props.love.checked)) {
       return <Loader />
     } else {
       return (

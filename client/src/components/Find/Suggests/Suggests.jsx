@@ -203,7 +203,7 @@ class Suggests extends React.Component {
         <span className="sr-only">Loading...</span>
       </div>
     )
-    const profiles = this.state.profiles.map((x, i) => {
+    let profiles = this.state.profiles.map((x, i) => {
       return !x.noDisplay ? (
         <ProfileCard key={ i } profile={ x } selectProfile={ this.setProfile }  />
       ) : ''
