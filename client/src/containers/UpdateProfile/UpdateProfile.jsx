@@ -30,10 +30,9 @@ class UpdateProfile extends React.Component {
     if (e.target.files && e.target.files.length > 0) {
       const reader = new FileReader()
       reader.addEventListener("load", () =>
-        this.setState({ image: reader.result, modalOpened: true })
+        this.setState({ image: reader.result, modalOpened: true, currentUrl: currentUrl })
       )
       reader.readAsDataURL(e.target.files[0])
-      this.setState({ currentUrl: currentUrl })
     }
   }
 
