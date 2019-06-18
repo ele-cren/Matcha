@@ -1,6 +1,6 @@
 import express from 'express'
 import { updateInformations, getInformations, createInformations,
-        getPictures, updatePicture, createPicture } from '../../../utilities/profileUpdates'
+        getPictures, updatePicture, createPicture, updateMainInformations } from '../../../utilities/profileUpdates'
 
 const router = express.Router()
 
@@ -13,6 +13,12 @@ router.put('/informations', async (req, res) => {
     updateInformations(informations)
   }
   return res.status(200).send('Informations updated')
+})
+
+router.put('/mainInformations', (req, res) => {
+  const mainInformations = JSON.parse(req.body.mainInformations)
+  updateMainInformations(mainInformations, req.session.userId)
+  return res.status(200).send('Main Informations updated')
 })
 
 router.put('/pictures', async (req, res) => {

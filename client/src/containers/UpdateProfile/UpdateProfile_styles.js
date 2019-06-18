@@ -68,6 +68,13 @@ const styles = {
     alignItems: 'center',
     width: '50%',
     marginTop: 5
+  },
+  mainInfosContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    alignItems: 'center'
   }
 }
 

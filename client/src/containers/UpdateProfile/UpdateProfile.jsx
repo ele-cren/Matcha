@@ -9,6 +9,8 @@ import PicturesUpdate from './PicturesUpdate'
 import CropModal from './CropModal'
 import { uploadFile } from '../../requests/upload'
 import { updatePicture } from '../../requests/profile'
+import MainInformationsUpdate from './MainInformationsUpdate'
+import Loader from '../../components/Loader'
 
 class UpdateProfile extends React.Component {
   constructor (props) {
@@ -69,7 +71,7 @@ class UpdateProfile extends React.Component {
         myPictures = [...myPictures, x]
       }
     })
-    return (
+    return this.props.profile.fetching ? <Loader /> : (
       <React.Fragment>
         <MatchaNav color="pink darken-4" />
         <CropModal picture={ this.state.image} opened={ this.state.modalOpened } toggle={ this.toggleModal } onComplete={ this.onComplete } />
@@ -78,6 +80,8 @@ class UpdateProfile extends React.Component {
             <div style={ styles.container }>
               <h3 className="text-center" style={ { color: '#c1c1c1' } } >Pictures</h3>
               <PicturesUpdate pictures={ myPictures } select={ this.onSelectFile } />
+              <h3 className="text-center mt-3" style={ { color: '#c1c1c1' } } >Main Informations</h3>
+              <MainInformationsUpdate />
             </div>
           </MDBCol>
         </MDBContainer>

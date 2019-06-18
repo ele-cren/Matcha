@@ -111,6 +111,7 @@ class CropModal extends React.Component {
           </MDBModalBody>
           <MDBModalFooter style={ styles.modalFooter }>
             <MDBBtn className="text-center" color="elegant" onClick={ this.saveCropped }>Save</MDBBtn>
+            <MDBBtn className="text-center" color="unique" onClick={ this.props.toggle }>Cancel</MDBBtn>
           </MDBModalFooter>
         </MDBModal>
       </MDBContainer>

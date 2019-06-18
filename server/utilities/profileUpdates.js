@@ -1,4 +1,5 @@
 import { connection } from '../app'
+import bcrypt from 'bcrypt'
 
 export const getInformations = (userId) => {
   return new Promise((resolve, reject) => {
@@ -25,6 +26,24 @@ export const updateInformations = (infos) => {
   ]
   connection.query("UPDATE `informations` SET `age` = ?, `gender` = ?, `orientation` = ?, `bio` = ?, `score` = ?, `latitude` = ?,\
                     `longitude` = ? WHERE `informations`.`user_id` = ?", arrayInfos)
+}
+
+export const updateMainInformations = (mainInfos, userId) => {
+  let arrayInfos = [
+    mainInfos.first_name,
+    mainInfos.last_name,
+    mainInfos.email,
+  ]
+  if (mainInfos.password) {
+    bcrypt.hash(mainInfos.password, 8, function(err, hash) {
+      arrayInfos = arrayInfos.concat([hash, userId])
+      connection.query("UPDATE `users` SET `first_name` = ?, `last_name` = ?, `email` = ?, `password` = ?\
+                        WHERE `users`.`uuid` = ?", arrayInfos)
+    })
+  } else {
+    arrayInfos = arrayInfos.concat([userId])
+    connection.query("UPDATE `users` SET `first_name` = ?, `last_name` = ?, `email` = ? WHERE `users`.`uuid` = ?", arrayInfos)
+  }
 }
 
 export const createInformations = (infos, userId) => {
