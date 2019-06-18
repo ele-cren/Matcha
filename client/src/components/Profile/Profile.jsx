@@ -19,6 +19,7 @@ import MyCarousel from './MyCarousel'
 import ProfileViewers from './ProfileViewers'
 import ProfileLikers from './ProfileLikers'
 import { formatDate, getLastDisconnectDate } from '../../utilities/utilities'
+import { Link } from 'react-router-dom'
 const Text = require('../../../languageLocalisation/texts.json')
 
 
@@ -30,7 +31,10 @@ class Profile extends React.Component {
 
   getButton (styles) {
     const myText = Text[this.props.language]
-    let button = <MDBBtn className="mt-3" style={ styles.button } color="elegant">{ myText["button_edit"] }</MDBBtn>
+    let button = (
+      <Link to="/profile/update">
+        <MDBBtn className="mt-3" style={ styles.button } color="elegant">{ myText["button_edit"] }</MDBBtn>
+      </Link> )
     if (!this.props.isMyProfile) {
       if (this.props.loveInfos.meAboutUser.like) {
         button = <MDBBtn

@@ -5,7 +5,7 @@ import { MDBInput, MDBBtn } from 'mdbreact'
 import { connect } from 'react-redux'
 import { updateMainInformations } from '../../requests/profile'
 import { updateInformations } from '../../actions/profileActions/profileActions'
-import { isObjectEmpty } from '../../utilities/utilities'
+import { isObjectEmpty, capitalizeString } from '../../utilities/utilities'
 const Text = require('../../../languageLocalisation/texts.json')
 const TextErrors = require('../../../languageLocalisation/errors.json')
 
@@ -64,8 +64,8 @@ class MainInformationsUpdate extends React.Component {
     this.setState({ errors })
     if (isObjectEmpty(errors)) {
       const data = {
-        first_name: this.state.fname,
-        last_name: this.state.lname,
+        first_name: capitalizeString(this.state.fname),
+        last_name: capitalizeString(this.state.lname),
         email: this.state.email,
         password: this.state.password
       }

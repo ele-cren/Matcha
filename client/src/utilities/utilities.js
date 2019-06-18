@@ -95,3 +95,16 @@ export const getGenderFromOriGend = (gender, orientation) => {
     return orientation === 1 ? 1 : 3
   }
 }
+
+export const capitalizeString = (str) => {
+  if (!str) {
+    return ''
+  }
+  const split = str.split(' ')
+  let finalString = ''
+  split.forEach(x => {
+    const newString = x.charAt(0).toUpperCase() + x.slice(1)
+    finalString = finalString ? finalString + ' ' + newString : newString
+  })
+  return finalString
+}
