@@ -63,7 +63,8 @@
     "search": "Recherche",
     "sort": "Trier",
     "age": "ans",
-    "no_sort": "Pas de tri"
+    "no_sort": "Pas de tri",
+    "success_main_infos": "Les informations principales ont été sauvegardées !"
   },
   "EN": {
     "notification_view": "Someone viewed your profile",
@@ -129,6 +130,7 @@
     "search": "Search",
     "sort": "Sort",
     "age": "yo",
-    "no_sort": "No sort"
+    "no_sort": "No sort",
+    "success_main_infos": "Main Informations have been saved !"
   }
 }

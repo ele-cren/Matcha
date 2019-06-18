@@ -1,6 +1,6 @@
 import express from 'express'
 import { updateInformations, getInformations, createInformations,
-        getPictures, updatePicture, createPicture, updateMainInformations } from '../../../utilities/profileUpdates'
+        getPictures, updatePicture, createPicture, updateMainInformations, deletePicture } from '../../../utilities/profileUpdates'
 
 const router = express.Router()
 
@@ -32,6 +32,13 @@ router.put('/pictures', async (req, res) => {
     createPicture(userId, newUrl, pictures.length === 0 ? 1 : 0)
   }
   return res.status(200).send('Pictures Updated')
+})
+
+router.delete('/pictures', (req, res) => {
+  const userId = req.session.userId
+  const url = req.body.url
+  deletePicture(userId, url)
+  return res.status(200).send('Picture deleted')
 })
 
 export default router

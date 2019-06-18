@@ -41,3 +41,11 @@ export const updatePicture = (newUrl, lastUrl) => {
   xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
   xhr.send(data)
 }
+
+export const deletePicture = (url) => {
+  const data = `url=${ encodeURIComponent(url) }`
+  const xhr = new XMLHttpRequest()
+  xhr.open('DELETE', '/api/profile/pictures')
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+  xhr.send(data)
+}

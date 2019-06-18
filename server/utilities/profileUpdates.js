@@ -81,3 +81,7 @@ export const updatePicture = (userId, lastUrl, newUrl) => {
 export const createPicture = (userId, newUrl, main) => {
   connection.query("INSERT INTO `pictures` (`id`, `user_id`, `url`, `main`) VALUES (NULL, ?, ?, ?)", [userId, newUrl, main])
 }
+
+export const deletePicture = (userId, url) => {
+  connection.query('DELETE FROM pictures WHERE user_id = ? AND url = ?', [userId, url])
+}

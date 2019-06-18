@@ -75,6 +75,13 @@ const styles = {
     flexWrap: 'wrap',
     justifyContent: 'space-around',
     alignItems: 'center'
+  },
+  deleteCross: {
+    position: 'relative',
+    fontSize: '10px',
+    left: -14,
+    top: -24,
+    cursor: 'pointer'
   }
 }
 

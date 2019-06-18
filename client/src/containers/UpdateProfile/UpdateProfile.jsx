@@ -8,9 +8,10 @@ import { updateInformations } from '../../actions/profileActions/profileActions'
 import PicturesUpdate from './PicturesUpdate'
 import CropModal from './CropModal'
 import { uploadFile } from '../../requests/upload'
-import { updatePicture } from '../../requests/profile'
+import { updatePicture, deletePicture } from '../../requests/profile'
 import MainInformationsUpdate from './MainInformationsUpdate'
 import Loader from '../../components/Loader'
+import { relativeTimeThreshold } from 'moment';
 
 class UpdateProfile extends React.Component {
   constructor (props) {
@@ -23,6 +24,7 @@ class UpdateProfile extends React.Component {
     this.onSelectFile = this.onSelectFile.bind(this)
     this.onComplete = this.onComplete.bind(this)
     this.toggleModal = this.toggleModal.bind(this)
+    this.removePic = this.removePic.bind(this)
   }
 
   toggleModal () {
@@ -39,6 +41,13 @@ class UpdateProfile extends React.Component {
     }
   }
 
+  removePic (url) {
+    const newProfile = Object.assign({}, this.props.profile)
+    newProfile.pictures = newProfile.pictures.filter(x => x.url !== url)
+    this.props.updateInformations(newProfile)
+    deletePicture(url)
+  }
+
   onComplete (croppedImg) {
     const xhr = uploadFile(croppedImg)
     xhr.onload = () => {
@@ -48,7 +57,7 @@ class UpdateProfile extends React.Component {
         if (!this.state.currentUrl) {
           newProfile.pictures = [
             ...newProfile.pictures,
-            { user_id: this.props.user.userId, url: newUrl, main: newProfile.pictures.length > 0 ? 1 : 0 }
+            { user_id: this.props.user.userId, url: newUrl, main: newProfile.pictures.length > 0 ? 0 : 1 }
           ]
         } else {
           newProfile.pictures = newProfile.pictures.map(x => {
@@ -79,7 +88,7 @@ class UpdateProfile extends React.Component {
           <MDBCol md="8">
             <div style={ styles.container }>
               <h3 className="text-center" style={ { color: '#c1c1c1' } } >Pictures</h3>
-              <PicturesUpdate pictures={ myPictures } select={ this.onSelectFile } />
+              <PicturesUpdate pictures={ myPictures } select={ this.onSelectFile } deletePic={ this.removePic } />
               <h3 className="text-center mt-3" style={ { color: '#c1c1c1' } } >Main Informations</h3>
               <MainInformationsUpdate />
             </div>
