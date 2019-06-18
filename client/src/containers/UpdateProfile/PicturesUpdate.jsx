@@ -14,9 +14,9 @@ const getPictureInput = (pictures, index, select) => {
   }
   return (
     <React.Fragment key={ index }>
-      <input style={ styles.inputPic } type="file" id="picture" name="picture" accept="image/png,image/jpeg"
-        onChange={ (e) => select(e, pictures[index] ? pictures[index].url : '') } />
-      <label htmlFor="picture" style={ [styles.labelPic, backgroundStyle] }></label>
+      <input style={ styles.inputPic } type="file" id={ `picture${ index }` } name={ `picture${ index }` } accept="image/png,image/jpeg"
+        onChange={ (e) => select(e, pictures[index] ? pictures[index].url : '') }/>
+      <label htmlFor={ `picture${ index }` } style={ [styles.labelPic, backgroundStyle] }></label>
     </React.Fragment>
   )
 }

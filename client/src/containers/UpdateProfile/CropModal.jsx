@@ -93,7 +93,7 @@ class CropModal extends React.Component {
             { this.props.picture && <ReactCrop
               src={ this.props.picture }
               crop={ this.state.crop }
-              style={ { width: `${ this.state.zoom }%` } }
+              style={ { width: `${ this.state.zoom }%`, minWidth: 200 } }
               minWidth={ this.state.minWidth }
               maxWidth={ this.state.maxWidth }
               minHeight={ this.state.minHeight }

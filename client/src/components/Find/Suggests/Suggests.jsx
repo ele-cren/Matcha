@@ -35,6 +35,7 @@ class Suggests extends React.Component {
   }
 
   componentDidMount () {
+    this._isMounted = true
     if (this.props.search.lastSuggested.length > 0) {
       let profiles = [].concat(this.props.search.lastSuggested)
       profiles = this.applyFilters(profiles)
@@ -42,6 +43,10 @@ class Suggests extends React.Component {
     } else {
       this.getProfiles()
     }
+  }
+
+  componentWillUnmount () {
+    this._isMounted = false
   }
   
   setProfile (profile) {
@@ -55,15 +60,17 @@ class Suggests extends React.Component {
     const gender = getGenderFromOriGend(this.props.profile.informations.gender, this.props.profile.informations.orientation)
     const xhr = getProfiles({ type: 'suggests', gender: gender }, this.state.profiles.length)
     xhr.onload = () => {
-      let profiles = addDistanceToProfiles(this.props.profile, xhr.response.userProfiles)
-      profiles = addMatchingTagsToProfiles(this.props.profile, profiles)
-      profiles = this.state.profiles.concat(profiles)
-      profiles = this.applyFilters(profiles)
-      this.setState({
-        profiles: profiles,
-        fetching: false
-      })
-      this.props.saveSuggested(profiles)
+      if (this._isMounted) {
+        let profiles = addDistanceToProfiles(this.props.profile, xhr.response.userProfiles)
+        profiles = addMatchingTagsToProfiles(this.props.profile, profiles)
+        profiles = this.state.profiles.concat(profiles)
+        profiles = this.applyFilters(profiles)
+        this.setState({
+          profiles: profiles,
+          fetching: false
+        })
+        this.props.saveSuggested(profiles)
+      }
     }
   }
 

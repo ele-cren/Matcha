@@ -28,6 +28,7 @@ class Search extends React.Component {
   }
 
   componentDidMount () {
+    this._isMounted = true
     if (this.props.search.lastSearched.length > 0) {
       let profiles = [].concat(this.props.search.lastSearched)
       profiles = this.applyFilters(profiles)
@@ -35,6 +36,10 @@ class Search extends React.Component {
     } else {
       this.getProfiles ()
     }
+  }
+
+  componentWillUnmount () {
+    this._isMounted = false
   }
 
   setProfile (profile) {
@@ -86,15 +91,17 @@ class Search extends React.Component {
       search: this.props.search.searchOpts.search,
     }, reset ? 0 : this.state.profiles.length)
     xhr.onload = () => {
-      let profiles = addDistanceToProfiles(this.props.profile, xhr.response.userProfiles)
-      profiles = addMatchingTagsToProfiles(this.props.profile, profiles)
-      profiles = this.state.profiles.concat(profiles)
-      profiles = this.applyFilters(profiles)
-      this.setState({
-        fetching: false,
-        profiles: profiles
-      })
-      this.props.saveSearched(profiles)
+      if (this._isMounted) {
+        let profiles = addDistanceToProfiles(this.props.profile, xhr.response.userProfiles)
+        profiles = addMatchingTagsToProfiles(this.props.profile, profiles)
+        profiles = this.state.profiles.concat(profiles)
+        profiles = this.applyFilters(profiles)
+        this.setState({
+          fetching: false,
+          profiles: profiles
+        })
+        this.props.saveSearched(profiles)
+      }
     }
   }
 

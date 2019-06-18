@@ -8,6 +8,7 @@ import { updateInformations } from '../../actions/profileActions/profileActions'
 import PicturesUpdate from './PicturesUpdate'
 import CropModal from './CropModal'
 import { uploadFile } from '../../requests/upload'
+import { updatePicture } from '../../requests/profile'
 
 class UpdateProfile extends React.Component {
   constructor (props) {
@@ -37,7 +38,26 @@ class UpdateProfile extends React.Component {
   }
 
   onComplete (croppedImg) {
-    console.log(croppedImg)
+    const xhr = uploadFile(croppedImg)
+    xhr.onload = () => {
+      if (xhr.status === 200) {
+        const newUrl = 'http://localhost:3000/images/' + xhr.responseText
+        const newProfile = Object.assign({}, this.props.profile)
+        if (!this.state.currentUrl) {
+          newProfile.pictures = [
+            ...newProfile.pictures,
+            { user_id: this.props.user.userId, url: newUrl, main: newProfile.pictures.length > 0 ? 1 : 0 }
+          ]
+        } else {
+          newProfile.pictures = newProfile.pictures.map(x => {
+            x.url = x.url === this.state.currentUrl ? newUrl : x.url
+            return x
+          })
+        }
+        this.props.updateInformations(newProfile)
+        updatePicture(newUrl, this.state.currentUrl)
+      }
+    }
   }
 
   render () {
@@ -68,6 +88,7 @@ class UpdateProfile extends React.Component {
 
 const mapStateToProps = state => {
   return {
+    user: state.user,
     profile: state.profile
   }
 }

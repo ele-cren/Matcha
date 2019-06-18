@@ -23,3 +23,11 @@ export const updateInformations = (informations) => {
   xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
   xhr.send(data)
 }
+
+export const updatePicture = (newUrl, lastUrl) => {
+  const data = `newUrl=${ encodeURIComponent(newUrl) }&lastUrl=${ encodeURIComponent(lastUrl) }`
+  const xhr = new XMLHttpRequest()
+  xhr.open('PUT', '/api/profile/pictures')
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+  xhr.send(data)
+}

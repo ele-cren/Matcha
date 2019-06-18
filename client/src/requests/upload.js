@@ -1,8 +1,8 @@
-export const uploadFile = (file) => {
+export const uploadFile = (imageBase64) => {
   const xhr = new XMLHttpRequest()
-  const dataForm = new FormData()
-  dataForm.append('picture', file)
+  const data = `image=${ encodeURIComponent(imageBase64) }`
   xhr.open('POST', '/api/upload')
-  xhr.send(dataForm)
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+  xhr.send(data)
   return xhr
 }
