@@ -64,7 +64,12 @@
     "sort": "Trier",
     "age": "ans",
     "no_sort": "Pas de tri",
-    "success_main_infos": "Les informations principales ont été sauvegardées !"
+    "success_main_infos": "Les informations principales ont été sauvegardées !",
+    "under_18": "Vous devez avoir au moins 18 ans",
+    "success_infos": "Les informations ont été sauvegardées !",
+    "need_gender": "Veuillez renseigner votre genre",
+    "need_orientation": "Veuillez renseigner votre orientation",
+    "need_bio": "Veuillez renseigner une description"
   },
   "EN": {
     "notification_view": "Someone viewed your profile",
@@ -83,7 +88,7 @@
     "orientation_straight": "Straight",
     "orientation_bisexual": "Bisexual",
     "orientation_lesbian": "Lesbian",
-    "orienation_gay": "Gay",
+    "orientation_gay": "Gay",
     "nav_profile": "Profile",
     "nav_edit": "Edit profile",
     "nav_logout": "Logout",
@@ -131,6 +136,11 @@
     "sort": "Sort",
     "age": "yo",
     "no_sort": "No sort",
-    "success_main_infos": "Main Informations have been saved !"
+    "success_main_infos": "Main Informations have been saved !",
+    "under_18": "You have to be at least 18 yo",
+    "success_infos": "Informations have been saved !",
+    "need_gender": "Please provide your gender",
+    "need_orientation": "Please provide your orientation",
+    "need_bio": "Please provide a description"
   }
 }

@@ -5,13 +5,13 @@ import { MDBContainer, MDBCol } from 'mdbreact'
 import styles from './UpdateProfile_styles'
 import MatchaNav from '../../components/MatchaNav'
 import { updateInformations } from '../../actions/profileActions/profileActions'
-import PicturesUpdate from './PicturesUpdate'
-import CropModal from './CropModal'
+import PicturesUpdate from '../../components/UpdateProfile/PicturesUpdate/PicturesUpdate'
+import CropModal from '../../components/UpdateProfile/CropModal/CropModal'
 import { uploadFile } from '../../requests/upload'
 import { updatePicture, deletePicture } from '../../requests/profile'
-import MainInformationsUpdate from './MainInformationsUpdate'
+import MainInformationsUpdate from '../../components/UpdateProfile/MainInformationsUpdate/MainInformationsUpdate'
+import InformationsUpdate from '../../components/UpdateProfile/InformationsUpdate/InformationsUpdate'
 import Loader from '../../components/Loader'
-import { relativeTimeThreshold } from 'moment';
 
 class UpdateProfile extends React.Component {
   constructor (props) {
@@ -91,6 +91,8 @@ class UpdateProfile extends React.Component {
               <PicturesUpdate pictures={ myPictures } select={ this.onSelectFile } deletePic={ this.removePic } />
               <h3 className="text-center mt-3" style={ { color: '#c1c1c1' } } >Main Informations</h3>
               <MainInformationsUpdate />
+              <h3 className="text-center mt-3" style={ { color: '#c1c1c1' } } >Informations</h3>
+              <InformationsUpdate />
             </div>
           </MDBCol>
         </MDBContainer>

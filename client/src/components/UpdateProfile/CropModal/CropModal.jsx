@@ -1,7 +1,7 @@
 import React from 'react'
 import Radium from 'radium'
 import { MDBModal, MDBContainer, MDBModalBody, MDBModalFooter, MDBBtn } from 'mdbreact'
-import styles from './UpdateProfile_styles'
+import styles from './CropModal_styles'
 import ReactCrop from 'react-image-crop'
 import "react-image-crop/dist/ReactCrop.css"
 import 'rc-slider/assets/index.css'

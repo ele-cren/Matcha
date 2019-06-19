@@ -1,13 +1,13 @@
 import React from 'react'
 import Radium from 'radium'
-import styles from './UpdateProfile_styles'
+import styles from './MainInformationsUpdate_styles'
 import { MDBInput, MDBBtn } from 'mdbreact'
 import { connect } from 'react-redux'
-import { updateMainInformations } from '../../requests/profile'
-import { updateInformations } from '../../actions/profileActions/profileActions'
-import { isObjectEmpty, capitalizeString } from '../../utilities/utilities'
-const Text = require('../../../languageLocalisation/texts.json')
-const TextErrors = require('../../../languageLocalisation/errors.json')
+import { updateMainInformations } from '../../../requests/profile'
+import { updateInformations } from '../../../actions/profileActions/profileActions'
+import { isObjectEmpty, capitalizeString } from '../../../utilities/utilities'
+const Text = require('../../../../languageLocalisation/texts.json')
+const TextErrors = require('../../../../languageLocalisation/errors.json')
 
 class MainInformationsUpdate extends React.Component {
   constructor (props) {
@@ -86,31 +86,31 @@ class MainInformationsUpdate extends React.Component {
       <form onSubmit={ this.handleSubmit }>
         <div style={ styles.mainInfosContainer }>
           <div>
-            <MDBInput type="text" label={ myText["first_name"] } size="sm" value={ this.state.fname }
+            <MDBInput type="text" label={ myText["first_name"] } size="md" value={ this.state.fname }
                       getValue={ (value) => this.handleChange('fname', value) } />
             <p className="text-center text-danger m-0 small">{ this.state.errors.fname ? errText["5"] : ''  }</p>
           </div>
           <div>
-            <MDBInput type="text" label={ myText["last_name"] } size="sm" value={ this.state.lname }
+            <MDBInput type="text" label={ myText["last_name"] } size="md" value={ this.state.lname }
                       getValue={ (value) => this.handleChange('lname', value) } />
             <p className="text-center text-danger m-0 small">{ this.state.errors.lname ? errText["6"] : '' }</p>
           </div>
         </div>
         <div style={ styles.mainInfosContainer }>
           <div>
-            <MDBInput type="email" label={ myText["email"] } size="sm" value={ this.state.email }
+            <MDBInput type="email" label={ myText["email"] } size="md" value={ this.state.email }
                       getValue={ (value) => this.handleChange('email', value) } />
             <p className="text-center text-danger m-0 small">{ this.state.errors.email ? errText["1"] : '' }</p>
           </div>
         </div>
         <div style={ styles.mainInfosContainer }>
           <div>
-            <MDBInput type="password" label={ myText["password_label"] } size="sm" value={ this.state.password }
+            <MDBInput type="password" label={ myText["password_label"] } size="md" value={ this.state.password }
                       getValue={ (value) => this.handleChange('password', value) } />
             <p className="text-center text-danger m-0 small">{ this.state.errors.password ? errText["3"] : '' }</p>
           </div>
           <div>
-            <MDBInput type="password" label={ myText["confirmation"] } size="sm"
+            <MDBInput type="password" label={ myText["confirmation"] } size="md"
                       value={ this.state.password_conf } getValue={ (value) => this.handleChange('password_conf', value) }  />
             <p className="text-center text-danger m-0 small">{ this.state.errors.password_conf ? errText["4"] : '' }</p>
           </div>

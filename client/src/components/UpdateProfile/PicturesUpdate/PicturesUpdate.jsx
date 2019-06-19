@@ -1,6 +1,6 @@
 import React from 'react'
 import Radium from 'radium'
-import styles from './UpdateProfile_styles'
+import styles from './PicturesUpdate_styles'
 import { MDBIcon } from 'mdbreact'
 
 const getPictureInput = (pictures, index, select, del) => {
