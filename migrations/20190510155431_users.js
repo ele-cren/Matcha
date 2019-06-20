@@ -1,7 +1,7 @@
 
 exports.up = function(knex, Promise) {
   return knex.schema.createTable('users', table => {
-    table.increments('id')
+    table.increments('id').primary()
     table.string('username')
     table.string('email')
     table.string('password')
@@ -11,7 +11,7 @@ exports.up = function(knex, Promise) {
     table.string('uuid')
     table.boolean('pass_changed')
     table.boolean('online')
-    table.datetime('last_disconnect')
+    table.datetime('last_disconnect').defaultTo(knex.raw('now()'))
     table.string('ip', 15)
   })
 }
