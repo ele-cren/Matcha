@@ -49,3 +49,19 @@ export const deletePicture = (url) => {
   xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
   xhr.send(data)
 }
+
+export const addTag = (tag) => {
+  const data = `tag=${ encodeURIComponent(tag) }`
+  const xhr = new XMLHttpRequest()
+  xhr.open('POST', '/api/profile/tags')
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+  xhr.send(data)
+}
+
+export const removeTag = (tag) => {
+  const data = `tag=${ encodeURIComponent(tag) }`
+  const xhr = new XMLHttpRequest()
+  xhr.open('DELETE', '/api/profile/tags')
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+  xhr.send(data)
+}

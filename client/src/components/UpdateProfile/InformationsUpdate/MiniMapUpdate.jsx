@@ -105,7 +105,7 @@ class MiniMapUpdate extends React.Component {
         className="mt-3"
         onZoomend={ this.updateZoom }
         style={ { height: '300px', width: '80%' } }
-        center={position}
+        center={ this.state.markerPos }
         zoom={ this.state.zoom }
         ref={ this.refmap }>
         <TileLayer

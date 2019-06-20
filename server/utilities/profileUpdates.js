@@ -85,3 +85,11 @@ export const createPicture = (userId, newUrl, main) => {
 export const deletePicture = (userId, url) => {
   connection.query('DELETE FROM pictures WHERE user_id = ? AND url = ?', [userId, url])
 }
+
+export const addTag = (userId, tag) => {
+  connection.query("INSERT INTO `tags` (`id`, `user_id`, `tag`) VALUES (NULL, ?, ?)", [userId, tag])
+}
+
+export const deleteTag = (userId, tag) => {
+  connection.query('DELETE FROM tags WHERE user_id = ? AND tag = ?', [userId, tag])
+}

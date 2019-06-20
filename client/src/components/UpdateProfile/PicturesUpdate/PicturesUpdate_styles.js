@@ -26,9 +26,9 @@ const styles = {
   },
   deleteCross: {
     position: 'relative',
-    fontSize: '10px',
-    left: -14,
-    top: -24,
+    fontSize: '8px',
+    left: -12,
+    top: -25,
     cursor: 'pointer'
   }
 }

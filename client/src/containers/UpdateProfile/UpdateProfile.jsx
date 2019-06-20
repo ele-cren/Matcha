@@ -11,7 +11,9 @@ import { uploadFile } from '../../requests/upload'
 import { updatePicture, deletePicture } from '../../requests/profile'
 import MainInformationsUpdate from '../../components/UpdateProfile/MainInformationsUpdate/MainInformationsUpdate'
 import InformationsUpdate from '../../components/UpdateProfile/InformationsUpdate/InformationsUpdate'
+import TagsUpdate from '../../components/UpdateProfile/TagsUpdate/TagsUpdate'
 import Loader from '../../components/Loader'
+const Text = require('../../../languageLocalisation/texts.json')
 
 class UpdateProfile extends React.Component {
   constructor (props) {
@@ -72,6 +74,7 @@ class UpdateProfile extends React.Component {
   }
 
   render () {
+    const myText = Text[this.props.language]
     let myPictures = []
     this.props.profile.pictures.forEach(x => {
       if (x.main) {
@@ -87,12 +90,14 @@ class UpdateProfile extends React.Component {
         <MDBContainer style={ styles.bigContainer }>
           <MDBCol md="8">
             <div style={ styles.container }>
-              <h3 className="text-center" style={ { color: '#c1c1c1' } } >Pictures</h3>
+              <h3 className="text-center" style={ { color: '#c1c1c1' } } >{ myText["pictures"] }</h3>
               <PicturesUpdate pictures={ myPictures } select={ this.onSelectFile } deletePic={ this.removePic } />
-              <h3 className="text-center mt-3" style={ { color: '#c1c1c1' } } >Main Informations</h3>
+              <h3 className="text-center mt-3" style={ { color: '#c1c1c1' } } >{ myText["main_infos"] }</h3>
               <MainInformationsUpdate />
               <h3 className="text-center mt-3" style={ { color: '#c1c1c1' } } >Informations</h3>
               <InformationsUpdate />
+              <h3 className="text-center mt-3" style={ { color: '#c1c1c1' } } >Tags</h3>
+              <TagsUpdate />
             </div>
           </MDBCol>
         </MDBContainer>
@@ -104,7 +109,8 @@ class UpdateProfile extends React.Component {
 const mapStateToProps = state => {
   return {
     user: state.user,
-    profile: state.profile
+    profile: state.profile,
+    language: state.language
   }
 }
 

@@ -69,7 +69,13 @@
     "success_infos": "Les informations ont été sauvegardées !",
     "need_gender": "Veuillez renseigner votre genre",
     "need_orientation": "Veuillez renseigner votre orientation",
-    "need_bio": "Veuillez renseigner une description"
+    "need_bio": "Veuillez renseigner une description",
+    "success_tag": "Le tag a bien été ajouté !",
+    "need_tag": "Veuillez renseigner un tag",
+    "tag_exists": "Vous avez déjà renseigné ce tag",
+    "add_btn": "Ajouter",
+    "main_infos": "Informations principales",
+    "pictures": "Photos"
   },
   "EN": {
     "notification_view": "Someone viewed your profile",
@@ -141,6 +147,12 @@
     "success_infos": "Informations have been saved !",
     "need_gender": "Please provide your gender",
     "need_orientation": "Please provide your orientation",
-    "need_bio": "Please provide a description"
+    "need_bio": "Please provide a description",
+    "success_tag": "Tag successfully added !",
+    "need_tag": "Please provide a tag",
+    "tag_exists": "You already provided this tag",
+    "add_btn": "Add",
+    "main_infos": "Main informations",
+    "pictures": "Pictures"
   }
 }

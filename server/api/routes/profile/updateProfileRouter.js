@@ -1,6 +1,6 @@
 import express from 'express'
-import { updateInformations, getInformations, createInformations,
-        getPictures, updatePicture, createPicture, updateMainInformations, deletePicture } from '../../../utilities/profileUpdates'
+import { updateInformations, getInformations, createInformations, getPictures, updatePicture, createPicture,
+        updateMainInformations, deletePicture, addTag, deleteTag } from '../../../utilities/profileUpdates'
 
 const router = express.Router()
 
@@ -25,6 +25,9 @@ router.put('/pictures', async (req, res) => {
   const newUrl = req.body.newUrl
   const lastUrl = req.body.lastUrl
   const userId = req.session.userId
+  if (!userId) {
+    return res.status(401).send('Not authorized')
+  }
   const pictures = await getPictures(userId)
   if (lastUrl) {
     updatePicture(userId, lastUrl, newUrl)
@@ -36,9 +39,32 @@ router.put('/pictures', async (req, res) => {
 
 router.delete('/pictures', (req, res) => {
   const userId = req.session.userId
+  if (!userId) {
+    return res.status(401).send('Not authorized')
+  }
   const url = req.body.url
   deletePicture(userId, url)
   return res.status(200).send('Picture deleted')
+})
+
+router.post('/tags', (req, res) => {
+  const userId = req.session.userId
+  const tag = req.body.tag
+  if (!userId) {
+    return res.status(401).send('Not authorized')
+  }
+  addTag(userId, tag)
+  return res.status(200).send('Tag added')
+})
+
+router.delete('/tags', (req, res) => {
+  const userId = req.session.userId
+  const tag = req.body.tag
+  if (!userId) {
+    return res.status(401).send('Not authorized')
+  }
+  deleteTag(userId, tag)
+  return res.status(200).send('Tag removed')
 })
 
 export default router
