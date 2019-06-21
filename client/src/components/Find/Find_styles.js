@@ -34,6 +34,7 @@ const styles = {
     cursor: 'pointer',
     borderRadius: '3px',
     fontSize: '30px',
+    zIndex: -1
   },
   searchContainer: {
     width: '100%',

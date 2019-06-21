@@ -53,7 +53,6 @@ class App extends React.Component {
       return (
         <React.Fragment>
           { socket ? <Notifications /> : '' }
-          { socket ? <Chat /> : '' }
           <Router>
             <Switch>
               <PrivateRoute exact path='/' component={ MainPage } logged={ this.props.user.user.userId } />
@@ -67,6 +66,7 @@ class App extends React.Component {
               <PrivateRoute path='/profile/:userId' exact component={ ProfilePage } logged={ this.props.user.user.userId } />
             </Switch>
           </Router>
+          { socket ? <Chat /> : '' }
         </React.Fragment>
       )
     }

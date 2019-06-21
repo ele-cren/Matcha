@@ -35,15 +35,17 @@ class Chat extends React.Component {
 
   render () {
     const matches = this.getMatches()
+    const styleHidden = {
+      visibility: 'hidden'
+    }
     return (
       <React.Fragment>
         <div
-          style={ [styles.menu, this.state.menuToggled && this.state.messagerieToggled ?
-                  { visibility: 'visible' } : { visibility: 'hidden' }] }>
+          style={ this.state.menuToggled && this.state.messagerieToggled ? styles.menu : [styles.menu, styleHidden] }>
         </div>
         <div style={ styles.togglesContainer }>
           <div
-            style={ [styles.toggleMenu, this.state.messagerieToggled ? { visibility: 'visible' } : { visibility: 'hidden' }] }
+            style={ this.state.messagerieToggled ? styles.toggleMenu : [styles.toggleMenu, styleHidden] }
             onClick={ () => this.toggle('menuToggled') } >
             Messagerie
           </div>
