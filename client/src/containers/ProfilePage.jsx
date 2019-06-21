@@ -158,12 +158,21 @@ class ProfilePage extends React.Component {
   render () {
     const myText = Text[this.props.language]
     const loveInfos = this.getLoveInfos()
+    let mainPic = ''
+    if (this.state.profile.pictures) {
+      for (const pic of this.state.profile.pictures) {
+        if (pic.main) {
+          mainPic= pic.url
+          break
+        }
+      }
+    }
     let profilePage = ''
     if (!isObjectEmpty(this.state.profile)) {
       profilePage = this.state.profile.informations !== undefined ? (
         <React.Fragment>
           <MatchModal
-            picture={ this.state.profile.pictures[0].url }
+            picture={ mainPic }
             language={ this.props.language }
             name={ this.state.profile.mainInformations.first_name + ' ' + this.state.profile.mainInformations.last_name }
             modal={ this.state.matchModal } toggle={ this.toggleModal }

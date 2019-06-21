@@ -12,6 +12,7 @@ import GetProfilesRouter from './routes/search/profilesRoute'
 import BlockedRouter from './routes/ban/blockUserRouter'
 import ReportedRouter from './routes/ban/reportUserRouter'
 import UploadRouter from './routes/upload/uploadRoute'
+import MessagesRouter from './routes/messages/messagesRouter'
 
 class Api {
   constructor (app) {
@@ -33,6 +34,7 @@ class Api {
     this.app.use('/api/love', LoveInfosRouter)
     this.app.use('/api/notifications', GetNotifications)
     this.app.use('/api', UploadRouter)
+    this.app.use('/api/', MessagesRouter)
   }
 }
 

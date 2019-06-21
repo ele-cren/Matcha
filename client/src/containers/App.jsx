@@ -10,11 +10,13 @@ import UpdateProfile from './UpdateProfile/UpdateProfile'
 import ConfirmUser from './ConfirmUser'
 import Loader from '../components/Loader'
 import Notifications from '../components/Notifications/Notifications'
+import Chat from '../components/Chat/Chat'
 import { checkLogged } from '../actions/userActions/loginUserActions'
 import { getLoveInformations } from '../actions/loveActions/loveActions'
 import { getInformations } from '../actions/profileActions/profileActions'
 import { getNotifications } from '../actions/notificationsActions/notifActions'
 import { getBlocked, getReported } from '../actions/banActions/banActions'
+import { getMessagesRequest } from '../actions/messagesActions'
 import { connect } from 'react-redux'
 import { isObjectEmpty } from '../utilities/utilities'
 import Logout from './Logout'
@@ -39,16 +41,19 @@ class App extends React.Component {
       this.props.getBlocked()
       this.props.getReported()
       this.props.getNotifications()
+      this.props.getMessages()
     }
   }
 
   render () {
-    if (!this.props.user.checked || (this.props.user.userId && !this.props.love.checked)) {
+    if (!this.props.user.checked || (this.props.user.userId && !this.props.love.checked)
+        || (this.props.user.userId && !this.props.messages.checked)) {
       return <Loader />
     } else {
       return (
         <React.Fragment>
           { socket ? <Notifications /> : '' }
+          { socket ? <Chat /> : '' }
           <Router>
             <Switch>
               <PrivateRoute exact path='/' component={ MainPage } logged={ this.props.user.user.userId } />
@@ -112,7 +117,8 @@ const mapStateToProps = state => {
   return {
     user: state.user,
     profile: state.profile,
-    love: state.love
+    love: state.love,
+    messages: state.messages
   }
 }
 
@@ -122,7 +128,8 @@ const mapDispatchToProps = {
   updateLove: getLoveInformations,
   getNotifications: getNotifications,
   getBlocked: getBlocked,
-  getReported: getReported
+  getReported: getReported,
+  getMessages: getMessagesRequest
 }
 
 App = connect(mapStateToProps, mapDispatchToProps)(App)
