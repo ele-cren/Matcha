@@ -33,7 +33,7 @@ export const getOrientation = (orientationNum, text) => {
   }
 }
 
-export const getLastDisconnectDate = (utcDateString) => {
+export const getLocaleDate = (utcDateString) => {
   const utcDate = (new Date(utcDateString))
   const hours = new Date().getTimezoneOffset() / 60
   utcDate.setTime(utcDate.getTime() - (hours * 60 * 60 * 1000))

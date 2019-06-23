@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './Chat_styles'
 import Radium from 'radium'
-import { isObjectEmpty } from '../../utilities/utilities'
+import { isObjectEmpty, getLocaleDate } from '../../utilities/utilities'
 
 const getMessagesWithUser = (messages, userId) => {
   let messagesISent = []
@@ -29,14 +29,14 @@ const getLastMessage = (messages) => {
   let lastMessageDate = new Date('1970')
   let noRead = 0
   for (const msg of messages.messagesISent) {
-    const msgDate = new Date(msg.message_date)
+    const msgDate = getLocaleDate(msg.message_date)
     if (lastMessageDate - msgDate < 0) {
       lastMessage = msg
       lastMessageDate = msgDate
     }
   }
   for (const msg of messages.messagesIReceived) {
-    const msgDate = new Date(msg.message_date)
+    const msgDate = getLocaleDate(msg.message_date)
     if (lastMessageDate - msgDate < 0) {
       lastMessage = msg
       lastMessageDate = msgDate

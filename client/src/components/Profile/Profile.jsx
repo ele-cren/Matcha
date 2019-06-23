@@ -18,7 +18,7 @@ import BanIcons from './BanIcons'
 import MyCarousel from './MyCarousel'
 import ProfileViewers from './ProfileViewers'
 import ProfileLikers from './ProfileLikers'
-import { formatDate, getLastDisconnectDate } from '../../utilities/utilities'
+import { formatDate, getLocaleDate } from '../../utilities/utilities'
 import { Link } from 'react-router-dom'
 const Text = require('../../../languageLocalisation/texts.json')
 
@@ -56,7 +56,7 @@ class Profile extends React.Component {
   render ()  {
     const myText = Text[this.props.language]
     const profile = this.props.profile
-    const lastDisconnect = getLastDisconnectDate(profile.mainInformations.last_disconnect)
+    const lastDisconnect = getLocaleDate(profile.mainInformations.last_disconnect)
     const formatedDate = formatDate(lastDisconnect, this.props.language)
     const gender = getGender(profile.informations.gender, myText)
     const orientation = getOrientation(profile.informations.orientation, myText)
