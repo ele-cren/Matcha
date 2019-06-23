@@ -59,7 +59,7 @@ const DisplayMatches = (props) => {
     let fullName = x.userInfos.mainInformations.first_name + ' ' + x.userInfos.mainInformations.last_name
     fullName = fullName.length > 30 ? x.userInfos.mainInformations.first_name
                 + ' ' + x.userInfos.mainInformations.last_name.charAt(0) + '.' : fullName
-    message = message.length > 20 ? message.substring(0, 20) + '...' : message
+    message = message.length > 22 ? message.substring(0, 22) + '...' : message
     return (
       <div key={ i } style={ styles.matchDisplay } >
         <img src={ x.userInfos.mainPicture } className="rounded-circle" style={ styles.picture } />
