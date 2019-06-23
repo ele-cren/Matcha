@@ -1,4 +1,5 @@
 import { UPDATE, CHECKED } from '../actions/loveActions/loveActionsConst'
+import { LOGOUT } from '../actions/userActions/userConsts'
 
 const defaultState = {
   meAboutUsers: [],
@@ -16,6 +17,8 @@ const loveReducer = (state = defaultState, action) => {
     case CHECKED: {
       return { ...state, checked: true }
     }
+    case LOGOUT:
+      return defaultState
     default:
       return state
   }

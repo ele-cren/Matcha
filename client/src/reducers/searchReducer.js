@@ -1,4 +1,5 @@
 import { SELECT, UPDATE_SEARCH_OPTS, SAVE_SEARCHED, SAVE_SUGGESTED, UPDATE_SUGGEST_OPTS } from '../actions/searchActions'
+import { LOGOUT } from '../actions/userActions/userConsts'
 
 const defaultState = {
   selectedProfile: {},
@@ -33,6 +34,8 @@ const searchReducer = (state = defaultState, action) => {
         return { ...state, lastSuggested: action.payload }
     case SAVE_SEARCHED:
         return { ...state, lastSearched: action.payload }
+    case LOGOUT:
+      return defaultState
     default:
       return state
   }
