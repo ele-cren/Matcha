@@ -4,6 +4,7 @@ exports.up = function(knex, Promise) {
     table.increments('id').primary()
     table.string('from_user')
     table.string('to_user')
+    table.text('message')
     table.boolean('view')
     table.datetime('message_date')
   })

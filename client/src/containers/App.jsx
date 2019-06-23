@@ -46,8 +46,8 @@ class App extends React.Component {
   }
 
   render () {
-    if (!this.props.user.checked || (this.props.user.checked && !this.props.love.checked)
-        || (this.props.user.checked && !this.props.messages.checked)) {
+    if (!this.props.user.checked || (this.props.user.checked && this.props.user.user.userId && !this.props.love.checked)
+        || (this.props.user.checked && this.props.user.user.userId && !this.props.messages.checked)) {
       return <Loader />
     } else {
       return (

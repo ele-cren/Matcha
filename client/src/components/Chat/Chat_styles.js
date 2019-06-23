@@ -1,7 +1,7 @@
 const styles = {
   togglesContainer: {
     position: 'fixed',
-    width: 250,
+    width: 270,
     height: 50,
     bottom: 0,
     right: 5,
@@ -16,7 +16,7 @@ const styles = {
     cursor: 'pointer',
     color: 'white',
     backgroundColor: '#880e4f',
-    width: 230,
+    width: 250,
     height: '100%',
     userSelect: 'none'
   },
@@ -36,10 +36,10 @@ const styles = {
     position: 'fixed',
     bottom: 50,
     right: 25,
-    width: 230,
+    width: 250,
     zIndex: 20,
     maxHeight: 500,
-    overflow: 'auto',
+    overflowY: 'auto',
     height: 500,
     backgroundColor: '#f2e6ec',
     border: '1px solid #b7acb2',
@@ -48,7 +48,8 @@ const styles = {
   },
   matchDisplay: {
     display: 'flex',
-    height: 50,
+    minHeight: 50,
+    maxHeight: 50,
     alignItems: 'center',
     marginBottom: '5px'
   },
@@ -80,16 +81,16 @@ const styles = {
     minHeight: 20,
     maxHeight: 20,
     fontSize: '8px',
-    position: 'relative',
-    right: -20,
-    top: 0,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: '50%',
     border: '1px solid #3f0624',
     userSelect: 'none',
     backgroundColor: '#880e4f',
-    color: 'white'
+    color: 'white',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    marginLeft: 15
   }
 }
 

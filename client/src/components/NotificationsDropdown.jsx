@@ -47,6 +47,10 @@ const styles = (color = '#edf8f9') => {
       marginRight: '5px',
       color: '#6d6d6d',
       cursor: 'pointer'
+    },
+    menu: {
+      maxHeight: 400,
+      overflowY: 'auto'
     }
   }
 }
@@ -143,7 +147,7 @@ class NotificationsDropdown extends React.Component {
             <MDBIcon icon="bell" style={ styles().icon }/>
           </MDBDropdownToggle>
           { notifications.length > 0 ? (
-            <MDBDropdownMenu className="dropdown-default" right>
+            <MDBDropdownMenu style={ styles().menu } className="dropdown-default" right>
               { notifications }
             </MDBDropdownMenu>
 
