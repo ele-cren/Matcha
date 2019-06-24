@@ -40,6 +40,23 @@ export const getLocaleDate = (utcDateString) => {
   return utcDate
 }
 
+export const getUtcDate = () => {
+  const date = new Date()
+  const year = date.getUTCFullYear()
+  let month = date.getUTCMonth() + 1
+  let day = date.getUTCDate()
+  let hours = date.getUTCHours()
+  let min = date.getUTCMinutes()
+  let sec = date.getUTCSeconds()
+  month = month < 10 ? '0' + month : month
+  day = day < 10 ? '0' + day : day
+  hours = hours < 10 ? '0' + hours : hours
+  min = min < 10 ? '0' + min : min
+  sec = sec < 10 ? '0' + sec : sec
+  const utcDate = `${ year }-${ month }-${ day } ${ hours }:${ min }:${ sec }`
+  return utcDate
+}
+
 export const formatDate = (date, language) => {
   let day = date.getDate()
   let month = date.getMonth() + 1

@@ -23,6 +23,7 @@ class Chat extends React.Component {
     this.toggle = this.toggle.bind(this)
     this.toggleModal = this.toggleModal.bind(this)
     this.openChat = this.openChat.bind(this)
+    this.addMessage = this.addMessage.bind(this)
   }
 
   getMatches () {
@@ -60,6 +61,11 @@ class Chat extends React.Component {
       currentMessages: messages
     }, this.toggleModal)
   }
+  
+  addMessage (message) {
+    const newMessages = [...this.state.currentMessages, message]
+    this.setState({ currentMessages: newMessages })
+  }
 
   render () {
     const loader = (
@@ -73,8 +79,8 @@ class Chat extends React.Component {
     }
     return (
       <React.Fragment>
-        <ChatModal toggled={this.state.chatToggled } toggle={ this.toggleModal }
-                    user={ this.state.currentUser } messages={ this.state.currentMessages } />
+        <ChatModal toggled={this.state.chatToggled } toggle={ this.toggleModal } user={ this.state.currentUser }
+                  messages={ this.state.currentMessages } addMessage={ this.addMessage } />
         <div
           style={ this.state.menuToggled && this.state.messagerieToggled ? this.props.love.checked ? styles.menu : [styles.menu, { justifyContent: 'center', alignItems: 'center' }] : [styles.menu, styleHidden] }>
           { this.props.love.checked ? 

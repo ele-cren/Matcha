@@ -100,8 +100,10 @@ const styles = {
     maxHeight: 500,
     overflowY: 'auto'
   },
-  modalFooter: {
+  form: {
+    width: '100%',
     display: 'flex',
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start'
   },
@@ -115,8 +117,7 @@ const styles = {
     }
   },
   icon: {
-    color: '#880e4f',
-    cursor: 'pointer'
+    color: '#880e4f'
   },
   messagesSent: {
     width: '100%',
@@ -140,6 +141,10 @@ const styles = {
     padding: 5,
     borderRadius: '3px',
     margin: '0 10px 0 10px'
+  },
+  sendBtn: {
+    border: 0,
+    backgroundColor: 'white'
   }
 }
 
