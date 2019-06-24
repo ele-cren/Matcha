@@ -4,44 +4,33 @@ import Radium from 'radium'
 import { isObjectEmpty, getLocaleDate } from '../../utilities/utilities'
 
 const getMessagesWithUser = (messages, userId) => {
-  let messagesISent = []
-  let messagesIReceived = []
-  messagesISent = messages.messagesISent.map(x => {
+  let newMessages = []
+  messages.messagesISent.forEach(x => {
     if (x.to_user === userId) {
-      return x
+      x.sent = 1
+      newMessages = [...newMessages, x]
     }
   })
-  messagesIReceived = messages.messagesIReceived.map(x => {
+  messages.messagesIReceived.forEach(x => {
     if (x.from_user === userId) {
-      return x
+      newMessages = [...newMessages, x]
     }
   })
-  messagesIReceived = messagesIReceived.filter(Boolean)
-  messagesISent = messagesISent.filter(Boolean)
-  return {
-    messagesISent: messagesISent,
-    messagesIReceived: messagesIReceived
-  }
+  newMessages = newMessages.filter(Boolean)
+  return newMessages
 }
 
-const getLastMessage = (messages) => {
+const getMessagesInfos = (messages) => {
   let lastMessage = {}
   let lastMessageDate = new Date('1970')
   let noRead = 0
-  for (const msg of messages.messagesISent) {
+  for (const msg of messages) {
     const msgDate = getLocaleDate(msg.message_date)
     if (lastMessageDate - msgDate < 0) {
       lastMessage = msg
       lastMessageDate = msgDate
     }
-  }
-  for (const msg of messages.messagesIReceived) {
-    const msgDate = getLocaleDate(msg.message_date)
-    if (lastMessageDate - msgDate < 0) {
-      lastMessage = msg
-      lastMessageDate = msgDate
-    }
-    if (!msg.view) {
+    if (!msg.sent && !msg.view) {
       noRead++
     }
   }
@@ -52,7 +41,7 @@ const DisplayMatches = (props) => {
   const displayMatches = props.matches.map((x, i) => {
     const currentUser = x.userInfos.informations.user_id
     const messages = getMessagesWithUser(props.messages, currentUser)
-    let lastMessage = getLastMessage(messages)
+    let lastMessage = getMessagesInfos(messages)
     let message = lastMessage.message
     const messageStyle = lastMessage.empty ? { fontStyle: 'italic' } : lastMessage.view ? {}
                         : lastMessage.from_user === currentUser ? { fontWeight: 'bold' } : {}
