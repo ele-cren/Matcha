@@ -5,6 +5,8 @@ import { MDBIcon } from 'mdbreact'
 import styles from './Chat_styles'
 import DisplayMatches from './DisplayMatches'
 import ChatModal from './ChatModal'
+import { socket } from '../../containers/App'
+import { viewMessages } from '../../actions/messagesActions'
 
 class Chat extends React.Component {
   constructor (props) {
@@ -46,6 +48,13 @@ class Chat extends React.Component {
   }
 
   openChat (user, messages) {
+    socket.emit('view messages', user.userId, this.props.profile.informations.user_id)
+    const newMessages = Object.assign({}, this.props.messages)
+    newMessages.messagesIReceived = newMessages.messagesIReceived.map(x => {
+      x.view = 1
+      return x
+    })
+    this.props.viewMessages(newMessages)
     this.setState({
       currentUser: user,
       currentMessages: messages
@@ -91,11 +100,13 @@ const mapStateToProps = state => {
   return {
     love: state.love,
     messages: state.messages,
-    language: state.language
+    language: state.language,
+    profile: state.profile
   }
 }
 
 const mapDispatchToProps = {
+  viewMessages: viewMessages
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Radium(Chat))

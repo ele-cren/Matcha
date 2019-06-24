@@ -90,6 +90,8 @@ class NotificationsDropdown extends React.Component {
         return notif.userInfos.mainInformations.first_name + myText["notif_drop_dislike"]
       case 5:
         return myText["notif_drop_unmatch"] + notif.userInfos.mainInformations.first_name
+      case 6:
+        return 'You got a new message !' //to translate
       default:
         return notif.userInfos.mainInformations.first_name + myText["notif_drop_view"]
     }
@@ -107,6 +109,8 @@ class NotificationsDropdown extends React.Component {
         return '#998891'
       case 5:
         return '#494949'
+      case 6:
+        return '#f4ac53'
       default:
         return '#2298a5'
     }

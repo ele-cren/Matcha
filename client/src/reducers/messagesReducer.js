@@ -1,4 +1,4 @@
-import { ADD_RECEIVED, ADD_SENT, GET } from '../actions/messagesActions'
+import { ADD_RECEIVED, ADD_SENT, GET, VIEW } from '../actions/messagesActions'
 import { LOGOUT } from '../actions/userActions/userConsts'
 
 const defaultState = {
@@ -14,6 +14,8 @@ const messagesReducer = (state = defaultState, action)  => {
       return { ...state, messagesISent: [...state.messagesISent, action.payload] }
     case GET:
       return {...action.payload, checked: true }
+    case VIEW:
+      return action.payload
     case LOGOUT:
       return defaultState
     default:

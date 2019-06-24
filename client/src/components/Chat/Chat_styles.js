@@ -96,7 +96,9 @@ const styles = {
   modalBody: {
     backgroundColor: '#fcfcfc',
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    maxHeight: 500,
+    overflowY: 'auto'
   },
   modalFooter: {
     display: 'flex',

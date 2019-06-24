@@ -1,6 +1,7 @@
 export const GET = 'messages:get'
 export const ADD_SENT = 'messages:add_sent'
 export const ADD_RECEIVED = 'messages:add_received'
+export const VIEW = 'messages:view'
 
 /*
   message = {
@@ -10,6 +11,13 @@ export const ADD_RECEIVED = 'messages:add_received'
     message_date:
   }
 */
+
+export const viewMessages = (messages) => {
+  return {
+    type: VIEW,
+    payload: messages
+  }
+}
 
 export const sendMessage = (message) => {
   return {

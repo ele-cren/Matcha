@@ -23,3 +23,7 @@ export const getMessagesIReceived = (userId) => {
     })
   })
 }
+
+export const viewMessages = (fromUser, toUser) => {
+  connection.query('UPDATE messages SET view = 1 WHERE from_user = ? AND to_user = ?', [fromUser, toUser])
+}
