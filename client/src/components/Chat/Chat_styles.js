@@ -51,7 +51,8 @@ const styles = {
     minHeight: 50,
     maxHeight: 50,
     alignItems: 'center',
-    marginBottom: '5px'
+    marginBottom: '5px',
+    cursor: 'pointer'
   },
   picture: {
     width: 40,
@@ -91,6 +92,27 @@ const styles = {
     fontStyle: 'normal',
     fontWeight: 'normal',
     marginLeft: 15
+  },
+  modalBody: {
+    backgroundColor: '#fcfcfc'
+  },
+  modalFooter: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start'
+  },
+  input: {
+    width: '90%',
+    padding: 8,
+    marginBottom: 10,
+    border: '1px solid #eaeaea',
+    ':focus': {
+      outline: 0
+    }
+  },
+  icon: {
+    color: '#880e4f',
+    cursor: 'pointer'
   }
 }
 

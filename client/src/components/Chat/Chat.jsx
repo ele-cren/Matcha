@@ -4,17 +4,23 @@ import { connect } from 'react-redux'
 import { MDBIcon } from 'mdbreact'
 import styles from './Chat_styles'
 import DisplayMatches from './DisplayMatches'
+import ChatModal from './ChatModal'
 
 class Chat extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
       menuToggled: false,
-      messagerieToggled: true
+      messagerieToggled: true,
+      currentMessages: [],
+      currentUser: {},
+      chatToggled: false
     }
     this.getMatches = this.getMatches.bind(this)
     this.dropdownRef = React.createRef()
     this.toggle = this.toggle.bind(this)
+    this.toggleModal = this.toggleModal.bind(this)
+    this.openChat = this.openChat.bind(this)
   }
 
   getMatches () {
@@ -31,8 +37,19 @@ class Chat extends React.Component {
     return matches
   }
 
+  toggleModal () {
+    this.setState({ chatToggled: !this.state.chatToggled })
+  }
+
   toggle (key) {
     this.setState({ [key]: !this.state[key] })
+  }
+
+  openChat (user, messages) {
+    this.setState({
+      currentUser: user,
+      currentMessages: messages
+    }, this.toggleModal)
   }
 
   render () {
@@ -47,9 +64,13 @@ class Chat extends React.Component {
     }
     return (
       <React.Fragment>
+        <ChatModal toggled={this.state.chatToggled } toggle={ this.toggleModal }
+                    user={ this.state.currentUser } messages={ this.state.currentMessages } />
         <div
           style={ this.state.menuToggled && this.state.messagerieToggled ? this.props.love.checked ? styles.menu : [styles.menu, { justifyContent: 'center', alignItems: 'center' }] : [styles.menu, styleHidden] }>
-          { this.props.love.checked ? <DisplayMatches matches={ matches } messages={ this.props.messages } /> : loader }
+          { this.props.love.checked ? 
+            <DisplayMatches matches={ matches } messages={ this.props.messages } openChat={ this.openChat }  />
+            : loader }
         </div>
         <div style={ styles.togglesContainer }>
           <div
