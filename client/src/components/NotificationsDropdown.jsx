@@ -91,7 +91,7 @@ class NotificationsDropdown extends React.Component {
       case 5:
         return myText["notif_drop_unmatch"] + notif.userInfos.mainInformations.first_name
       case 6:
-        return 'You got a new message !' //to translate
+        return myText["notification_message"]
       default:
         return notif.userInfos.mainInformations.first_name + myText["notif_drop_view"]
     }

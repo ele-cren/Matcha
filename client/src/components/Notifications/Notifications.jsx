@@ -111,7 +111,7 @@ class Notifications extends React.Component {
       case 'notificationUnmatch':
         return <div><MDBIcon icon="heart-broken" className="mr-3" />{ Text[this.props.language]["notification_unmatch"] }</div>
       case 'notificationMessage':
-        return <div><MDBIcon icon="envelope" className="mr-3" />You got a message !</div>
+        return <div><MDBIcon icon="envelope" className="mr-3" />{ Text[this.props.language]["notification_message"] }</div>
     }
   }
 

@@ -19,9 +19,9 @@ const getMessagesWithUser = (messages, userId) => {
   return newMessages
 }
 
-const getMessagesInfos = (messages) => {
+const getMessagesInfos = (messages, text) => {
   if (messages.length === 0) {
-    return { message: 'No messages', noRead: 0, empty: true }
+    return { message: text["no_messages"], noRead: 0, empty: true }
   }
   const lastMessage = messages[messages.length - 1]
   let noRead = 0
@@ -44,7 +44,7 @@ const DisplayMatches = (props) => {
     messages = messages.sort((a, b) => {
       return new Date(a.message_date) - new Date(b.message_date)
     })
-    let messagesInfos = getMessagesInfos(messages)
+    let messagesInfos = getMessagesInfos(messages, props.text)
     let message = messagesInfos.message
     const messageStyle = messagesInfos.empty ? { fontStyle: 'italic' } : messagesInfos.bold ? { fontWeight: 'bold' } : {}
     let fullName = x.userInfos.mainInformations.first_name + ' ' + x.userInfos.mainInformations.last_name

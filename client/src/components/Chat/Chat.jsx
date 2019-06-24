@@ -7,6 +7,7 @@ import DisplayMatches from './DisplayMatches'
 import ChatModal from './ChatModal'
 import { socket } from '../../containers/App'
 import { viewMessages, receiveMessage } from '../../actions/messagesActions'
+const Text = require('../../../languageLocalisation/texts.json')
 
 class Chat extends React.Component {
   constructor (props) {
@@ -97,6 +98,7 @@ class Chat extends React.Component {
   }
 
   render () {
+    const myText = Text[this.props.language]
     const loader = (
       <div class="spinner-border" role="status">
         <span class="sr-only">Loading...</span>
@@ -113,14 +115,14 @@ class Chat extends React.Component {
         <div
           style={ this.state.menuToggled && this.state.messagerieToggled ? this.props.love.checked ? styles.menu : [styles.menu, { justifyContent: 'center', alignItems: 'center' }] : [styles.menu, styleHidden] }>
           { this.props.love.checked ? 
-            <DisplayMatches matches={ matches } messages={ this.props.messages } openChat={ this.openChat }  />
+            <DisplayMatches text={ myText } matches={ matches } messages={ this.props.messages } openChat={ this.openChat }  />
             : loader }
         </div>
         <div style={ styles.togglesContainer }>
           <div
             style={ this.state.messagerieToggled ? styles.toggleMenu : [styles.toggleMenu, styleHidden] }
             onClick={ () => this.toggle('menuToggled') } >
-            Messagerie
+            { myText["mailbox"] }
           </div>
           <div style={ styles.toggleMessagerie } onClick={ () => this.toggle('messagerieToggled') } >
             { this.state.messagerieToggled ? <MDBIcon icon="angle-right" /> : <MDBIcon icon="angle-left" /> }

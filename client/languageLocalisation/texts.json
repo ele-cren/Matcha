@@ -75,7 +75,10 @@
     "tag_exists": "Vous avez déjà renseigné ce tag",
     "add_btn": "Ajouter",
     "main_infos": "Informations principales",
-    "pictures": "Photos"
+    "pictures": "Photos",
+    "mailbox": "Messagerie",
+    "notification_message": "Vous avez reçu un message !",
+    "no_messages": "Pas de messages"
   },
   "EN": {
     "notification_view": "Someone viewed your profile",
@@ -153,6 +156,9 @@
     "tag_exists": "You already provided this tag",
     "add_btn": "Add",
     "main_infos": "Main informations",
-    "pictures": "Pictures"
+    "pictures": "Pictures",
+    "mailbox": "Mailbox",
+    "notification_message": "You got a new message !",
+    "no_messages": "No messages"
   }
 }
