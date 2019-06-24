@@ -34,6 +34,9 @@ const styles = {
   },
   notificationUnmatch: {
     backgroundColor: 'rgba(119, 119, 119, 0.8)'
+  },
+  notificationMessage: {
+    backgroundColor: 'rgba(255, 167, 73, 0.8)'
   }
 }
 

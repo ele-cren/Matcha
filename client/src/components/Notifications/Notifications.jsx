@@ -27,17 +27,25 @@ class Notifications extends React.Component {
     this.checkLike = this.checkLike.bind(this)
     this.checkDislike = this.checkDislike.bind(this)
     this.addScore = this.addScore.bind(this)
+    this.checkMessage = this.checkMessage.bind(this)
   }
 
   componentDidMount () {
     socket.on('view user', this.checkView)
     socket.on('like user', this.checkLike)
     socket.on('dislike user', this.checkDislike)
+    socket.on('message sent', this.checkMessage)
     socket.on('add notification', (notification) => {
       if (notification.user_id === this.props.user.user.userId) {
         this.props.addNotif(notification)
       }
     })
+  }
+
+  checkMessage (message) {
+    if (message.to_user === this.props.user.user.userId && !this.props.ban.blockedUsers.includes(message.from_user))  {
+      this.notify('notificationMessage')
+    }
   }
 
   checkLike (userId, userTarget, userProfile) {
@@ -102,6 +110,8 @@ class Notifications extends React.Component {
         return <div><MDBIcon icon="thumbs-down" className="mr-3" />{ Text[this.props.language]["notification_dislike"] }</div>
       case 'notificationUnmatch':
         return <div><MDBIcon icon="heart-broken" className="mr-3" />{ Text[this.props.language]["notification_unmatch"] }</div>
+      case 'notificationMessage':
+        return <div><MDBIcon icon="envelope" className="mr-3" />You got a message !</div>
     }
   }
 

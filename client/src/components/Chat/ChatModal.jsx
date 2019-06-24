@@ -7,6 +7,8 @@ import ReactTooltip from 'react-tooltip'
 import { getLocaleDate, formatDate, getUtcDate } from '../../utilities/utilities'
 import { getNotif } from '../../utilities/notifications'
 import { sendMessage } from '../../actions/messagesActions'
+import { socket } from '../../containers/App'
+import { getLoveInfosFromProfile } from '../../utilities/loveUtilities'
 
 class ChatModal extends React.Component {
   constructor (props) {
@@ -20,10 +22,6 @@ class ChatModal extends React.Component {
   }
 
   componentDidMount () {
-    const element = document.getElementById("chatModalBody")
-    if (element) {
-      element.scrollTop = element.scrollHeight
-    }
     setInterval(() => {
       if (this.state.added) {
         this.setState({ added: false })
@@ -34,7 +32,7 @@ class ChatModal extends React.Component {
       }
     }, 100)
   }
-
+  
   handleChange (e) {
     this.setState({ [e.target.name]: e.target.value })
   }
@@ -50,6 +48,10 @@ class ChatModal extends React.Component {
         message: this.state.message,
         message_date: utcDate
       }
+      socket.emit('message sent', newMessage)
+      const notif = getNotif(6, this.props.user.userId, this.props.profile.informations.user_id,
+                              getLoveInfosFromProfile(this.props.profile))
+      socket.emit('add notification', notif)
       this.props.sendMessage(newMessage)
       newMessage.sent = 1
       this.props.addMessage(newMessage)
@@ -79,7 +81,7 @@ class ChatModal extends React.Component {
       )
       return (
         <div key={ i } style={ x.sent ? styles.messagesSent : styles.messagesReceived }>
-          <img style={ styles.picture } src={ x.sent ? profileMainPic : this.props.user.userInfos.mainPicture }
+          <img style={ styles.picture } src={ x.sent ? profileMainPic : this.props.user.userInfos ? this.props.user.userInfos.mainPicture : '' }
                 className="rounded-circle" />
           { message }
         </div>

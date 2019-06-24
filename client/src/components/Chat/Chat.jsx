@@ -6,7 +6,7 @@ import styles from './Chat_styles'
 import DisplayMatches from './DisplayMatches'
 import ChatModal from './ChatModal'
 import { socket } from '../../containers/App'
-import { viewMessages } from '../../actions/messagesActions'
+import { viewMessages, receiveMessage } from '../../actions/messagesActions'
 
 class Chat extends React.Component {
   constructor (props) {
@@ -24,6 +24,29 @@ class Chat extends React.Component {
     this.toggleModal = this.toggleModal.bind(this)
     this.openChat = this.openChat.bind(this)
     this.addMessage = this.addMessage.bind(this)
+    this.checkReceive = this.checkReceive.bind(this)
+  }
+
+  componentDidMount () {
+    socket.on('message sent', this.checkReceive)
+  }
+
+
+  checkReceive (message) {
+    if (message.to_user === this.props.profile.informations.user_id) {
+      if (this.state.chatToggled) {
+        socket.emit('view messages', message.from_user, this.props.profile.informations.user_id)
+        message.view = 1
+        setTimeout(() => {
+          const element = document.getElementById("chatModalBody")
+          if (element) {
+            element.scrollTop = element.scrollHeight
+          }
+        }, 100)
+      }
+      this.props.receiveMessage(message)
+      this.addMessage(message)
+    }
   }
 
   getMatches () {
@@ -60,6 +83,12 @@ class Chat extends React.Component {
       currentUser: user,
       currentMessages: messages
     }, this.toggleModal)
+    setTimeout(() => {
+      const element = document.getElementById("chatModalBody")
+      if (element) {
+        element.scrollTop = element.scrollHeight
+      }
+    }, 200)
   }
   
   addMessage (message) {
@@ -112,7 +141,8 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-  viewMessages: viewMessages
+  viewMessages: viewMessages,
+  receiveMessage: receiveMessage
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Radium(Chat))

@@ -27,3 +27,14 @@ export const getMessagesIReceived = (userId) => {
 export const viewMessages = (fromUser, toUser) => {
   connection.query('UPDATE messages SET view = 1 WHERE from_user = ? AND to_user = ?', [fromUser, toUser])
 }
+
+export const sendMessage = (message) => {
+  const arrayData = [
+    message.from_user,
+    message.to_user,
+    message.message,
+    message.view
+  ]
+  connection.query('INSERT INTO messages (id, from_user, to_user, message, message_date, view)\
+                    VALUES (NULL, ?, ?, ?, now(), ?)', arrayData)
+}
