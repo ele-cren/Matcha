@@ -10,6 +10,7 @@ import UpdateProfile from './UpdateProfile/UpdateProfile'
 import ConfirmUser from './ConfirmUser'
 import Loader from '../components/Loader'
 import Notifications from '../components/Notifications/Notifications'
+import Updater from '../components/Updater'
 import Chat from '../components/Chat/Chat'
 import { checkLogged } from '../actions/userActions/loginUserActions'
 import { getLoveInformations } from '../actions/loveActions/loveActions'
@@ -53,6 +54,7 @@ class App extends React.Component {
       return (
         <React.Fragment>
           { socket ? <Notifications /> : '' }
+          { socket ? <Updater /> : '' }
           <Router>
             <Switch>
               <PrivateRoute exact path='/' component={ MainPage } logged={ this.props.user.user.userId } />
