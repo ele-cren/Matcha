@@ -5,7 +5,7 @@ const router = express.Router()
 
 const checkUser = uniqid => {
   return new Promise((resolve, reject) => {
-    connection.query("SELECT id, confirmed FROM `users` WHERE uuid=" + `'${uniqid}'`, (err, results) => {
+    connection.query("SELECT id, confirmed FROM `users` WHERE uuid = ?", [uniqid], (err, results) => {
       if (err) {
         reject(err)
       }
@@ -31,7 +31,7 @@ router.get('/confirmation/:uniqid', async (req, res) => {
       errors: [14]
     })
   }
-  connection.query("UPDATE `users` SET `confirmed`='1' WHERE id=" + `'${userId.id}'`, (err) => {
+  connection.query("UPDATE `users` SET `confirmed`='1' WHERE id = ?", [userId.id], (err) => {
     if (err) {
       return res.status(400).send('Error ' + err)
     }

@@ -70,3 +70,16 @@ body, html {
   border:0;
   -moz-outline-style: none;
 }
+
+.rc-slider-handle:active {
+  box-shadow: none !important;
+}
+
+.rc-slider-handle:focus {
+  box-shadow: none !important;
+}
+
+::-webkit-scrollbar {
+  width: 0px;  /* Remove scrollbar space */
+  background: transparent;  /* Optional: just make scrollbar invisible */
+}

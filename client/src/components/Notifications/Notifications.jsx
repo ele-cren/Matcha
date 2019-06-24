@@ -27,12 +27,14 @@ class Notifications extends React.Component {
     this.checkLike = this.checkLike.bind(this)
     this.checkDislike = this.checkDislike.bind(this)
     this.addScore = this.addScore.bind(this)
+    this.checkMessage = this.checkMessage.bind(this)
   }
 
   componentDidMount () {
     socket.on('view user', this.checkView)
     socket.on('like user', this.checkLike)
     socket.on('dislike user', this.checkDislike)
+    socket.on('message sent', this.checkMessage)
     socket.on('add notification', (notification) => {
       if (notification.user_id === this.props.user.user.userId) {
         this.props.addNotif(notification)
@@ -40,8 +42,14 @@ class Notifications extends React.Component {
     })
   }
 
+  checkMessage (message) {
+    if (message.to_user === this.props.user.user.userId && !this.props.ban.blockedUsers.includes(message.from_user))  {
+      this.notify('notificationMessage')
+    }
+  }
+
   checkLike (userId, userTarget, userProfile) {
-    if (userTarget === this.props.user.user.userId) {
+    if (userTarget === this.props.user.user.userId && !this.props.ban.blockedUsers.includes(userId)) {
       this.notify('notificationLike')
       const user = getUser(this.props.love.meAboutUsers, userId)
       if (user && user.like) {
@@ -57,7 +65,7 @@ class Notifications extends React.Component {
   }
 
   checkDislike (userId, userTarget, userProfile) {
-    if (userTarget === this.props.user.user.userId) {
+    if (userTarget === this.props.user.user.userId && !this.props.ban.blockedUsers.includes(userId)) {
       this.notify('notificationDislike')
       const user = getUser(this.props.love.meAboutUsers, userId)
       if (user && user.like) {
@@ -73,7 +81,7 @@ class Notifications extends React.Component {
   }
 
   checkView (userId, userTarget, userProfile) {
-    if (userTarget === this.props.user.user.userId) {
+    if (userTarget === this.props.user.user.userId && !this.props.ban.blockedUsers.includes(userId)) {
       this.notify('notificationView')
       const usersAboutMe = getView(this.props.love.usersAboutMe, userId, userProfile)
       this.addScore(10)
@@ -102,6 +110,8 @@ class Notifications extends React.Component {
         return <div><MDBIcon icon="thumbs-down" className="mr-3" />{ Text[this.props.language]["notification_dislike"] }</div>
       case 'notificationUnmatch':
         return <div><MDBIcon icon="heart-broken" className="mr-3" />{ Text[this.props.language]["notification_unmatch"] }</div>
+      case 'notificationMessage':
+        return <div><MDBIcon icon="envelope" className="mr-3" />{ Text[this.props.language]["notification_message"] }</div>
     }
   }
 
@@ -152,7 +162,8 @@ const mapStateToProps = (state) => {
     user: state.user,
     love: state.love,
     language: state.language,
-    profile: state.profile
+    profile: state.profile,
+    ban: state.ban
   }
 }
 

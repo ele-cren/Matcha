@@ -23,7 +23,7 @@ export const updateLastDisconnect = (userId) => {
 }
 
 export const removeSession = (userId, socketId) => {
-  connection.query("DELETE FROM `sessions` WHERE `sessions`.`socket_id` = ?", [socketId], (err, res) => {
+  connection.query("DELETE FROM `sessions` WHERE `sessions`.`socket_id` = ?", [socketId], (err) => {
     if (!err) {
       connection.query("SELECT * FROM sessions WHERE user_id = ?", [userId], (err, res) => {
         if (!err && res.length === 0) {

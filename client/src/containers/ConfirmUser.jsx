@@ -6,7 +6,9 @@ import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardHeader, MDBBtn, MDBContainer
 import { Link } from 'react-router-dom'
 import Loader from '../components/Loader'
 import { getConfirmationErrors } from '../utilities/errorsFinder'
+import MatchaNav from '../components/MatchaNav'
 const Text = require('../../languageLocalisation/texts.json')
+const Messages = require('../../languageLocalisation/authMessages.json')
 
 class ConfirmUser extends React.Component {
   constructor (props) {
@@ -23,21 +25,27 @@ class ConfirmUser extends React.Component {
     const confirmationErrors = getConfirmationErrors(this.props.errors.errors, this.props.language)
     const color = this.props.errors.errors.length === 0 ? 'success-color-dark' : 'danger-color-dark'
     const panel = (
-      <MDBContainer>
-        <MDBCol md="12">
-          <MDBCard className="text-center mt-5">
-            <MDBCardHeader color={ color }>{ this.props.errors.message }</MDBCardHeader>
-            <MDBCardBody>
-              <MDBCardTitle>{ confirmationErrors.user ? confirmationErrors.user : myText["success_confirm"] }</MDBCardTitle>
-              <Link to='/login' style={ { color: 'black' } }>
-                <MDBBtn color={ null } size="md">
-                  { myText["login_button"] }
-                </MDBBtn>
-              </Link>
-            </MDBCardBody>
-          </MDBCard>
-        </MDBCol>
-      </MDBContainer>
+      <React.Fragment>
+        <MatchaNav color="pink darken-4" />
+        <MDBContainer>
+          <MDBCol md="12">
+            <MDBCard className="text-center mt-5">
+              <MDBCardHeader color={ color }>
+                { this.props.errors.errors.length === 0 ? Messages[this.props.language]["success_confirm"]
+                : Messages[this.props.language]["fail_confirm"] }
+              </MDBCardHeader>
+              <MDBCardBody>
+                <MDBCardTitle>{ confirmationErrors.user ? confirmationErrors.user : myText["success_confirm"] }</MDBCardTitle>
+                <Link to='/login' style={ { color: 'black' } }>
+                  <MDBBtn color={ null } size="md">
+                    { myText["login_button"] }
+                  </MDBBtn>
+                </Link>
+              </MDBCardBody>
+            </MDBCard>
+          </MDBCol>
+        </MDBContainer>
+      </React.Fragment>
     )
     return this.props.user.fetching ? <Loader /> : panel
   }

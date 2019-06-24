@@ -1,4 +1,4 @@
-import { UPDATE } from './loveActionsConst'
+import { UPDATE, CHECKED } from './loveActionsConst'
 
 export const getLoveInformations = (userId) => {
   return dispatch => {
@@ -10,6 +10,7 @@ export const getLoveInformations = (userId) => {
       if (xhr.status === 200) {
         dispatch(updateLove(xhr.response))
       }
+      dispatch({ type: CHECKED })
     }
   }
 }

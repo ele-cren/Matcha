@@ -5,7 +5,7 @@ import { Redirect, Link } from 'react-router-dom'
 import Loader from '../components/Loader'
 import GeoLocation from './GeoLocation'
 import MatchaNav from '../components/MatchaNav'
-import SearchPage from './SearchPage/SearchPage'
+import FindPage from './FindPage/FindPage'
 
 class MainPage extends React.Component {
   constructor (props) {
@@ -24,7 +24,7 @@ class MainPage extends React.Component {
         <Redirect to='/profile/update' />
       )
     } else {
-      mainPage = <SearchPage />
+      mainPage = <FindPage />
     }
     if (!this.props.profile.informations.latitude || !this.props.profile.informations.longitude) {
       mainPage = <GeoLocation />

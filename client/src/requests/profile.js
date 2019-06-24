@@ -23,3 +23,45 @@ export const updateInformations = (informations) => {
   xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
   xhr.send(data)
 }
+
+export const updateMainInformations = (mainInformations) => {
+  const informationsJson = JSON.stringify(mainInformations)
+  const encodedInformations = encodeURIComponent(informationsJson)
+  const data = `mainInformations=${ encodedInformations }`
+  const xhr = new XMLHttpRequest()
+  xhr.open('PUT', '/api/profile/mainInformations')
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+  xhr.send(data)
+}
+
+export const updatePicture = (newUrl, lastUrl) => {
+  const data = `newUrl=${ encodeURIComponent(newUrl) }&lastUrl=${ encodeURIComponent(lastUrl) }`
+  const xhr = new XMLHttpRequest()
+  xhr.open('PUT', '/api/profile/pictures')
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+  xhr.send(data)
+}
+
+export const deletePicture = (url) => {
+  const data = `url=${ encodeURIComponent(url) }`
+  const xhr = new XMLHttpRequest()
+  xhr.open('DELETE', '/api/profile/pictures')
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+  xhr.send(data)
+}
+
+export const addTag = (tag) => {
+  const data = `tag=${ encodeURIComponent(tag) }`
+  const xhr = new XMLHttpRequest()
+  xhr.open('POST', '/api/profile/tags')
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+  xhr.send(data)
+}
+
+export const removeTag = (tag) => {
+  const data = `tag=${ encodeURIComponent(tag) }`
+  const xhr = new XMLHttpRequest()
+  xhr.open('DELETE', '/api/profile/tags')
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+  xhr.send(data)
+}

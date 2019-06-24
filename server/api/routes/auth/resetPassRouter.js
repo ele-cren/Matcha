@@ -11,7 +11,7 @@ const router = express.Router()
 const updatePassword = (uuid, password) => {
   const saltRounds = 8
   bcrypt.hash(password, saltRounds, (err, hash) => {
-    connection.query("UPDATE `users` SET `password` = " + `'${hash}'` + " WHERE `users`.`uuid` = " + `'${uuid}'`)
+    connection.query("UPDATE `users` SET `password` = ? WHERE `users`.`uuid` = ?", [hash, uuid])
   })
 }
 

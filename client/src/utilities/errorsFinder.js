@@ -47,10 +47,10 @@ export const getResetErrors = (errors, language) => {
   return resetErrors
 }
 
-export const getConfirmationErrors = (errors) => {
+export const getConfirmationErrors = (errors, language) => {
   const confirmationErrors = {}
   const possibleErrors = {
-    userErrors: [14]
+    userErrors: [14, 11, 12]
   }
   errors.forEach(x => {
     confirmationErrors.user = possibleErrors.userErrors.includes(x) ? Errors[language][x] : confirmationErrors.user

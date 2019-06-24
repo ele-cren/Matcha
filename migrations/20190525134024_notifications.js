@@ -1,6 +1,6 @@
 exports.up = function(knex, Promise) {
   return knex.schema.createTable('notifications', table => {
-    table.increments('id')
+    table.increments('id').primary()
     table.string('user_id')
     table.string('from_user')
     table.integer('type')

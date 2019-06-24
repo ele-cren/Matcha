@@ -1,6 +1,5 @@
 import { showErrors, noErrors } from '../errorsActions/errorsActions'
 import { FETCHING, FETCHED } from '../userActions/userConsts'
-const Messages = require('../../../languageLocalisation/authMessages.json')
 
 export const tryRegister = (data, language) => {
   return dispatch => {
@@ -17,13 +16,17 @@ export const tryRegister = (data, language) => {
     xhr.responseType = 'json'
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
     xhr.send(params)
-    xhr.onload = () => {
+    const callback = () => {
       if (xhr.response.success) {
-        dispatch(noErrors(Messages[language]["success_register"]))
+        dispatch(noErrors())
       } else {
-        dispatch(showErrors(xhr.response.errors, Messages[language]["fail_register"]))
+        dispatch(showErrors(xhr.response.errors))
       }
       dispatch({ type: FETCHED })
+    }
+    return { 
+      request: xhr,
+      callback: callback
     }
   }
 }

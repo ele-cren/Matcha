@@ -10,34 +10,73 @@ export const capitalize = (s) => {
 export const getGender = (genderNum, text) => {
   switch (genderNum) {
     case 1:
-      return [text["gender_male"], '#7986cb']
+      return [text["gender_male"], '#406087']
     case 2:
-      return [text["gender_female"], '#ad1457']
+      return [text["gender_female"], '#a03860']
     default:
-      return [text["gender_male"], '#7986cb']
+      return [text["gender_male"], '#406087']
   }
 }
 
 export const getOrientation = (orientationNum, text) => {
   switch (orientationNum) {
     case 1:
-      return [text["orientation_straight"], '#8c7e7a']
+      return [text["orientation_straight"], '#aa4949']
     case 2:
-      return [text["orientation_bisexual"], '#583166']
+      return [text["orientation_bisexual"], '#72af46']
     case 3:
-      return [text["orientation_lesbian"], '#ad1457']
+      return [text["orientation_lesbian"], '#4895c9']
     case 4:
-      return [text["orientation_gay"], '#7986cb']
+      return [text["orientation_gay"], '#406087']
     default:
-      return [text["orientation_bisexual"], '#a19ee9']
+      return [text["orientation_bisexual"], '#c67135']
   }
 }
 
-export const getLastDisconnectDate = (utcDateString) => {
+export const getLocaleDate = (utcDateString) => {
   const utcDate = (new Date(utcDateString))
   const hours = new Date().getTimezoneOffset() / 60
   utcDate.setTime(utcDate.getTime() - (hours * 60 * 60 * 1000))
   return utcDate
+}
+
+export const getUtcDate = () => {
+  const date = new Date()
+  const year = date.getUTCFullYear()
+  let month = date.getUTCMonth() + 1
+  let day = date.getUTCDate()
+  let hours = date.getUTCHours()
+  let min = date.getUTCMinutes()
+  let sec = date.getUTCSeconds()
+  month = month < 10 ? '0' + month : month
+  day = day < 10 ? '0' + day : day
+  hours = hours < 10 ? '0' + hours : hours
+  min = min < 10 ? '0' + min : min
+  sec = sec < 10 ? '0' + sec : sec
+  const utcDate = `${ year }-${ month }-${ day } ${ hours }:${ min }:${ sec }`
+  return utcDate
+}
+
+export const formatDate = (date, language) => {
+  let day = date.getDate()
+  let month = date.getMonth() + 1
+  const year = date.getFullYear()
+  let hours = date.getHours()
+  let minutes = date.getMinutes()
+  let seconds = date.getSeconds()
+  day = day < 10 ? '0' + day : day
+  month = month < 10 ? '0' + month : month
+  hours = hours < 10 ? '0' + hours : hours
+  minutes = minutes < 10 ? '0' + minutes : minutes
+  seconds = seconds < 10 ? '0' + seconds : seconds
+  switch (language) {
+    case 'FR':
+      return day + '/' + month + '/' + year + ' ' + hours + ':' + minutes + ':' + seconds
+    case 'EN':
+      return month + '/' + day + '/' + year + ' ' + hours + ':' + minutes + ':' + seconds
+    default:
+      return day + '/' + month + '/' + year + ' ' + hours + ':' + minutes + ':' + seconds
+  }
 }
 
 export const getLastDisconnect = (date, text) => {
@@ -61,4 +100,28 @@ export const getLastDisconnect = (date, text) => {
   }
   number = parseInt(number)
   return number + ' ' + name + (number > 1 ? 's' : '')
+}
+
+export const getGenderFromOriGend = (gender, orientation) => {
+  if (orientation === 2) {
+    return -1
+  }
+  if (gender === 1) {
+    return orientation === 1 ? 2 : 4
+  } else {
+    return orientation === 1 ? 1 : 3
+  }
+}
+
+export const capitalizeString = (str) => {
+  if (!str) {
+    return ''
+  }
+  const split = str.split(' ')
+  let finalString = ''
+  split.forEach(x => {
+    const newString = x.charAt(0).toUpperCase() + x.slice(1)
+    finalString = finalString ? finalString + ' ' + newString : newString
+  })
+  return finalString
 }

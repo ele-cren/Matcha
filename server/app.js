@@ -15,7 +15,7 @@ export const connection = mysql.createConnection({
   database: 'matcha',
   dateStrings: true,
   multipleStatements: true
-});
+})
 
 connection.connect(err => {
   if (err) {

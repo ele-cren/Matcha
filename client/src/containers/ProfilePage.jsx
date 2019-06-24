@@ -36,7 +36,14 @@ class ProfilePage extends React.Component {
   }
 
   componentDidMount () {
-    this.getDataProfile(this.props.match.params.userId)
+    if (!isObjectEmpty(this.props.search.selectedProfile) 
+        && this.props.match.params.userId === this.props.search.selectedProfile.informations.user_id) {
+      this.setState({
+        profile: this.props.search.selectedProfile,
+        isFetching: false }, this.viewProfile)
+    } else {
+      this.getDataProfile(this.props.match.params.userId)
+    }
   }
 
   toggleModal () {
@@ -92,11 +99,11 @@ class ProfilePage extends React.Component {
     const userTarget = this.props.match.params.userId
     const user = getUser(this.props.love.meAboutUsers, userTarget)
     if ((user && !user.view) || !user) {
-      this.addScore(10)
       const notif = getNotif(1, userTarget, userId, getLoveInfosFromProfile(this.props.profile))
       socket.emit('add notification', notif)
       socket.emit('view user', userId, userTarget, this.props.profile)
       const meAboutUsers = getView(this.props.love.meAboutUsers, userTarget, this.state.profile)
+      this.addScore(10)
       this.props.updateLove({
         meAboutUsers: meAboutUsers,
         usersAboutMe: this.props.love.usersAboutMe
@@ -151,12 +158,21 @@ class ProfilePage extends React.Component {
   render () {
     const myText = Text[this.props.language]
     const loveInfos = this.getLoveInfos()
+    let mainPic = ''
+    if (this.state.profile.pictures) {
+      for (const pic of this.state.profile.pictures) {
+        if (pic.main) {
+          mainPic= pic.url
+          break
+        }
+      }
+    }
     let profilePage = ''
     if (!isObjectEmpty(this.state.profile)) {
       profilePage = this.state.profile.informations !== undefined ? (
         <React.Fragment>
           <MatchModal
-            picture={ this.state.profile.pictures[0].url }
+            picture={ mainPic }
             language={ this.props.language }
             name={ this.state.profile.mainInformations.first_name + ' ' + this.state.profile.mainInformations.last_name }
             modal={ this.state.matchModal } toggle={ this.toggleModal }
@@ -189,7 +205,8 @@ const mapStateToProps = state => {
     love: state.love,
     profile: state.profile,
     language: state.language,
-    ban: state.ban
+    ban: state.ban,
+    search: state.search
   }
 }
 

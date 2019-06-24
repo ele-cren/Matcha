@@ -25,7 +25,7 @@ const capitalize = (s) => {
 const getUserProfile = () => {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest()
-    xhr.open('GET', 'https://randomuser.me/api/?results=10&nat=fr')
+    xhr.open('GET', 'https://randomuser.me/api/?results=480&nat=fr')
     xhr.send()
     xhr.onload = () => {
       const json = JSON.parse(xhr.responseText)

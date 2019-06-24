@@ -12,9 +12,9 @@ export const resetPass = (login, language) => {
     xhr.send(params)
     xhr.onload = () => {
       if (xhr.response.success) {
-        dispatch(noErrors(Messages[language]["success_reset"]))
+        dispatch(noErrors())
       } else {
-        dispatch(showErrors(xhr.response.errors, Messages[language]["fail_reset"]))
+        dispatch(showErrors(xhr.response.errors))
       }
     }
   }

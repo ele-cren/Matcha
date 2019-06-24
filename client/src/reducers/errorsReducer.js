@@ -1,8 +1,8 @@
 import { SHOW_ERRORS, CLEAN_ERRORS } from '../actions/errorsActions/errorsActions'
+import { LOGOUT } from '../actions/userActions/userConsts'
 
 const defaultState = {
-  errors: [],
-  message: ''
+  errors: []
 }
 
 const errorsReducer = (state = defaultState, action) => {
@@ -10,6 +10,8 @@ const errorsReducer = (state = defaultState, action) => {
     case SHOW_ERRORS:
       return action.payload
     case CLEAN_ERRORS:
+      return defaultState
+    case LOGOUT:
       return defaultState
     default:
       return state

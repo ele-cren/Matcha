@@ -1,6 +1,7 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import session from 'cookie-session'
+import path from 'path'
 import http from 'http'
 require('dotenv').config()
 import configureSocket from './socket/socket'
@@ -14,9 +15,11 @@ class Server {
     this.app = express()
     this.server = http.createServer(this.app)
     configureSocket(this.server)
+    const upladsFolder = path.join(__dirname, 'uploads')
+    this.app.use(express.static(upladsFolder))
     this.app.use(bodyParser.urlencoded({
       extended: true
-    }));
+    }))
     this.app.use(bodyParser.json())
     this.app.use(session({
       name: 'session',

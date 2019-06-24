@@ -18,6 +18,7 @@ import { Redirect } from 'react-router-dom'
 import MatchaNav from '../components/MatchaNav'
 import { getRegisterErrors } from '../utilities/errorsFinder'
 const Text = require('../../languageLocalisation/texts.json')
+const Messages = require('../../languageLocalisation/authMessages.json')
  
 class RegisterPage extends React.Component {
   constructor (props) {
@@ -29,7 +30,8 @@ class RegisterPage extends React.Component {
       email: '',
       password: '',
       password_confirmation: '',
-      redirect: false
+      redirect: false,
+      submited: false
     }
     this.submitForm = this.submitForm.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -40,7 +42,7 @@ class RegisterPage extends React.Component {
   }
 
   componentDidUpdate () {
-    if (!this.state.redirect && this.props.errors.errors.length === 0 && this.props.errors.message) {
+    if (!this.state.redirect && this.props.errors.errors.length === 0 && this.state.submited) {
       setTimeout(() => {
         this.setState({
           redirect: true
@@ -59,7 +61,11 @@ class RegisterPage extends React.Component {
       password: this.state.password,
       password_confirmation: this.state.password_confirmation
     }
-    this.props.onRegister(data, this.props.language)
+    const answer = this.props.onRegister(data, this.props.language)
+    answer.request.onload = () => {
+      answer.callback()
+      this.setState({ submited: true })
+    }
   }
 
   handleChange (event) {
@@ -189,7 +195,9 @@ class RegisterPage extends React.Component {
                         { myText["nav_register"] }
                         </MDBBtn>
                         <p className={ this.props.errors.errors.length === 0 ? 'green-text' : 'red-text' }>
-                          { this.props.errors.message }
+                          { this.props.errors.errors.length === 0 ?
+                            this.state.submited ? Messages[this.props.language]["success_register"] : ''
+                          : Messages[this.props.language]["fail_register"] }
                         </p>
                       </div>
                     </form>
