@@ -32,7 +32,7 @@ class ChatModal extends React.Component {
           element.scrollTop = element.scrollHeight
         }
       }
-    }, 50)
+    }, 100)
   }
 
   handleChange (e) {
