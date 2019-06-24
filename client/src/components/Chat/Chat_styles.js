@@ -94,7 +94,9 @@ const styles = {
     marginLeft: 15
   },
   modalBody: {
-    backgroundColor: '#fcfcfc'
+    backgroundColor: '#fcfcfc',
+    display: 'flex',
+    flexDirection: 'column'
   },
   modalFooter: {
     display: 'flex',
@@ -113,6 +115,29 @@ const styles = {
   icon: {
     color: '#880e4f',
     cursor: 'pointer'
+  },
+  messagesSent: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row-reverse',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    margin: '5px 0 5px 0'
+  },
+  messagesReceived: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    margin: '5px 0 5px 0'
+  },
+  message: {
+    border: '1px solid #d6d6d6',
+    backgroundColor: '#eaeaea',
+    padding: 5,
+    borderRadius: '3px',
+    margin: '0 10px 0 10px'
   }
 }
 

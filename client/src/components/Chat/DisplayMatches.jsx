@@ -1,7 +1,6 @@
 import React from 'react'
 import styles from './Chat_styles'
 import Radium from 'radium'
-import { isObjectEmpty, getLocaleDate } from '../../utilities/utilities'
 
 const getMessagesWithUser = (messages, userId) => {
   let newMessages = []
@@ -21,30 +20,33 @@ const getMessagesWithUser = (messages, userId) => {
 }
 
 const getMessagesInfos = (messages) => {
-  let lastMessage = {}
-  let lastMessageDate = new Date('1970')
+  if (messages.length === 0) {
+    return { message: 'No messages', noRead: 0, empty: true }
+  }
+  const lastMessage = messages[messages.length - 1]
   let noRead = 0
   for (const msg of messages) {
-    const msgDate = getLocaleDate(msg.message_date)
-    if (lastMessageDate - msgDate < 0) {
-      lastMessage = msg
-      lastMessageDate = msgDate
-    }
     if (!msg.sent && !msg.view) {
       noRead++
     }
   }
-  return isObjectEmpty(lastMessage) ? { message: 'No messages', empty: true, noRead: noRead } : { ...lastMessage, noRead: noRead }
+  return {
+    message: lastMessage.message,
+    noRead: noRead,
+    bold: !lastMessage.sent && !lastMessage.view
+  }
 }
 
 const DisplayMatches = (props) => {
   const displayMatches = props.matches.map((x, i) => {
     const currentUser = x.userInfos.informations.user_id
-    const messages = getMessagesWithUser(props.messages, currentUser)
-    let lastMessage = getMessagesInfos(messages)
-    let message = lastMessage.message
-    const messageStyle = lastMessage.empty ? { fontStyle: 'italic' } : lastMessage.view ? {}
-                        : lastMessage.from_user === currentUser ? { fontWeight: 'bold' } : {}
+    let messages = getMessagesWithUser(props.messages, currentUser)
+    messages = messages.sort((a, b) => {
+      return new Date(a.message_date) - new Date(b.message_date)
+    })
+    let messagesInfos = getMessagesInfos(messages)
+    let message = messagesInfos.message
+    const messageStyle = messagesInfos.empty ? { fontStyle: 'italic' } : messagesInfos.bold ? { fontWeight: 'bold' } : {}
     let fullName = x.userInfos.mainInformations.first_name + ' ' + x.userInfos.mainInformations.last_name
     fullName = fullName.length > 30 ? x.userInfos.mainInformations.first_name
                 + ' ' + x.userInfos.mainInformations.last_name.charAt(0) + '.' : fullName
@@ -57,7 +59,7 @@ const DisplayMatches = (props) => {
             { fullName }
           </div>
           <div style={ [styles.lastMessage, messageStyle] }>
-            { message } { lastMessage.noRead > 0 ? <div style={ styles.countMsg }>{ lastMessage.noRead }</div> : '' }
+            { message } { messagesInfos.noRead > 0 ? <div style={ styles.countMsg }>{ messagesInfos.noRead }</div> : '' }
           </div>
         </div>
       </div>
