@@ -5,7 +5,8 @@ const styles = {
     height: 50,
     bottom: 0,
     right: 5,
-    display: 'flex'
+    display: 'flex',
+    zIndex: 20
   },
   toggleMenu: {
     display: 'flex',

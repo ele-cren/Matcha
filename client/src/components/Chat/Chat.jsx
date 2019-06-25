@@ -100,15 +100,15 @@ class Chat extends React.Component {
   render () {
     const myText = Text[this.props.language]
     const loader = (
-      <div class="spinner-border" role="status">
-        <span class="sr-only">Loading...</span>
+      <div className="spinner-border" role="status">
+        <span className="sr-only">Loading...</span>
       </div>
     )
     const matches = this.getMatches()
     const styleHidden = {
       visibility: 'hidden'
     }
-    return (
+    return this.props.user.user.userId ? (
       <React.Fragment>
         <ChatModal toggled={this.state.chatToggled } toggle={ this.toggleModal } user={ this.state.currentUser }
                   messages={ this.state.currentMessages } addMessage={ this.addMessage } />
@@ -129,7 +129,7 @@ class Chat extends React.Component {
           </div>
         </div>
       </React.Fragment>
-    )
+    ) : ''
   }
 }
 
@@ -138,7 +138,8 @@ const mapStateToProps = state => {
     love: state.love,
     messages: state.messages,
     language: state.language,
-    profile: state.profile
+    profile: state.profile,
+    user: state.user
   }
 }
 

@@ -106,7 +106,7 @@ class GeoLocation extends React.Component {
       <Map
         className="mt-3"
         onZoomend={ this.updateZoom }
-        style={ { height: '500px', width: '100%' } }
+        style={ { height: '500px', width: '100%', zIndex: '5' } }
         center={ this.state.markerPos }
         zoom={ this.state.zoom }
         ref={ this.refmap }>

@@ -5,10 +5,10 @@ module.exports = {
   development: {
     client: 'mysql',
     connection: {
-      host: 's-1.g0v.pw',
+      host: 'localhost',
       database: 'matcha',
-      user: 'matcha',
-      password: 'CouCouCou!'
+      user: 'root',
+      password: ''
     },
     pool: {
       min: 2,

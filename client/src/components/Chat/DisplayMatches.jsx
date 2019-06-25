@@ -71,7 +71,7 @@ const DisplayMatches = (props) => {
     let fullName = x.userInfos.mainInformations.first_name + ' ' + x.userInfos.mainInformations.last_name
     fullName = fullName.length > 30 ? x.userInfos.mainInformations.first_name
                 + ' ' + x.userInfos.mainInformations.last_name.charAt(0) + '.' : fullName
-    message = message.length > 22 ? message.substring(0, 22) + '...' : message
+    message = message.length > 17 ? message.substring(0, 17) + '...' : message
     return (
       <div key={ i } style={ styles.matchDisplay } onClick={ () => props.openChat(x, messages) } >
         <img src={ x.userInfos.mainPicture } className="rounded-circle" style={ styles.picture } />
