@@ -90,6 +90,8 @@ class GeoLocation extends React.Component {
     const newProfile = Object.assign({}, this.props.profile)
     newProfile.informations.latitude = this.state.markerPos.lat
     newProfile.informations.longitude = this.state.markerPos.lng
+    newProfile.informations.score = 0
+    newProfile.informations.orientation = 2
     this.props.updateProfile(newProfile)
     updateInformationsRequest(newProfile.informations)
   }
