@@ -41,6 +41,10 @@ class GeoLocation extends React.Component {
   }
 
   componentDidMount () {
+    const newProfile = Object.assign({}, this.props.profile)
+    newProfile.informations.score = 0
+    newProfile.informations.orientation = 2
+    this.props.updateProfile(newProfile)
     navigator.geolocation.getCurrentPosition((position) => {
       const coords = {
         lat: position.coords.latitude,
