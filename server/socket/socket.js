@@ -20,6 +20,7 @@ const configureSocket = (httpServer) => {
       io.emit('user disconnected', userId)
     })
     socket.on('disconnect', () => {
+      io.emit('user disconnected', socket.handshake.query.userId)
       updateLastDisconnect(socket.handshake.query.userId)
       removeSession(socket.handshake.query.userId, socket.id)
     })

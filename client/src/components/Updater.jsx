@@ -50,6 +50,7 @@ class Updater extends React.Component {
   }
 
   updateDisconnect (userId) {
+    console.log('disco')
     const date = getUtcDate()
     const newLove = Object.assign({}, this.props.love)
     const lastSuggested = [].concat(this.props.search.lastSuggested)
