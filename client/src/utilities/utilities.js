@@ -12,7 +12,7 @@ export const getGender = (genderNum, text) => {
     case 1:
       return [text["gender_male"], '#406087']
     case 2:
-      return [text["gender_female"], '#a03860']
+      return [text["gender_female"], '#7c4a68']
     default:
       return [text["gender_male"], '#406087']
   }
@@ -23,13 +23,13 @@ export const getOrientation = (orientationNum, text) => {
     case 1:
       return [text["orientation_straight"], '#aa4949']
     case 2:
-      return [text["orientation_bisexual"], '#72af46']
+      return [text["orientation_bisexual"], '#537c42']
     case 3:
-      return [text["orientation_lesbian"], '#4895c9']
+      return [text["orientation_lesbian"], '#7c4a68']
     case 4:
       return [text["orientation_gay"], '#406087']
     default:
-      return [text["orientation_bisexual"], '#c67135']
+      return [text["orientation_bisexual"], '#537c42']
   }
 }
 
