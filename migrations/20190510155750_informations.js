@@ -7,7 +7,7 @@ exports.up = function(knex, Promise) {
     table.integer('gender')
     table.integer('orientation').defaultTo(2)
     table.text('bio')
-    table.integer('score')
+    table.integer('score').defaultTo(0)
     table.float('longitude')
     table.float('latitude')
   })

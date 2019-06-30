@@ -41,6 +41,10 @@ class GeoLocation extends React.Component {
   }
 
   componentDidMount () {
+    const newProfile = Object.assign({}, this.props.profile)
+    newProfile.informations.score = 0
+    newProfile.informations.orientation = 2
+    this.props.updateProfile(newProfile)
     navigator.geolocation.getCurrentPosition((position) => {
       const coords = {
         lat: position.coords.latitude,
@@ -90,6 +94,8 @@ class GeoLocation extends React.Component {
     const newProfile = Object.assign({}, this.props.profile)
     newProfile.informations.latitude = this.state.markerPos.lat
     newProfile.informations.longitude = this.state.markerPos.lng
+    newProfile.informations.score = 0
+    newProfile.informations.orientation = 2
     this.props.updateProfile(newProfile)
     updateInformationsRequest(newProfile.informations)
   }
@@ -106,7 +112,7 @@ class GeoLocation extends React.Component {
       <Map
         className="mt-3"
         onZoomend={ this.updateZoom }
-        style={ { height: '500px', width: '100%' } }
+        style={ { height: '500px', width: '100%', zIndex: '5' } }
         center={ this.state.markerPos }
         zoom={ this.state.zoom }
         ref={ this.refmap }>

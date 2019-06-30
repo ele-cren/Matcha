@@ -5,7 +5,7 @@ exports.up = function(knex, Promise) {
     table.string('from_user')
     table.string('to_user')
     table.text('message')
-    table.boolean('view')
+    table.boolean('view').defaultTo(0)
     table.datetime('message_date')
   })
 }

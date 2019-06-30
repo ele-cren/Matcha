@@ -100,23 +100,23 @@ class Chat extends React.Component {
   render () {
     const myText = Text[this.props.language]
     const loader = (
-      <div class="spinner-border" role="status">
-        <span class="sr-only">Loading...</span>
+      <div className="spinner-border" role="status">
+        <span className="sr-only">Loading...</span>
       </div>
     )
     const matches = this.getMatches()
     const styleHidden = {
       visibility: 'hidden'
     }
-    return (
+    return this.props.user.user.userId ? (
       <React.Fragment>
         <ChatModal toggled={this.state.chatToggled } toggle={ this.toggleModal } user={ this.state.currentUser }
                   messages={ this.state.currentMessages } addMessage={ this.addMessage } />
         <div
           style={ this.state.menuToggled && this.state.messagerieToggled ? this.props.love.checked ? styles.menu : [styles.menu, { justifyContent: 'center', alignItems: 'center' }] : [styles.menu, styleHidden] }>
           { this.props.love.checked ? 
-            <DisplayMatches text={ myText } matches={ matches } messages={ this.props.messages } openChat={ this.openChat }  />
-            : loader }
+            <DisplayMatches language={ this.props.language } matches={ matches } messages={ this.props.messages }
+            openChat={ this.openChat }  /> : loader }
         </div>
         <div style={ styles.togglesContainer }>
           <div
@@ -129,7 +129,7 @@ class Chat extends React.Component {
           </div>
         </div>
       </React.Fragment>
-    )
+    ) : ''
   }
 }
 
@@ -138,7 +138,8 @@ const mapStateToProps = state => {
     love: state.love,
     messages: state.messages,
     language: state.language,
-    profile: state.profile
+    profile: state.profile,
+    user: state.user
   }
 }
 

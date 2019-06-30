@@ -5,7 +5,7 @@ exports.up = function(knex, Promise) {
     table.string('from_user')
     table.integer('type')
     table.string('uuid')
-    table.boolean('view')
+    table.boolean('view').defaultTo(0)
   })
 }
 

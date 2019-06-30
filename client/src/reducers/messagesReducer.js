@@ -15,7 +15,7 @@ const messagesReducer = (state = defaultState, action)  => {
     case GET:
       return {...action.payload, checked: true }
     case VIEW:
-      return action.payload
+      return { ...state, messagesISent: action.payload.messagesISent, messagesIReceived: action.payload.messagesIReceived }
     case LOGOUT:
       return defaultState
     default:

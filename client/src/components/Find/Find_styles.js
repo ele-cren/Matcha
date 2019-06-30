@@ -33,8 +33,7 @@ const styles = {
     backgroundColor: '#f2f2f2',
     cursor: 'pointer',
     borderRadius: '3px',
-    fontSize: '30px',
-    zIndex: -1
+    fontSize: '30px'
   },
   searchContainer: {
     width: '100%',

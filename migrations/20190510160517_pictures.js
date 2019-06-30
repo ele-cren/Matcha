@@ -4,7 +4,7 @@ exports.up = function(knex, Promise) {
     table.increments('id').primary()
     table.string('user_id')
     table.string('url')
-    table.boolean('main')
+    table.boolean('main').defaultTo(0)
   })
 }
 

@@ -2,13 +2,14 @@ import React from 'react'
 import { MDBContainer, MDBCol, MDBIcon } from 'mdbreact'
 import Radium from 'radium'
 import styles from '../Find_styles'
-import { getGenderFromOriGend } from '../../../utilities/utilities'
+import { getGenderFromOriGend, getUtcDate } from '../../../utilities/utilities'
 import { getProfiles } from '../../../requests/search'
 import { connect } from 'react-redux'
 import ProfileCard from '../../ProfileCard/ProfileCard'
 import { addDistanceToProfiles, addMatchingTagsToProfiles } from '../../../utilities/searchUtils'
 import Filters from './Filters'
 import { saveSuggested, updateSuggestOptions, selectProfile } from '../../../actions/searchActions'
+import { socket } from '../../../containers/App'
 
 class Suggests extends React.Component {
   constructor (props) {
@@ -32,6 +33,8 @@ class Suggests extends React.Component {
     this.setProfile = this.setProfile.bind(this)
     this.filterBlocked = this.filterBlocked.bind(this)
     this.applyFilters = this.applyFilters.bind(this)
+    this.updateConnect = this.updateConnect.bind(this)
+    this.updateDisconnect = this.updateDisconnect.bind(this)
   }
 
   componentDidMount () {
@@ -43,10 +46,37 @@ class Suggests extends React.Component {
     } else {
       this.getProfiles()
     }
+    socket.on('user connected', this.updateConnect)
+    socket.on('user disconnected', this.updateDisconnect)
   }
 
   componentWillUnmount () {
     this._isMounted = false
+  }
+
+  updateConnect (userId) {
+    if (this._isMounted) {
+      const profiles = [].concat(this.state.profiles)
+      for (const profile of profiles) {
+        if (userId === profile.informations.user_id) {
+          profile.mainInformations.online = 1
+        }
+      }
+      this.setState({ profiles })
+    }
+  }
+
+  updateDisconnect (userId) {
+    if (this._isMounted) {
+      const profiles = [].concat(this.state.profiles)
+      for (const profile of profiles) {
+        if (userId === profile.informations.user_id) {
+          profile.mainInformations.online = 0
+          profile.mainInformations.last_disconnect = getUtcDate()
+        }
+      }
+      this.setState({ profiles })
+    }
   }
   
   setProfile (profile) {

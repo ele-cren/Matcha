@@ -2,6 +2,7 @@ import React from 'react'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { logOutUser } from '../actions/userActions/logoutUserActions'
+import { socket } from './App'
 
 class Logout extends React.Component {
   constructor (props) {
@@ -9,6 +10,7 @@ class Logout extends React.Component {
   }
   componentDidMount () {
     this.props.logOutUser()
+    socket.emit('user disconnected', this.props.user.user.userId)
   }
 
   render () {
@@ -18,7 +20,11 @@ class Logout extends React.Component {
   }
 }
 
-const mapStateToProps = state => state
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  }
+}
 
 const mapDispatchToProps = {
   logOutUser: logOutUser
