@@ -30,7 +30,8 @@ Matcha is a dating website, made as a student project for 42 school.
 [Matcha Presentation](https://www.youtube.com/watch?v=nDQGR-UWHw4)
 
 ## How to
-Make sure to have MySQL started locally (check .env)
+Make sure to have MySQL started locally (or Update .env)
+Update email informations in .env file (!Important!)
 ```
 npm install
 ```
